@@ -1,7 +1,15 @@
-import Login from "./screens/Login";
+import Login from './screens/Login';
+import './css/index.css';
 
-function App() {
-  return <Login />;
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Login />,
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App;
