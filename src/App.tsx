@@ -1,5 +1,6 @@
 import Login from './screens/Login';
 import './css/index.css';
+import './css/index.scss';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
