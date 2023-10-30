@@ -14,7 +14,7 @@ export default function Login() {
         <img src='./vite.svg' alt='' className='h-40' />
       </div>
       <div className='mt-14'>
-        <h1 className='text-2xl font-normal opacity-80'>Register</h1>
+        <h1 className='text-2xl font-medium opacity-80'>Register</h1>
         <p className='pt-2 text-sm leading-5 opacity-50'>
           Create a new account and learn martial arts and more fighting skills{' '}
         </p>
