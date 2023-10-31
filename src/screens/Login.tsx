@@ -1,13 +1,13 @@
-import Button from '../components/Button';
-import Input from '../components/Input';
-import InputTitle from '../components/InputTitle';
-import Kichu from '../components/Kichu';
+import Button from '../components/Button'
+import Input from '../components/Input'
+import InputTitle from '../components/InputTitle'
+import Kichu from '../components/Kichu'
 
 export default function Login() {
   function hi() {
-    console.log('Hello');
+    console.log('Hello')
   }
-  const data = ['Chrome', 'FireFox'];
+  const data = ['Chrome', 'FireFox']
   return (
     <div className=' h-dvh bg-black p-5 text-white'>
       <div className='bottom-1 flex justify-center '>
@@ -45,5 +45,5 @@ export default function Login() {
         <Kichu onClick={hi} text='LOGIN' />
       </div>
     </div>
-  );
+  )
 }

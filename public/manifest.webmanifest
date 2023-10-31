@@ -1,0 +1,9 @@
+{
+  "short_name": "Trapp",
+  "name": "Trapp",
+  "display": "standalone",
+  "description": "Something New",
+  "start_url": ".",
+  "background_color": "#000000",
+  "theme_color": "#000000"
+}

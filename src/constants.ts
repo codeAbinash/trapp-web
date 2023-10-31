@@ -1,1 +1,1 @@
-export const blank_fn = () => {};
+export const blank_fn = () => {}
