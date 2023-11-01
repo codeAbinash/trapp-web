@@ -46,7 +46,8 @@
     sans-serif;
 }
 
-.highlight-transparent {
+.highlight-transparent,
+.highlight-none {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -85,4 +86,12 @@
 
 .h-dvh {
   height: 100vh;
+}
+
+.no-input-arrow {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }

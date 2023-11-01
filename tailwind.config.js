@@ -6,6 +6,9 @@ export default {
       colors: {
         accent: '#ff002e',
       },
+      padding: {
+        4.5: '1.125rem',
+      },
     },
   },
   plugins: [],

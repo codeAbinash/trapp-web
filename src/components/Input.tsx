@@ -1,25 +1,45 @@
+import { Link } from 'react-router-dom'
 import { blank_fn } from '../constants'
 
+export function ClickTextLink({ text, to }: { text: string; to: string }) {
+  return (
+    <p className='tap95 cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'>
+      <Link to={to}>{text}</Link>
+    </p>
+  )
+}
+
+export function ClickText({ text, onClick = blank_fn }: { text: string; onClick?: any }) {
+  return (
+    <p
+      className='tap95 cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'
+      onClick={onClick}
+    >
+      {text}
+    </p>
+  )
+}
+
 export default function Input({
-  placeHolder = 'Sample',
   type = 'text',
-  onChange = blank_fn,
-  className = '',
+  placeholder,
+  value,
+  onChange,
+  className,
 }: {
-  placeHolder: string
   type: string
-  onChange: any
+  placeholder: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
 }) {
   return (
-    <div className='flex rounded-xl  bg-white/10 pl-5 text-sm font-normal '>
-      <img src='./vite.svg' alt='' className='w-5 ' />
-      <input
-        type={type}
-        placeholder={placeHolder}
-        onChange={onChange}
-        className={'w-full border-none bg-transparent p-4 outline-none ' + className}
-      />
-    </div>
+    <input
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      className={`${className} rounded-xl border-none bg-white/5 p-4 pl-6 text-sm tracking-widest outline-none`}
+    />
   )
 }

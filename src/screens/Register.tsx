@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Button from '../components/Button'
+import Input, { ClickTextLink } from '../components/Input'
 import { blank_fn } from '../constants'
-import { Link } from 'react-router-dom'
 
 export default function Register() {
   const [name, setName] = useState('')
@@ -9,7 +9,7 @@ export default function Register() {
   const [code, setCode] = useState('')
 
   return (
-    <div className='h-dvh flex flex-col justify-between p-5'>
+    <div className='h-dvh highlight-none flex select-none flex-col justify-between p-5'>
       <div className='mt-5 flex flex-grow items-center justify-center'>
         <img src='/AppIcons/full.png' className='w-1/2' />
       </div>
@@ -30,6 +30,7 @@ export default function Register() {
               onChange={(e) => {
                 setName(e.target.value)
               }}
+              className='w-full'
             />
           </div>
           <div>
@@ -37,21 +38,21 @@ export default function Register() {
             <div className='flex gap-3'>
               <Input
                 type='number'
-                placeholder='+1'
+                placeholder='+95'
                 value={code}
                 onChange={(e) => {
                   setCode(e.target.value)
                 }}
-                className='w-[32%]'
+                className='w-[30%]'
               />
               <Input
                 type='number'
-                placeholder='999999999'
+                placeholder='987 654 3210'
                 value={phone}
                 onChange={(e) => {
                   setPhone(e.target.value)
                 }}
-                className='flex-grow'
+                className='w-full flex-grow'
               />
             </div>
           </div>
@@ -75,36 +76,8 @@ export default function Register() {
       </div>
       <div className='flex flex-col items-center justify-center pb-2 text-center text-sm'>
         <p className='text-gray-400'>Already have an account?</p>
-        <p className='mt-2'>
-          <Link to='/register' className='text-accent'>
-            LOGIN
-          </Link>
-        </p>
+        <ClickTextLink text='Login' to='/login' />
       </div>
     </div>
-  )
-}
-
-function Input({
-  type = 'text',
-  placeholder,
-  value,
-  onChange,
-  className,
-}: {
-  type: string
-  placeholder: string
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  className?: string
-}) {
-  return (
-    <input
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={`${className} w-full rounded-xl border-none bg-white/5 p-4 pl-6 text-sm tracking-widest outline-none`}
-    />
   )
 }

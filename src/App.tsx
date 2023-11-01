@@ -4,11 +4,12 @@ import './css/index.scss'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Register from './screens/Register'
+import OTP from './screens/OTP'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Register />,
+    element: <OTP />,
   },
   {
     path: '/register',
