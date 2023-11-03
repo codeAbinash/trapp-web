@@ -1,12 +1,10 @@
-import Login from './screens/Login'
 import './css/index.css'
 import './css/index.scss'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Register from './screens/Register'
-import OTP from './screens/OTP'
 import Home from './screens/Home'
 import HomeScreen from './screens/Home/HomeScreen'
+import Register from './screens/Register'
 
 const router = createBrowserRouter([
   {
