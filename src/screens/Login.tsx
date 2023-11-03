@@ -9,7 +9,7 @@ export default function Login() {
   }
   const data = ['Chrome', 'FireFox']
   return (
-    <div className=' h-dvh bg-black p-5 text-white'>
+    <div className=' h-dvh bg-bg p-5 text-white'>
       <div className='bottom-1 flex justify-center '>
         <img src='./vite.svg' alt='' className='h-40' />
       </div>

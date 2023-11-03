@@ -5,8 +5,12 @@ export default {
     extend: {
       colors: {
         accent: '#ff002e',
+        bg: '#070707',
       },
       padding: {
+        4.5: '1.125rem',
+      },
+      width: {
         4.5: '1.125rem',
       },
     },

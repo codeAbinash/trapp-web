@@ -1,7 +1,8 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import Button from '../components/Button'
 import { ClickText } from '../components/Input'
 import { blank_fn } from '../constants'
+import { countryCode } from '../lib/lib'
 type InputRef = React.MutableRefObject<HTMLInputElement>
 
 export default function OTP() {
@@ -10,10 +11,14 @@ export default function OTP() {
   const input3 = useRef<HTMLInputElement>(null)
   const input4 = useRef<HTMLInputElement>(null)
   const input5 = useRef<HTMLInputElement>(null)
-  const inputs: any = [input1, input2, input3, input4, input5]
+  const input6 = useRef<HTMLInputElement>(null)
+  const inputs: any = [input1, input2, input3, input4, input5, input6]
+
+  useEffect(() => {})
 
   function verifyOtp() {
     console.log('verify otp')
+    countryCode().then((r) => console.log(r))
   }
 
   const handelKeydown = useCallback(
@@ -46,8 +51,8 @@ export default function OTP() {
         <div className='flex flex-col gap-2 pb-3'>
           <h1 className='text-[2rem] font-[450]'>Verify OTP</h1>
           <p className='-mt-2 text-sm'>
-            We have sent an OTP to your mobile number +987 987 5587 145.
-            <span className='ml-1 cursor-pointer rounded-sm text-accent active:bg-accent/30'> Edit?</span>
+            We have sent an OTP to your mobile number ends with 6870.
+            <span className='ml-1 cursor-pointer rounded-sm text-accent active:bg-accent/30'> Edit Number?</span>
           </p>
         </div>
         <div></div>
@@ -61,13 +66,13 @@ export default function OTP() {
                 key={i}
                 maxLength={1}
                 onKeyDown={(event) => handelKeydown(event, i)}
-                className='no-input-arrow aspect-square w-1/6 appearance-none rounded-xl border-none bg-white/10 text-center text-lg caret-transparent outline-none outline-offset-0 transition-[outline-color] focus:outline-accent'
+                placeholder='0'
+                className='no-input-arrow aspect-[0.9] w-full appearance-none rounded-xl border-none bg-white/10 text-center text-lg caret-transparent outline-none outline-offset-0 transition-[outline-color] placeholder:text-white/25 focus:outline-accent'
               />
             )
           })}
         </div>
         <div className='flex w-full flex-col gap-5'>
-          <div></div>
           <Button onClick={blank_fn}>CONFIRM</Button>
         </div>
         <div></div>
