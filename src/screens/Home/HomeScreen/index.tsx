@@ -53,7 +53,7 @@ function Banners() {
         bannerData.map((banner) => (
           <div
             key={banner.id}
-            className='tap99 bg-inputBg flex aspect-[1.82] w-[90%] max-w-sm shrink-0 snap-center items-center justify-center overflow-hidden rounded-xl bg-red-500/30  first:ml-0 last:mr-5 dark:bg-white/10 md:aspect-auto'
+            className='tap99 bg-inputBg flex aspect-[1.82] w-[90%] max-w-sm shrink-0 snap-center items-center justify-center overflow-hidden rounded-xl bg-white/10 first:ml-0 last:mr-5 md:aspect-auto'
           >
             <img className='w-full shrink-0 rounded-2xl bg-red-500' src={banner.image} />
           </div>
@@ -106,7 +106,7 @@ function Categories() {
         {catagoriesData.map((category) => (
           <div
             key={category.id}
-            className='tap99 bg-inputBg relative flex aspect-square w-[26%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/20 shadow-sm first:ml-5 last:mr-5 dark:bg-white/10'
+            className='tap99 bg-inputBg relative flex aspect-square w-[26%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm first:ml-5 last:mr-5'
           >
             <img className='w-full shrink-0' src={category.image} />
             <p className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-6 text-center text-sm'>
@@ -230,7 +230,7 @@ function VideThumbnails(videosData: any) {
   return videosData.map((videoData: any) => (
     <div
       key={videoData.id}
-      className='tap99 bg-inputBg relative flex aspect-[3/4] w-[35%] max-w-[200px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/20 shadow-sm first:ml-5 last:mr-5 dark:bg-white/10'
+      className='tap99 bg-inputBg relative flex aspect-[3/4] w-[35%] max-w-[200px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm first:ml-5 last:mr-5'
     >
       <img className='w-full shrink-0' src={videoData.image} />
       <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8   text-center'>

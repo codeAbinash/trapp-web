@@ -1,4 +1,5 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import transitions from '../../lib/transition'
 
 const navItems = [
   {
@@ -44,18 +45,18 @@ export default function Home() {
             <img
               src='/icons/other/notification.svg'
               className='tap95 w-4.5 opacity-60 invert'
-              onClick={() => {
+              onClick={transitions(() => {
                 navigate('/notifications')
-              }}
+              })}
             />
           </div>
 
           <img
             src='/images/other/pic.png'
             className='profile-picture bg-inputBg aspect-square w-9 rounded-full border border-white/60 bg-white/10 object-cover'
-            onClick={() => {
+            onClick={transitions(() => {
               navigate('/profile')
-            }}
+            })}
           />
         </div>
       </div>
@@ -71,7 +72,7 @@ export default function Home() {
             className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-2 pb-2.5 pt-3.5 ${
               path === item.path ? 'text-accent' : 'text-white opacity-40'
             }`}
-            onClick={() => navigate(item.path, { replace: true })}
+            onClick={transitions(() => navigate(item.path, { replace: true }))}
           >
             <div className='flex aspect-square items-start justify-center'>
               <img
