@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+import { app } from '../../constants'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
 const OPTIONS = [
@@ -6,19 +8,20 @@ const OPTIONS = [
     options: [
       {
         name: 'My Account',
-        link: '/profile/edit',
         icon: '/icons/red/profile.svg',
-        classNameIcon: 'anim-edit-icon',
+        link: '/my-account',
       },
       {
         name: 'Manage Subscription',
         icon: '/icons/red/star.svg',
-        className: 'text-red-600',
         small: 'Log out',
+        link: '/manage-subscription',
       },
       {
         name: 'Transaction History',
         icon: '/icons/red/clock.svg',
+        small: 'Log out',
+        link: '/transaction-history',
       },
     ],
   },
@@ -27,18 +30,22 @@ const OPTIONS = [
       {
         name: 'Privacy Policy',
         icon: '/icons/red/shield-done.svg',
+        link: '/privacy-policy',
       },
       {
         name: 'Terms & Conditions',
-        icon: '/icons/red/terms.svg',
+        icon: '/icons/red/doc.svg',
+        link: '/terms-and-conditions',
       },
       {
         name: 'About Us',
         icon: '/icons/red/about.svg',
+        link: '/about-us',
       },
       {
         name: 'Contact Us',
-        icon: '/icons/red/contact.svg',
+        icon: '/icons/red/message.svg',
+        link: '/contact-us',
       },
       {
         name: 'Share App',
@@ -51,6 +58,7 @@ const OPTIONS = [
 
 export default function Profile() {
   const { newPopup } = usePopupAlertContext()
+  const navigate = useNavigate()
 
   return (
     <div className='bg-bg pb-28'>
@@ -81,24 +89,25 @@ export default function Profile() {
         {OPTIONS.map((optionGroup, i: number) => (
           <div className='mt-5' key={i}>
             <p className='font-normMid pl-2 text-sm text-neutral-300'>{optionGroup.groupName}</p>
-            <div className='bg-inputBg/60 mt-3 flex flex-col gap-2 rounded-2xl p-3 dark:bg-[rgb(255,255,255,0.06)]'>
+            <div className='bg-inputBg/60 mt-3 flex flex-col gap-2 rounded-2xl bg-[rgb(255,255,255,0.06)] p-3'>
               {optionGroup.options.map((option, i: number) => (
                 <div
                   className='tap99 flex items-center justify-between p-2 py-2.5 pl-2 pr-0'
                   key={i}
-                  onClick={() => {}}
+                  onClick={transitions(() => {
+                    if (option.link) navigate(option.link)
+                  })}
                 >
                   <div className='flex w-full items-center justify-between gap-6'>
                     <div className='flex items-center gap-5'>
                       <img
                         src={option.icon}
-                        className={`aspect-square w-6 opacity-80 dark:opacity-90 ${
-                          option.classNameIcon ? option.classNameIcon : ''
-                        }`}
+                        className={`aspect-square w-6 opacity-90`}
+                        // className={`aspect-square w-6 opacity-90 ${option.classNameIcon ? option.classNameIcon : ''}`}
                       />
                       <span
                         // className={`font-420 text-[0.85rem] opacity-90 ${option.className ? option.className : ''}`}
-                        className={`font-420 pl-1 text-[0.95rem] opacity-90`}
+                        className={`font-420 pl-1 text-[0.95rem] font-[450] opacity-90`}
                       >
                         {option.name}
                       </span>
@@ -116,6 +125,9 @@ export default function Profile() {
           </div>
         ))}
       </div>
+      <p className='text-center text-sm opacity-50'>
+        Version {app.name} ({app.code})
+      </p>
     </div>
   )
 }

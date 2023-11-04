@@ -2,12 +2,17 @@ import './css/index.css'
 import './css/index.scss'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import PopupAlert from './components/PopupAlert'
+import { PopupAlertContextProvider } from './context/PopupAlertContext'
+import MyAccount from './screens/Account/MyAccount'
 import Home from './screens/Home'
 import HomeScreen from './screens/Home/HomeScreen'
-import Register from './screens/Register'
+import AboutUs from './screens/More/AboutUs'
+import ContactUs from './screens/More/ContactUs'
+import PrivacyPolicy from './screens/More/PrivacyPolicy'
+import TermsAndConditions from './screens/More/TermsAndConditions'
 import Profile from './screens/Profile'
-import { PopupAlertContextProvider } from './context/PopupAlertContext'
-import PopupAlert from './components/PopupAlert'
+import Register from './screens/Register'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +40,26 @@ const router = createBrowserRouter([
   {
     path: '/home',
     element: <Home />,
+  },
+  {
+    path: '/terms-and-conditions',
+    element: <TermsAndConditions />,
+  },
+  {
+    path: '/privacy-policy',
+    element: <PrivacyPolicy />,
+  },
+  {
+    path: '/about-us',
+    element: <AboutUs />,
+  },
+  {
+    path: 'contact-us',
+    element: <ContactUs />,
+  },
+  {
+    path: 'my-account',
+    element: <MyAccount />,
   },
 ])
 
