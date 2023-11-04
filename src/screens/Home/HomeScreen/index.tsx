@@ -1,10 +1,11 @@
 export default function HomeScreen() {
   return (
-    <>
+    <div className='bg-bg pb-28'>
       <Banners />
       <Categories />
       <LiveNow />
-    </>
+      <Videos />
+    </div>
   )
 }
 
@@ -155,19 +156,87 @@ function LiveNow() {
   return (
     <div className='mx-auto max-w-4xl'>
       <div className='p-5'>
-        <p className='text-lg font-[450]'>Catagories</p>
+        <p className='text-lg font-[450]'>Live Now</p>
       </div>
       <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
         {LiveNowData.map((live) => (
           <div
             key={live.id}
-            className='tap99 bg-inputBg flex w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl shadow-sm first:ml-5 last:mr-5'
+            className='tap99 bg-inputBg flex w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden shadow-sm first:ml-5 last:mr-5'
           >
             <img className='aspect-square w-full shrink-0 rounded-full border-2 border-accent' src={live.image} />
-            <p className='pt-2 text-sm'>{live.title}</p>
+            <p className='pt-2 text-[0.85rem]'>{live.title}</p>
           </div>
         ))}
       </div>
     </div>
   )
+}
+
+const videosData = [
+  {
+    image: '/images/video/video1.png',
+    title: 'The Knockouts',
+    duration: '20min 30sec',
+    id: 1,
+  },
+  {
+    image: '/images/video/video2.png',
+    title: 'Boxing Night',
+    duration: '12min 36sec',
+    id: 2,
+  },
+  {
+    image: '/images/video/video3.png',
+    title: 'The Knockouts',
+    duration: '15min 7sec',
+    id: 3,
+  },
+]
+function Videos() {
+  return (
+    <div className='mx-auto max-w-4xl'>
+      <div className='p-5'>
+        <p className='text-lg font-[450]'>Videos</p>
+      </div>
+      <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
+        {VideThumbnails(videosData)}
+      </div>
+      <div className='no-scrollbar relative mt-5 flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
+        {VideThumbnails(shuffle(videosData))}
+      </div>
+    </div>
+  )
+}
+// How to shuffel array
+function shuffle(array: any) {
+  var currentIndex = array.length,
+    randomIndex
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
+
+    // And swap it with the current element.
+    ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+  }
+
+  return array
+}
+
+function VideThumbnails(videosData: any) {
+  return videosData.map((videoData: any) => (
+    <div
+      key={videoData.id}
+      className='tap99 bg-inputBg relative flex aspect-[3/4] w-[35%] max-w-[200px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/20 shadow-sm first:ml-5 last:mr-5 dark:bg-white/10'
+    >
+      <img className='w-full shrink-0' src={videoData.image} />
+      <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8   text-center'>
+        <p className='text-sm font-[450]'>{videoData.title}</p>
+        <p className='text-xs opacity-70'>{videoData.duration}</p>
+      </div>
+    </div>
+  ))
 }

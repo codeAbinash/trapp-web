@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <div className='h-dvh'>
       <div
-        className={`shadow-[#ffffff15]bg-bg bg-bg/90 sticky top-0 z-40 flex w-full items-center justify-between px-5 py-4 shadow-sm backdrop-blur-lg`}
+        className={`shadow-[#ffffff15]bg-bg sticky top-0 z-40 flex w-full items-center justify-between bg-bg/90 px-5 py-4 shadow-sm backdrop-blur-md`}
       >
         <div className='flex items-center justify-between gap-2'>
           <img src='/AppIcons/full.png' className='h-8' />
@@ -51,7 +51,7 @@ export default function Home() {
           </div>
 
           <img
-            src='/icons/other/pic.png'
+            src='/images/other/pic.png'
             className='profile-picture bg-inputBg aspect-square w-9 rounded-full border border-white bg-white/10 object-cover'
             onClick={() => {
               navigate('/profile')
@@ -61,8 +61,8 @@ export default function Home() {
       </div>
       <Outlet />
       <div
-        className='bg-bg fixed bottom-[-1px] left-0 right-0 z-40 flex items-center justify-between border border-t-[0.5px]
-        border-transparent border-t-[#77777744] px-2 align-middle md:bottom-4 md:mx-auto md:max-w-sm md:rounded-full md:border-[#77777744]
+        className='fixed bottom-[-1px] left-0 right-0 z-40 flex items-center justify-between border border-t-[0.5px] border-transparent border-t-[#77777744]
+        bg-bg/90 px-2 align-middle backdrop-blur-md md:bottom-4 md:mx-auto md:max-w-sm md:rounded-full md:border-[#77777744]
         md:px-0 md:shadow-lg'
       >
         {navItems.map((item, index) => (

@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './screens/Home'
 import HomeScreen from './screens/Home/HomeScreen'
 import Register from './screens/Register'
+import Profile from './screens/Profile'
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <div> Profile </div>,
+        element: <Profile />,
       },
     ],
   },
