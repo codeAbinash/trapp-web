@@ -12,7 +12,8 @@ import ContactUs from './screens/More/ContactUs'
 import PrivacyPolicy from './screens/More/PrivacyPolicy'
 import TermsAndConditions from './screens/More/TermsAndConditions'
 import Profile from './screens/Profile'
-import Register from './screens/Register'
+import Register from './screens/Auth/Register'
+import Login from './screens/Auth/Login'
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
   {
     path: '/register',

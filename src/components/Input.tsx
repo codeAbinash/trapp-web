@@ -39,7 +39,7 @@ export default function Input({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={`${className} rounded-xl border-none bg-white/5 p-4 pl-6 text-sm tracking-widest outline-none`}
+      className={`${className} rounded-xl border-none bg-white/5 p-4.5 pl-6 text-sm tracking-widest outline-none`}
     />
   )
 }

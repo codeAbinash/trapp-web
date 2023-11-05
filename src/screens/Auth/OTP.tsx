@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react'
-import Button from '../components/Button'
-import { ClickText } from '../components/Input'
-import { blank_fn } from '../constants'
-import { countryCode } from '../lib/lib'
+import Button from '../../components/Button'
+import { ClickText } from '../../components/Input'
+import { blank_fn } from '../../constants'
+import { countryCode } from '../../lib/lib'
 type InputRef = React.MutableRefObject<HTMLInputElement>
 
 export default function OTP() {

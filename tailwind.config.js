@@ -13,6 +13,9 @@ export default {
       width: {
         4.5: '1.125rem',
       },
+      screens: {
+        xxs: '350px',
+      },
     },
   },
   plugins: [],
