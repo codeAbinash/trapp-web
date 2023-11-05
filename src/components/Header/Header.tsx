@@ -14,7 +14,7 @@ export function Header({ children, onclick = blank_fn }: { children?: React.Reac
     <>
       <p ref={intersect}></p>
       <div
-        className={`sticky top-0 z-40 flex w-full items-center gap-2 bg-bg/90 px-3 py-3 backdrop-blur-lg ${
+        className={`sticky top-0 z-40 flex w-full items-center gap-2 bg-bg/90 px-3 py-2.5 backdrop-blur-lg ${
           isIntersecting ? '' : 'shadow-sm shadow-[#ffffff15]'
         }`}
       >
@@ -25,7 +25,7 @@ export function Header({ children, onclick = blank_fn }: { children?: React.Reac
             onclick()
           }}
         >
-          <img src='/icons/other/arrow.svg' className='aspect-square w-[1.2rem] rotate-180' />
+          <img src='/icons/other/arrow.svg' className='aspect-square w-[1rem] rotate-180' />
         </div>
         <div>{children}</div>
       </div>

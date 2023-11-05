@@ -69,7 +69,7 @@ export default function Home() {
         {navItems.map((item, index) => (
           <div
             key={index}
-            className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-2 pb-2.5 pt-3.5 ${
+            className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1.5 pb-2.5 pt-3.5 ${
               path === item.path ? 'text-accent' : 'text-white opacity-40'
             }`}
             onClick={transitions(() => navigate(item.path, { replace: true }))}
