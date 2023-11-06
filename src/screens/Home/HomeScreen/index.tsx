@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 export default function HomeScreen() {
   return (
     <div className='bg-bg pb-28'>
@@ -42,6 +44,7 @@ const bannerData = [
   },
 ]
 function Banners() {
+  const navigate = useNavigate()
   return (
     <div
       className='no-scrollbar relative mx-auto mt-2 flex w-full max-w-4xl select-none snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-1.5 lg:rounded-2xl'
@@ -53,6 +56,7 @@ function Banners() {
         bannerData.map((banner) => (
           <div
             key={banner.id}
+            onClick={() => navigate('/creator')}
             className='tap99 bg-inputBg flex aspect-[1.82] w-[90%] max-w-sm shrink-0 snap-center items-center justify-center overflow-hidden rounded-xl bg-white/10 first:ml-0 last:mr-5 md:aspect-auto'
           >
             <img className='w-full shrink-0 rounded-2xl bg-red-500' src={banner.image} />

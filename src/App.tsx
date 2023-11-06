@@ -14,6 +14,7 @@ import TermsAndConditions from './screens/More/TermsAndConditions'
 import Profile from './screens/Profile'
 import Register from './screens/Auth/Register'
 import Login from './screens/Auth/Login'
+import Creator from './screens/User'
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
   {
     path: 'my-account',
     element: <MyAccount />,
+  },
+  {
+    path: 'creator',
+    element: <Creator />,
   },
 ])
 

@@ -1,5 +1,5 @@
 import { flushSync } from 'react-dom'
-const CLICK_DELAY = 150
+const CLICK_DELAY = 0
 
 export default function transitions(callback: Function, delay = CLICK_DELAY) {
   // @ts-ignore
