@@ -14,7 +14,9 @@ import TermsAndConditions from './screens/More/TermsAndConditions'
 import Profile from './screens/Profile'
 import Register from './screens/Auth/Register'
 import Login from './screens/Auth/Login'
-import Creator from './screens/User'
+import Creator from './screens/Creator'
+import Videos from './screens/Creator/Videos'
+import Playlist from './screens/Creator/Playlist'
 
 const router = createBrowserRouter([
   {
@@ -68,8 +70,18 @@ const router = createBrowserRouter([
     element: <MyAccount />,
   },
   {
-    path: 'creator',
+    path: 'creator/:creator',
     element: <Creator />,
+    children: [
+      {
+        path: 'videos',
+        element: <Videos />,
+      },
+      {
+        path: 'playlist',
+        element: <Playlist />,
+      },
+    ],
   },
 ])
 

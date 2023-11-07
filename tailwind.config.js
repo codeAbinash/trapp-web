@@ -15,6 +15,9 @@ export default {
       },
       screens: {
         xxs: '350px',
+        small: {
+          raw: '(min-height: 750px) and (max-height: 600px)',
+        },
       },
     },
   },

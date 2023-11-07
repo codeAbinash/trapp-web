@@ -102,12 +102,12 @@ export default function Profile() {
                     <div className='flex items-center gap-5'>
                       <img
                         src={option.icon}
-                        className={`aspect-square w-6 opacity-90`}
+                        className={`aspect-square w-[1.3rem] opacity-90`}
                         // className={`aspect-square w-6 opacity-90 ${option.classNameIcon ? option.classNameIcon : ''}`}
                       />
                       <span
                         // className={`font-420 text-[0.85rem] opacity-90 ${option.className ? option.className : ''}`}
-                        className={`font-420 pl-1 text-[0.95rem] font-[450] opacity-90`}
+                        className={`font-420 pl-1 text-[0.9rem] font-[450] opacity-90`}
                       >
                         {option.name}
                       </span>
