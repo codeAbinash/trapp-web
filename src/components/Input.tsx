@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { blank_fn } from '../constants'
+import React from 'react'
 
 export function ClickTextLink({ text, to }: { text: string; to: string }) {
   return (

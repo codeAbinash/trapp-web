@@ -17,6 +17,7 @@ import Login from './screens/Auth/Login'
 import Creator from './screens/Creator'
 import Videos from './screens/Creator/Videos'
 import Playlist from './screens/Creator/Playlist'
+import Video from './screens/Video'
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
         element: <Playlist />,
       },
     ],
+  },
+  {
+    path: 'video/:video',
+    element: <Video />,
   },
 ])
 

@@ -205,15 +205,15 @@ function Videos() {
         <p className='text-lg font-[450]'>Videos</p>
       </div>
       <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
-        {VideThumbnails(videosData)}
+        {VideoThumbnails(videosData)}
       </div>
       <div className='no-scrollbar relative mt-5 flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
-        {VideThumbnails(shuffle(videosData))}
+        {VideoThumbnails(shuffle(videosData))}
       </div>
     </div>
   )
 }
-// How to shuffel array
+// How to shuffle array
 function shuffle(array: any) {
   var currentIndex = array.length,
     randomIndex
@@ -231,11 +231,13 @@ function shuffle(array: any) {
   return array
 }
 
-function VideThumbnails(videosData: any) {
+function VideoThumbnails(videosData: any) {
+  const navigate = useNavigate()
   return videosData.map((videoData: any) => (
     <div
       key={videoData.id}
       className='tap99 bg-inputBg relative flex aspect-[3/4] w-[35%] max-w-[200px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm first:ml-5 last:mr-5'
+      onClick={transitions(() => navigate(`/video/${videoData.id}`))}
     >
       <img className='w-full shrink-0' src={videoData.image} />
       <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8   text-center'>
