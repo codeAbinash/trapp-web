@@ -27,12 +27,16 @@ export default function Input({
   value,
   onChange,
   className,
+  inputRef,
+  onKeyDown = blank_fn,
 }: {
   type: string
   placeholder: string
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
+  inputRef?: React.RefObject<HTMLInputElement>
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }) {
   return (
     <input
@@ -41,6 +45,8 @@ export default function Input({
       value={value}
       onChange={onChange}
       className={`${className} rounded-xl border-none bg-white/5 p-4.5 pl-6 text-sm tracking-[1px] outline-none`}
+      ref={inputRef}
+      onKeyDown={onKeyDown}
     />
   )
 }

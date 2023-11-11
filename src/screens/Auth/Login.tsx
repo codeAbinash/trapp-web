@@ -38,6 +38,8 @@ function Login() {
   const navigate = useNavigate()
   const { newPopup } = usePopupAlertContext()
   const [isSendingOtp, setIsSendingOtp] = React.useState(false)
+  const codeRef = React.useRef<HTMLInputElement>(null)
+  const phoneRef = React.useRef<HTMLInputElement>(null)
 
   async function sendOtp() {
     setIsSendingOtp(true)
@@ -68,7 +70,14 @@ function Login() {
       </div>
       <div className='flex h-[50dvh] w-full flex-col items-center justify-between gap-3 p-5 pt-0 xxs:h-[45dvh]'>
         <div className='flex w-full flex-col gap-4'>
-          <MobileInput code={code} setCode={setCode} phone={phone} setPhone={setPhone} />
+          <MobileInput
+            code={code}
+            setCode={setCode}
+            phone={phone}
+            setPhone={setPhone}
+            nextRef={phoneRef}
+            enterFn={handleLogin}
+          />
           {isSendingOtp ? <LoadingButton /> : <Button onClick={handleLogin}>LOGIN</Button>}
         </div>
         <div className='flex w-full flex-grow flex-col items-center justify-center gap-5'>
