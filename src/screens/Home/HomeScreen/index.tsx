@@ -1,7 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import transitions from '../../../lib/transition'
+import ls from '../../../lib/util'
+import { useEffect } from 'react'
+
+function getLoginStatus() {
+  return ls.get('isLoggedIn')
+}
 
 export default function HomeScreen() {
+  const navigate = useNavigate()
+  useEffect(() => {
+    const loginStatus = getLoginStatus()
+    if (!getLoginStatus()) navigate('/login', { replace: true })
+  }, [])
   return (
     <div className='bg-bg pb-28'>
       <Banners />

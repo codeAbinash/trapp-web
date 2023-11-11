@@ -17,11 +17,12 @@ function MobileInput({
       <p className='pb-2 pl-1 text-sm'>Mobile Number</p>
       <div className='flex gap-3'>
         <Input
-          type='number'
+          type='tel'
           placeholder='+95'
           value={code}
           onChange={(e) => {
-            setCode(e.target.value)
+            if (!e.target.value.startsWith('+')) setCode('+' + e.target.value)
+            else setCode(e.target.value)
           }}
           className='w-[30%]'
         />
