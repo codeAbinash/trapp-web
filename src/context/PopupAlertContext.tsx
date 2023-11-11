@@ -39,8 +39,7 @@ export const PopupAlertContextProvider = ({ children }: { children: React.ReactN
 
   function newPopup(popup: PopupAlertType) {
     const old = [...popups]
-    if (!popup.action) popup.action = [{ text: 'Ok' }]
-
+    if (!popup.action) popup.action = [{ text: 'OK' }]
     old.push(popup)
     setPopups(old)
   }

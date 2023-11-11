@@ -38,7 +38,6 @@ function Login() {
   const navigate = useNavigate()
   const { newPopup } = usePopupAlertContext()
   const [isSendingOtp, setIsSendingOtp] = React.useState(false)
-  const codeRef = React.useRef<HTMLInputElement>(null)
   const phoneRef = React.useRef<HTMLInputElement>(null)
 
   async function sendOtp() {
