@@ -42,7 +42,7 @@ export default function PopupAlert() {
           <div className='mt-2 text-[0.8rem]'>{popup.subTitle}</div>
         </div>
         <div className='flex items-center justify-between gap-3.5 p-4 text-[0.8rem]'>
-          {popup.action.map((action, index) => (
+          {popup.action?.map((action, index) => (
             <button
               key={index}
               className={
