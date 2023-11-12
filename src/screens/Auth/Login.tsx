@@ -20,8 +20,8 @@ function Login() {
   async function sendOtp() {
     setIsSendingOtp(true)
     const data = await sendOtpLogin('9547400680', '91')
-    if (!data.status) return transitions(() => newPopup({ title: 'Error sending OTP', subTitle: data.message }))()
     setIsSendingOtp(false)
+    if (!data.status) return transitions(() => newPopup({ title: 'Error sending OTP', subTitle: data.message }))()
     navigate('/otp', { state: { phone, code }, replace: true })
   }
 
@@ -37,7 +37,7 @@ function Login() {
         <img src='/images/background.jpg' className='absolute h-[inherit] w-full object-cover' />
         <div className='absolute bottom-0 z-10 h-[25dvh] w-full bg-gradient-to-t from-bg to-bg/50'></div>
         <div className='absolute z-20 flex h-[50dvh] w-full items-center justify-center'>
-          <img src='/AppIcons/full.png' className='w-1/2' />
+          <img src='/AppIcons/full.png' className='logo-long w-1/2' />
         </div>
       </div>
       <div className='flex h-[50dvh] w-full flex-col items-center justify-between gap-3 p-5 pt-0 xxs:h-[45dvh]'>
@@ -49,7 +49,7 @@ function Login() {
           <LoginWith />
         </div>
         <div className='flex flex-col items-center justify-center pb-5 text-center text-[0.9rem]'>
-          <p className='text-gray-400'>Don't have an account?</p>
+          <p className='bottom-text text-gray-400'>Don't have an account?</p>
           <ClickTextLink text='Register' to='/register' />
         </div>
       </div>

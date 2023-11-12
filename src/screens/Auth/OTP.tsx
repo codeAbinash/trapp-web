@@ -44,7 +44,7 @@ export default function OTP() {
   return (
     <div className='h-dvh highlight-none flex select-none flex-col justify-between p-5'>
       <div className='flex flex-grow items-center justify-center pt-5'>
-        <img src='/AppIcons/full.png' className='w-1/2' />
+        <img src='/AppIcons/full.png' className='logo-long w-1/2' />
       </div>
       <div className='flex w-full flex-grow flex-col items-center justify-center gap-5'>
         <div className='flex flex-col gap-2 pb-3'>
@@ -78,7 +78,7 @@ export default function OTP() {
         <div></div>
 
         <div className='flex flex-col items-center justify-center pb-2 text-center text-sm'>
-          <p className='text-gray-300'>Don't receive the OTP?</p>
+          <p className='bottom-text text-gray-300'>Don't receive the OTP?</p>
           <ClickText text='RESEND' />
         </div>
       </div>

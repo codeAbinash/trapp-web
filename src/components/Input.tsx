@@ -1,11 +1,22 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { blank_fn } from '../constants'
 import React from 'react'
+import transitions from '../lib/transition'
 
 export function ClickTextLink({ text, to }: { text: string; to: string }) {
+  const navigate = useNavigate()
+
   return (
-    <p className='tap95 cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'>
-      <Link to={to}>{text}</Link>
+    <p className='tap95 bottom-link cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'>
+      <span
+        onClick={transitions(() =>
+          navigate(to, {
+            replace: true,
+          }),
+        )}
+      >
+        {text}
+      </span>
     </p>
   )
 }

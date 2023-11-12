@@ -27,7 +27,7 @@ function MobileInput({
   }, [])
 
   return (
-    <div>
+    <div className='mobile-input'>
       <p className='pb-2 pl-1 text-sm'>Mobile Number</p>
       <div className='flex gap-3'>
         <Input

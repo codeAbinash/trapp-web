@@ -31,15 +31,15 @@ export default function Register() {
   async function sendOtp() {
     setIsSendingOtp(true)
     const res = await sendOtpSignup(phone, code, name.trim())
-    if (!res.status) return transitions(() => newPopup({ title: 'Error sending OTP', subTitle: res.message }))()
     setIsSendingOtp(false)
-    navigate('/otp', { state: { phone, code, name }, replace: true })
+    if (!res.status) return transitions(() => newPopup({ title: 'Error sending OTP', subTitle: res.message }))()
+    transitions(() => navigate('/otp', { state: { phone, code, name }, replace: true }))()
   }
 
   return (
     <div className='h-dvh highlight-none flex select-none flex-col justify-between p-5'>
       <div className='mt-5 flex min-h-[20dvh] flex-grow items-center justify-center'>
-        <img src='/AppIcons/full.png' className='w-1/2' />
+        <img src='/AppIcons/full.png' className='logo-long w-1/2' />
       </div>
 
       <div className='flex w-full flex-grow flex-col items-center justify-center gap-5'>
@@ -68,7 +68,7 @@ export default function Register() {
         <LoginWith />
       </div>
       <div className='mt-2 flex flex-col items-center justify-center pb-5 text-center text-[0.9rem]'>
-        <p className='text-gray-400'>Already have an account?</p>
+        <p className='bottom-text text-gray-400'>Already have an account?</p>
         <ClickTextLink text='Login' to='/login' />
       </div>
     </div>

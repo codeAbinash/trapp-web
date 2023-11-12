@@ -1,37 +1,25 @@
 // View Transition Animations
-// .logo-long {
-//   view-transition-name: logo-long;
-// }
-// .phone-number {
-//   view-transition-name: phone-number;
-// }
-// .normal-text {
-//   view-transition-name: normal-text;
-// }
-// .send-otp-button {
-//   view-transition-name: send-otp-button;
-// }
+.logo-long {
+  view-transition-name: logo-long;
+}
+.button-full {
+  view-transition-name: button-full;
+}
 .profile-picture {
   view-transition-name: profile-picture;
 }
-// .anim-user-name {
-//   view-transition-name: anim-user-name;
-// }
-// .anim-user-phone {
-//   view-transition-name: anim-user-phone;
-// }
-// .anim-edit-icon {
-//   view-transition-name: anim-edit-icon;
-// }
-// .special-offer-image {
-//   view-transition-name: special-offer-image;
-// }
-// // .special-offer-text {
-// //   view-transition-name: special-offer-text;
-// // }
-// // .special-offer-heading {
-// //   view-transition-name: special-offer-heading;
-// // }
-// .select-provider-button {
-//   view-transition-name: select-provider-button;
-// }
+.mobile-input {
+  view-transition-name: mobile-input;
+}
+
+.login-with {
+  view-transition-name: login-with;
+}
+
+.bottom-text {
+  view-transition-name: bottom-text;
+}
+
+.bottom-link {
+  view-transition-name: bottom-link;
+}
