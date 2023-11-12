@@ -5,6 +5,7 @@ export const app = {
   type: 'alpha',
   name: '0.1.0-alpha',
   code: '13',
+  ipInoKey: 'ba18ace04b21f6', // 50k requests per month
   URL: 'https://trappmartialarts.com/',
   backendURL: 'https://trappmartialarts.com/',
   api: 'https://trappmartialarts.com/api',

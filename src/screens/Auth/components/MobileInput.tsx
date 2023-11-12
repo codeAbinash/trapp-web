@@ -19,10 +19,7 @@ function MobileInput({
 }) {
   async function loadCountryCode() {
     const c_code = await countryCode()
-    console.log(c_code)
-    if (code == '') {
-      setCode(c_code)
-    }
+    if (code == '') setCode(c_code)
   }
 
   useEffect(() => {
