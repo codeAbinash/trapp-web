@@ -14,7 +14,7 @@ function MobileInput({
   setCode: Function
   phone: string
   setPhone: Function
-  nextRef: React.RefObject<HTMLInputElement>
+  nextRef?: React.RefObject<HTMLInputElement>
   enterFn?: Function
 }) {
   async function loadCountryCode() {
