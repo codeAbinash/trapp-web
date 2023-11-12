@@ -7,16 +7,16 @@ function MobileInput({
   setCode,
   phone,
   setPhone,
-  nextRef,
   enterFn,
 }: {
   code: string
   setCode: Function
   phone: string
   setPhone: Function
-  nextRef?: React.RefObject<HTMLInputElement>
   enterFn?: Function
 }) {
+  const nextRef = React.useRef<HTMLInputElement>(null)
+
   async function loadCountryCode() {
     const c_code = await countryCode()
     if (code == '') setCode(c_code)
@@ -35,11 +35,11 @@ function MobileInput({
           placeholder='+91'
           value={code}
           onChange={(e) => {
-            if (!e.target.value.startsWith('+')) setCode('+' + e.target.value)
-            else setCode(e.target.value)
+            if (!e.target.value.startsWith('+')) setCode('+' + e.target.value.trim())
+            else setCode(e.target.value.trim())
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') nextRef?.current?.focus()
+            if (e.key === 'Enter') if (nextRef.current) nextRef.current.focus()
           }}
           className='w-[30%]'
         />
@@ -48,13 +48,14 @@ function MobileInput({
           placeholder='987 654 3210'
           value={phone}
           onChange={(e) => {
-            setPhone(e.target.value)
+            setPhone(e.target.value.trim())
           }}
           className='w-full flex-grow'
           inputRef={nextRef}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              alert('Ok')
+              e.preventDefault()
+              nextRef.current?.blur()
               if (enterFn) enterFn()
             }
           }}

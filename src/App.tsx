@@ -18,6 +18,7 @@ import Creator from './screens/Creator'
 import Videos from './screens/Creator/Videos'
 import Playlist from './screens/Creator/Playlist'
 import Video from './screens/Video'
+import OTP from './screens/Auth/OTP'
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />,
+  },
+  {
+    path: '/otp',
+    element: <OTP />,
   },
   {
     path: '/home',

@@ -1,36 +1,14 @@
-import React, { useEffect } from 'react'
-import MobileInput from './components/MobileInput'
-import Button from '../../components/Button'
-import { blank_fn } from '../../lib/util'
-import LoginWith from './components/LoginWith'
-import { ClickTextLink } from '../../components/Input'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import transitions from '../../lib/transition'
-import { sendOtpLogin } from '../../lib/api'
+import Button from '../../components/Button'
+import { ClickTextLink } from '../../components/Input'
+import { LoadingButton } from '../../components/Loading'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
-import { Loading, LoadingButton } from '../../components/Loading'
-
-type ValidStatus = {
-  status: boolean
-  message: string
-}
-
-function validatePhone(phone: string, country_code: string): ValidStatus {
-  if (country_code.length < 2)
-    return {
-      status: false,
-      message: 'Please enter country code.',
-    }
-  if (!phone)
-    return {
-      status: false,
-      message: 'Please enter phone number.',
-    }
-  return {
-    status: true,
-    message: '',
-  }
-}
+import { sendOtpLogin } from '../../lib/api'
+import { validatePhone } from '../../lib/lib'
+import transitions from '../../lib/transition'
+import LoginWith from './components/LoginWith'
+import MobileInput from './components/MobileInput'
 
 function Login() {
   const [phone, setPhone] = React.useState('')
@@ -38,14 +16,13 @@ function Login() {
   const navigate = useNavigate()
   const { newPopup } = usePopupAlertContext()
   const [isSendingOtp, setIsSendingOtp] = React.useState(false)
-  const phoneRef = React.useRef<HTMLInputElement>(null)
 
   async function sendOtp() {
     setIsSendingOtp(true)
     const data = await sendOtpLogin('9547400680', '91')
-    if (data.status) navigate('/otp', { state: { phone, code }, replace: true })
-    else transitions(() => newPopup({ title: 'Error sending OTP', subTitle: data.message }))()
+    if (!data.status) return transitions(() => newPopup({ title: 'Error sending OTP', subTitle: data.message }))()
     setIsSendingOtp(false)
+    navigate('/otp', { state: { phone, code }, replace: true })
   }
 
   function handleLogin() {
@@ -65,14 +42,7 @@ function Login() {
       </div>
       <div className='flex h-[50dvh] w-full flex-col items-center justify-between gap-3 p-5 pt-0 xxs:h-[45dvh]'>
         <div className='flex w-full flex-col gap-4'>
-          <MobileInput
-            code={code}
-            setCode={setCode}
-            phone={phone}
-            setPhone={setPhone}
-            nextRef={phoneRef}
-            enterFn={handleLogin}
-          />
+          <MobileInput code={code} setCode={setCode} phone={phone} setPhone={setPhone} enterFn={handleLogin} />
           {isSendingOtp ? <LoadingButton /> : <Button onClick={handleLogin}>LOGIN</Button>}
         </div>
         <div className='flex w-full flex-grow flex-col items-center justify-center gap-5'>

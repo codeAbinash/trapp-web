@@ -34,3 +34,25 @@ export async function countryCode() {
 //   }
 //   return ''
 // }
+
+export type ValidStatus = {
+  status: boolean
+  message: string
+}
+
+export function validatePhone(phone: string, country_code: string): ValidStatus {
+  if (country_code.length < 2)
+    return {
+      status: false,
+      message: 'Please enter country code.',
+    }
+  if (!phone)
+    return {
+      status: false,
+      message: 'Please enter phone number.',
+    }
+  return {
+    status: true,
+    message: '',
+  }
+}

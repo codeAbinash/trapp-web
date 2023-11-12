@@ -5,6 +5,7 @@ const API_URL = app.api
 
 const API = {
   send_otp_login: `${API_URL}/auth/login/send_otp`,
+  send_otp_signup: `${API_URL}/auth/signup/send_otp`,
 }
 
 type defaultHeaders = {
@@ -63,6 +64,20 @@ function catchError(err: any): apiResponse {
 }
 
 // All API calls
+export async function sendOtpSignup(phone: string, country_code: string, name: string): Promise<apiResponse> {
+  try {
+    const body = { phone, country_code, name }
+    const res = await fetch(API.send_otp_signup, {
+      method: 'POST',
+      headers: defaultHeaders,
+      body: JSON.stringify(body),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
+
 export async function sendOtpLogin(phone: string, country_code: string): Promise<apiResponse> {
   try {
     const body = { phone, country_code }

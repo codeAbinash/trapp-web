@@ -4,11 +4,37 @@ import Input, { ClickTextLink } from '../../components/Input'
 import { blank_fn } from '../../constants'
 import MobileInput from './components/MobileInput'
 import LoginWith from './components/LoginWith'
+import { usePopupAlertContext } from '../../context/PopupAlertContext'
+import transitions from '../../lib/transition'
+import { validatePhone } from '../../lib/lib'
+import { sendOtpSignup } from '../../lib/api'
+import { LoadingButton } from '../../components/Loading'
+import { useNavigate } from 'react-router-dom'
 
 export default function Register() {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [code, setCode] = useState('')
+  const [isSendingOtp, setIsSendingOtp] = useState(false)
+  const { newPopup } = usePopupAlertContext()
+  const navigate = useNavigate()
+
+  function handelRegister() {
+    const user_name = name.trim()
+    if (!user_name) return transitions(() => newPopup({ title: 'Enter Name', subTitle: 'Please enter your name.' }))()
+    const phoneValidStatus = validatePhone(phone, code)
+    if (!phoneValidStatus.status)
+      return transitions(() => newPopup({ title: 'Invalid Number', subTitle: phoneValidStatus.message }))()
+    sendOtp()
+  }
+
+  async function sendOtp() {
+    setIsSendingOtp(true)
+    const res = await sendOtpSignup(phone, code, name.trim())
+    if (!res.status) return transitions(() => newPopup({ title: 'Error sending OTP', subTitle: res.message }))()
+    setIsSendingOtp(false)
+    navigate('/otp', { state: { phone, code, name }, replace: true })
+  }
 
   return (
     <div className='h-dvh highlight-none flex select-none flex-col justify-between p-5'>
@@ -35,8 +61,8 @@ export default function Register() {
               className='w-full'
             />
           </div>
-          <MobileInput code={code} setCode={setCode} phone={phone} setPhone={setPhone} />
-          <Button onClick={blank_fn}>REGISTER</Button>
+          <MobileInput code={code} setCode={setCode} phone={phone} setPhone={setPhone} enterFn={handelRegister} />
+          {isSendingOtp ? <LoadingButton /> : <Button onClick={handelRegister}>REGISTER</Button>}
         </div>
 
         <LoginWith />
