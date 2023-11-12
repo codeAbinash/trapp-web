@@ -21,10 +21,9 @@ export default function Register() {
 
   function handelRegister() {
     const user_name = name.trim()
-    if (!user_name) return transitions(() => newPopup({ title: 'Enter Name', subTitle: 'Please enter your name.' }))()
+    if (!user_name) return newPopup({ title: 'Enter Name', subTitle: 'Please enter your name.' })
     const phoneValidStatus = validatePhone(phone, code)
-    if (!phoneValidStatus.status)
-      return transitions(() => newPopup({ title: 'Invalid Number', subTitle: phoneValidStatus.message }))()
+    if (!phoneValidStatus.status) return newPopup({ title: 'Invalid Number', subTitle: phoneValidStatus.message })
     sendOtp()
   }
 
@@ -32,7 +31,7 @@ export default function Register() {
     setIsSendingOtp(true)
     const res = await sendOtpSignup(phone, code, name.trim())
     setIsSendingOtp(false)
-    if (!res.status) return transitions(() => newPopup({ title: 'Error sending OTP', subTitle: res.message }))()
+    if (!res.status) return newPopup({ title: 'Error sending OTP', subTitle: res.message })
     transitions(() => navigate('/otp', { state: { phone, code, name }, replace: true }))()
   }
 

@@ -21,13 +21,13 @@ function Login() {
     setIsSendingOtp(true)
     const data = await sendOtpLogin('9547400680', '91')
     setIsSendingOtp(false)
-    if (!data.status) return transitions(() => newPopup({ title: 'Error sending OTP', subTitle: data.message }))()
+    if (!data.status) return newPopup({ title: 'Error sending OTP', subTitle: data.message })
     navigate('/otp', { state: { phone, code }, replace: true })
   }
 
   function handleLogin() {
     const { status, message } = validatePhone(phone, code)
-    if (!status) return transitions(() => newPopup({ title: 'Invalid Number', subTitle: message }))()
+    if (!status) newPopup({ title: 'Invalid Number', subTitle: message })
     sendOtp()
   }
   return (
