@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Input from '../../../components/Input'
+import { countryCode } from '../../../lib/lib'
 
 function MobileInput({
   code,
@@ -16,13 +17,25 @@ function MobileInput({
   nextRef: React.RefObject<HTMLInputElement>
   enterFn?: Function
 }) {
+  async function loadCountryCode() {
+    const c_code = await countryCode()
+    console.log(c_code, code)
+    if (code == '') {
+      setCode(c_code)
+    }
+  }
+
+  useEffect(() => {
+    loadCountryCode()
+  }, [])
+
   return (
     <div>
       <p className='pb-2 pl-1 text-sm'>Mobile Number</p>
       <div className='flex gap-3'>
         <Input
           type='tel'
-          placeholder='+95'
+          placeholder='+91'
           value={code}
           onChange={(e) => {
             if (!e.target.value.startsWith('+')) setCode('+' + e.target.value)
@@ -30,7 +43,6 @@ function MobileInput({
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') nextRef?.current?.focus()
-            console.log(nextRef)
           }}
           className='w-[30%]'
         />
@@ -45,6 +57,7 @@ function MobileInput({
           inputRef={nextRef}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
+              alert('Ok')
               if (enterFn) enterFn()
             }
           }}

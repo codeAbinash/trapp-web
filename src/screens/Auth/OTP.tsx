@@ -17,7 +17,6 @@ export default function OTP() {
   useEffect(() => {})
 
   function verifyOtp() {
-    console.log('verify otp')
     countryCode().then((r) => console.log(r))
   }
 

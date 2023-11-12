@@ -44,19 +44,15 @@ function Login() {
     setIsSendingOtp(true)
     const data = await sendOtpLogin('9547400680', '91')
     if (data.status) navigate('/otp', { state: { phone, code }, replace: true })
-    else newPopup({ title: 'Error sending OTP', subTitle: data.message })
+    else transitions(() => newPopup({ title: 'Error sending OTP', subTitle: data.message }))()
     setIsSendingOtp(false)
   }
 
   function handleLogin() {
     const { status, message } = validatePhone(phone, code)
-    if (!status) return newPopup({ title: 'Invalid', subTitle: message })
+    if (!status) return transitions(() => newPopup({ title: 'Invalid Number', subTitle: message }))()
     sendOtp()
   }
-
-  useEffect(() => {
-    // sendOtp()
-  }, [])
   return (
     <div className='h-dvh flex w-full flex-col items-center justify-between'>
       <div className='relative h-[50dvh] w-full items-center justify-center'>
