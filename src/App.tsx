@@ -19,7 +19,7 @@ import AboutUs from './screens/More/AboutUs'
 import ContactUs from './screens/More/ContactUs'
 import PrivacyPolicy from './screens/More/PrivacyPolicy'
 import TermsAndConditions from './screens/More/TermsAndConditions'
-import Profile from './screens/Profile'
+import Profile from './screens/Profile/Profile'
 import Video from './screens/Video'
 
 const router = createBrowserRouter([

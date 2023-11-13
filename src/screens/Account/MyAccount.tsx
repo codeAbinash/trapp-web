@@ -166,7 +166,7 @@ export default function MyAccount() {
         />
         <ProfilePicture imageUrl={profilePicture} onImageClick={delayFn(() => pp.current?.showPicker())} />
         <div>
-          <p className='anim-user-name text-center text-xl font-semibold'>{name}</p>
+          <p className='text-center text-xl font-semibold'>{name}</p>
           <div className='mt-1 flex items-center justify-center gap-2'>
             <p className='anim-user-phone font-normMid text-sm text-neutral-500'>
               + {code} {phone}

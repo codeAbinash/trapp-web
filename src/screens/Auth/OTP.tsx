@@ -74,7 +74,7 @@ export default function OTP() {
         <div className='flex flex-col gap-2 pb-3'>
           <h1 className='text-[2rem] font-[450]'>Verify OTP</h1>
           <p className='-mt-2 text-sm'>
-            We have sent an OTP to your mobile number ends with 6870.
+            We have sent an OTP to your mobile number ends with {phone.slice(-4)}
             <span
               className='ml-1 cursor-pointer rounded-sm text-accent active:bg-accent/30'
               onClick={transitions(() => {
