@@ -19,6 +19,8 @@ import Videos from './screens/Creator/Videos'
 import Playlist from './screens/Creator/Playlist'
 import Video from './screens/Video'
 import OTP from './screens/Auth/OTP'
+import { Provider } from 'react-redux'
+import store from './Redux/store'
 
 const router = createBrowserRouter([
   {
@@ -98,10 +100,12 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <PopupAlertContextProvider>
-      <div className='bg-bg text-white'>
-        <PopupAlert />
-        <RouterProvider router={router} />
-      </div>
+      <Provider store={store}>
+        <div className='bg-bg text-white'>
+          <PopupAlert />
+          <RouterProvider router={router} />
+        </div>
+      </Provider>
     </PopupAlertContextProvider>
   )
 }

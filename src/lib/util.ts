@@ -15,8 +15,10 @@ export const ls = {
     }
   },
 }
-
 export default ls
+export function isLoggedIn() {
+  return !!ls.get('token')
+}
 
 export function blank_fn() {}
 

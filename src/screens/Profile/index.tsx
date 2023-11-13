@@ -1,7 +1,8 @@
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { app } from '../../constants'
-import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
+import { UserProfile } from './utils'
 const OPTIONS = [
   {
     groupName: 'Account',
@@ -57,28 +58,16 @@ const OPTIONS = [
 ]
 
 export default function Profile() {
-  const { newPopup } = usePopupAlertContext()
   const navigate = useNavigate()
+  const profile: UserProfile = useSelector((state: any) => state.profile)
+  const name = profile?.data?.name || 'Your Name'
+  const pic = profile?.data?.profile_pic || '/images/other/pic.png'
 
   return (
     <div className='bg-bg pb-28'>
       <div className='flex flex-col items-center justify-center gap-4'>
-        <img
-          src='/images/other/pic.png'
-          className='tap99 mt-16 w-2/5 max-w-xs rounded-full border-2 border-white/50'
-          onClick={() => {
-            console.log('clicked')
-            transitions(() =>
-              newPopup({
-                title: <span className='font-medium'>Premium</span>,
-                subTitle:
-                  'Congratulations, you are a premium user. Enjoy the premium features. Thank you. If you have any questions, please contact us at abcd@gmail.com. Thank you.',
-                action: [{ text: 'OK' }, { text: 'Cancel' }],
-              }),
-            )()
-          }}
-        />
-        <p className='text-xl font-[450]'>Leonardo Silva</p>
+        <img src={pic} className='tap99 mt-16 w-2/5 max-w-xs rounded-full border-2 border-white/50' />
+        <p className='text-xl font-[450]'>{name}</p>
         <div className='tap97 mt-2 flex items-center justify-center rounded-full bg-accent px-3 py-1.5'>
           <img src='/icons/other/star.svg' className='h-3.5' />
           <p className='ml-1.5 pt-[0.07rem] text-sm leading-tight'>Premium</p>

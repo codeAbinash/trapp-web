@@ -55,7 +55,7 @@ export default function Home() {
             src='/images/other/pic.png'
             className='profile-picture bg-inputBg aspect-square w-9 rounded-full border border-white/60 bg-white/10 object-cover'
             onClick={transitions(() => {
-              navigate('/profile')
+              navigate('/profile', { replace: true })
             })}
           />
         </div>

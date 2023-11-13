@@ -32,7 +32,6 @@ export default function OTP() {
     setIsVerifying(false)
     if (!res.status) return newPopup({ title: 'Error verifying ', subTitle: res.message })
     ls.set('token', res.data.token)
-    ls.set('isLoggedIn', 'true')
     transitions(() => navigate('/', { replace: true }))()
   }
 

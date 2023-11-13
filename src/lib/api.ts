@@ -8,6 +8,11 @@ const API = {
   verify_otp_login: `${API_URL}/auth/login`,
   send_otp_signup: `${API_URL}/auth/signup/send_otp`,
   verify_otp_signup: `${API_URL}/auth/signup`,
+  user: {
+    current: {
+      get: `${API_URL}/user/get_current_user`,
+    },
+  },
 }
 
 type defaultHeaders = {
@@ -66,6 +71,19 @@ function catchError(err: any): apiResponse {
 }
 
 // All API calls
+
+export async function getCurrentUser(): Promise<apiResponse> {
+  const headers = authorizedHeader(defaultHeaders)
+  try {
+    const res = await fetch(API.user.current.get, {
+      method: 'POST',
+      headers: headers,
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function verifyOtp_f(
   phone: string,
