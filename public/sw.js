@@ -1,5 +1,3 @@
-console.log('Service Worker Loaded...')
-
 const cacheData = {
   showCacheThenFetch: {
     name: 'trapp-show-cache-then-fetch-v1',
@@ -57,7 +55,6 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = event.request.url
   // If the request includes the start link then clear the cache
-  console.log(url)
   if (url.startsWith('https://dataabinash.github.io/emoji')) {
     // Never load emojis again
     event.respondWith(
@@ -121,8 +118,6 @@ self.addEventListener('fetch', (event) => {
       url.endsWith('.ico') ||
       url.endsWith('.webp'))
   ) {
-    console.log('Image')
-
     event.respondWith(
       caches.match(event.request).then((cacheResponse) => {
         const fetchUrl = fetch(event.request).then((fetchResponse) => {

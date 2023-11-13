@@ -70,7 +70,7 @@ export default function Register() {
             />
           </div>
           <MobileInput code={code} setCode={setCode} phone={phone} setPhone={setPhone} enterFn={handelRegister} />
-          {isSendingOtp ? <LoadingButton /> : <Button onClick={handelRegister}>REGISTER</Button>}
+          {isSendingOtp ? <LoadingButton text='Sending OTP' /> : <Button onClick={handelRegister}>REGISTER</Button>}
         </div>
 
         <LoginWith />

@@ -18,6 +18,7 @@ function MobileInput({
   const nextRef = React.useRef<HTMLInputElement>(null)
 
   async function loadCountryCode() {
+    if (code) return
     const c_code = await countryCode()
     if (code == '') setCode(c_code)
   }

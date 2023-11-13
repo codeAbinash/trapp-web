@@ -41,6 +41,7 @@ export default function OTP() {
     inputs.forEach((r: InputRef) => (otp += r.current.value))
     if (otp.length < 6) return newPopup({ title: 'Invalid OTP', subTitle: 'Please enter a valid OTP' })
     verifyOtp(otp)
+    inputs[5].current?.blur()
   }
 
   const handelKeydown = useCallback(
@@ -103,7 +104,7 @@ export default function OTP() {
           })}
         </div>
         <div className='flex w-full flex-col gap-5'>
-          {isVerifying ? <LoadingButton /> : <Button onClick={handelSubmit}>VERIFY</Button>}
+          {isVerifying ? <LoadingButton text='Verifying OTP' /> : <Button onClick={handelSubmit}>VERIFY</Button>}
         </div>
         <div></div>
         <div></div>
