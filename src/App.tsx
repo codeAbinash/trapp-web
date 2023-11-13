@@ -1,4 +1,4 @@
-import './css/index.css'
+import './css/tailwind.css'
 import './css/index.scss'
 
 import { Provider } from 'react-redux'

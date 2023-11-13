@@ -53,7 +53,13 @@ function Login() {
       <div className='flex h-[50dvh] w-full flex-col items-center justify-between gap-3 p-5 pt-0 xxs:h-[45dvh]'>
         <div className='flex w-full flex-col gap-4'>
           <MobileInput code={code} setCode={setCode} phone={phone} setPhone={setPhone} enterFn={handleLogin} />
-          {isSendingOtp ? <LoadingButton text='Sending OTP' /> : <Button onClick={handleLogin}>LOGIN</Button>}
+          {isSendingOtp ? (
+            <LoadingButton text='Sending OTP' />
+          ) : (
+            <Button className='btn' onClick={handleLogin}>
+              LOGIN
+            </Button>
+          )}
         </div>
         <div className='flex w-full flex-grow flex-col items-center justify-center gap-5'>
           <LoginWith />

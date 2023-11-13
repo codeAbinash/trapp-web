@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { app } from '../../constants'
 import transitions from '../../lib/transition'
 import { UserProfile } from './utils'
+import TapMotion from '../../components/TapMotion'
+import Watermark from '../../components/Watermark'
 const OPTIONS = [
   {
     groupName: 'Account',
@@ -66,7 +68,15 @@ export default function Profile() {
   return (
     <div className='bg-bg pb-28'>
       <div className='flex flex-col items-center justify-center gap-4'>
-        <img src={pic} className='tap99 mt-16 w-2/5 max-w-xs rounded-full border-2 border-white/50' />
+        <TapMotion className='w-full' size='lg'>
+          <img
+            src={pic}
+            className='profile-picture tap99 mx-auto mt-16 aspect-square w-2/5 max-w-xs rounded-full border border-white/50'
+            onClick={transitions(() => {
+              navigate('/my-account')
+            })}
+          />
+        </TapMotion>
         <p className='text-xl font-[450]'>{name}</p>
         <div className='tap97 mt-2 flex items-center justify-center rounded-full bg-accent px-3 py-1.5'>
           <img src='/icons/other/star.svg' className='h-3.5' />
@@ -117,6 +127,7 @@ export default function Profile() {
       <p className='text-center text-sm opacity-50'>
         Version {app.name} ({app.code})
       </p>
+      <Watermark />
     </div>
   )
 }

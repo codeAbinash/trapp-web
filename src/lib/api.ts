@@ -11,6 +11,7 @@ const API = {
   user: {
     current: {
       get: `${API_URL}/user/get_current_user`,
+      update: `${API_URL}/user/update_user`,
     },
   },
 }

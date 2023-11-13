@@ -24,7 +24,7 @@ function Creator() {
         </div>
         <div className=''>
           <div className='flex w-full flex-col items-center justify-center gap-1.5'>
-            <img src='/icons/other/pic.png' className='w-28 rounded-full border-2 border-white/50' />
+            <img src='/icons/other/pic.png' className='w-28 rounded-full border border-white/50' />
             <p className='text-[1.3rem] font-medium'>Coach Steve</p>
             <p className='text-sm opacity-90'>Wrestling Coach</p>
             <button className='highlight-none tap95 mt-2 rounded-full bg-accent px-7 py-2 text-sm font-[420] text-white'>
