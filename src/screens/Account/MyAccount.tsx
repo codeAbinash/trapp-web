@@ -41,9 +41,9 @@ function ProfilePicture({
       <TapMotion
         size='sm'
         onClick={onImageClick}
-        className='tap95 anim-edit-icon absolute left-[60%] top-[75%] aspect-square h-11 rounded-full bg-accent p-3 shadow-lg'
+        className='tap95 anim-edit-icon edit-button absolute left-[60%] top-[75%] aspect-square h-11 rounded-full bg-accent p-3 shadow-lg'
       >
-        <img src={icon('edit.svg')} className='editIcon invert' />
+        <img src={icon('edit.svg')} className='invert' />
       </TapMotion>
     </div>
   )
@@ -169,7 +169,7 @@ export default function MyAccount() {
           <p className='text-center text-xl font-semibold'>{name}</p>
           <div className='mt-1 flex items-center justify-center gap-2'>
             <p className='anim-user-phone font-normMid text-sm text-neutral-500'>
-              + {code} {phone}
+              +{code} {phone}
             </p>
           </div>
         </div>
