@@ -1,10 +1,10 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
 import { ClickTextLink } from '../../components/Input'
 import { LoadingButton } from '../../components/Loading'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
-import { sendOtpLogin } from '../../lib/api'
+import { sendOtpLogin_f } from '../../lib/api'
 import { validatePhone } from '../../lib/lib'
 import transitions from '../../lib/transition'
 import LoginWith from './components/LoginWith'
@@ -16,22 +16,32 @@ function Login() {
   const navigate = useNavigate()
   const { newPopup } = usePopupAlertContext()
   const [isSendingOtp, setIsSendingOtp] = React.useState(false)
+  const state = useLocation().state as { phone: string; code: string }
 
   async function sendOtp() {
     setIsSendingOtp(true)
-    const data = await sendOtpLogin('9547400680', '91')
+    const data = await sendOtpLogin_f('9547400680', '91')
     setIsSendingOtp(false)
-    if (!data.status) return newPopup({ title: 'Error sending OTP', subTitle: data.message })
-    navigate('/otp', { state: { phone, code }, replace: true })
+    // if (!data.status) return newPopup({ title: 'Error sending OTP', subTitle: data.message })
+    transitions(() => navigate('/otp', { state: { phone, code, type: 'login' }, replace: true }))()
   }
 
   function handleLogin() {
     const { status, message } = validatePhone(phone, code)
-    if (!status) newPopup({ title: 'Invalid Number', subTitle: message })
+    if (!status) return newPopup({ title: 'Invalid Number', subTitle: message })
     sendOtp()
   }
+
+  useEffect(() => {
+    if (state) {
+      const { phone, code } = state
+      setPhone(phone)
+      setCode(code)
+    }
+  }, [state])
+
   return (
-    <div className='h-dvh flex w-full flex-col items-center justify-between'>
+    <div className='h-dvh flex w-full select-none flex-col items-center justify-between'>
       <div className='relative h-[50dvh] w-full items-center justify-center'>
         <div className='absolute top-0 z-10 h-[25dvh] w-full bg-gradient-to-b from-bg to-bg/50'></div>
         <img src='/images/background.jpg' className='absolute h-[inherit] w-full object-cover' />
@@ -50,7 +60,12 @@ function Login() {
         </div>
         <div className='flex flex-col items-center justify-center pb-5 text-center text-[0.9rem]'>
           <p className='bottom-text text-gray-400'>Don't have an account?</p>
-          <ClickTextLink text='Register' to='/register' />
+          <span
+            className='tap95 bottom-link cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'
+            onClick={transitions(() => navigate('/register', { replace: true, state: { phone, code } }))}
+          >
+            REGISTER
+          </span>
         </div>
       </div>
       <div></div>

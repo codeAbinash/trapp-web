@@ -1,15 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
-import Input, { ClickTextLink } from '../../components/Input'
-import { blank_fn } from '../../constants'
-import MobileInput from './components/MobileInput'
-import LoginWith from './components/LoginWith'
-import { usePopupAlertContext } from '../../context/PopupAlertContext'
-import transitions from '../../lib/transition'
-import { validatePhone } from '../../lib/lib'
-import { sendOtpSignup } from '../../lib/api'
+import Input from '../../components/Input'
 import { LoadingButton } from '../../components/Loading'
-import { useNavigate } from 'react-router-dom'
+import { usePopupAlertContext } from '../../context/PopupAlertContext'
+import { sendOtpSignup_f } from '../../lib/api'
+import { validatePhone } from '../../lib/lib'
+import transitions from '../../lib/transition'
+import LoginWith from './components/LoginWith'
+import MobileInput from './components/MobileInput'
 
 export default function Register() {
   const [name, setName] = useState('')
@@ -18,6 +17,16 @@ export default function Register() {
   const [isSendingOtp, setIsSendingOtp] = useState(false)
   const { newPopup } = usePopupAlertContext()
   const navigate = useNavigate()
+  const state = useLocation().state as { phone: string; code: string; name: 'string' }
+
+  useEffect(() => {
+    if (state) {
+      const { phone, code } = state
+      setPhone(phone)
+      setCode(code)
+      setName(state.name)
+    }
+  }, [state])
 
   function handelRegister() {
     const user_name = name.trim()
@@ -29,10 +38,10 @@ export default function Register() {
 
   async function sendOtp() {
     setIsSendingOtp(true)
-    const res = await sendOtpSignup(phone, code, name.trim())
+    const res = await sendOtpSignup_f(phone, code, name.trim())
     setIsSendingOtp(false)
     if (!res.status) return newPopup({ title: 'Error sending OTP', subTitle: res.message })
-    transitions(() => navigate('/otp', { state: { phone, code, name }, replace: true }))()
+    transitions(() => navigate('/otp', { state: { phone, code, type: 'register', name }, replace: true }))()
   }
 
   return (
@@ -53,7 +62,7 @@ export default function Register() {
             <Input
               type='text'
               placeholder='Jone Doe'
-              value={name}
+              value={name || ''}
               onChange={(e) => {
                 setName(e.target.value)
               }}
@@ -68,7 +77,12 @@ export default function Register() {
       </div>
       <div className='mt-2 flex flex-col items-center justify-center pb-5 text-center text-[0.9rem]'>
         <p className='bottom-text text-gray-400'>Already have an account?</p>
-        <ClickTextLink text='Login' to='/login' />
+        <span
+          className='tap95 bottom-link cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'
+          onClick={transitions(() => navigate('/login', { replace: true, state: { phone, code } }))}
+        >
+          LOGIN
+        </span>
       </div>
     </div>
   )

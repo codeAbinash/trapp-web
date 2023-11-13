@@ -1,11 +1,16 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
 import { ClickText } from '../../components/Input'
-import { blank_fn } from '../../constants'
-import { countryCode } from '../../lib/lib'
+import { LoadingButton } from '../../components/Loading'
+import { usePopupAlertContext } from '../../context/PopupAlertContext'
+import { verifyOtp_f } from '../../lib/api'
+import transitions from '../../lib/transition'
+import ls from '../../lib/util'
 type InputRef = React.MutableRefObject<HTMLInputElement>
 
 export default function OTP() {
+  const navigate = useNavigate()
   const input1 = useRef<HTMLInputElement>(null)
   const input2 = useRef<HTMLInputElement>(null)
   const input3 = useRef<HTMLInputElement>(null)
@@ -13,11 +18,30 @@ export default function OTP() {
   const input5 = useRef<HTMLInputElement>(null)
   const input6 = useRef<HTMLInputElement>(null)
   const inputs: any = [input1, input2, input3, input4, input5, input6]
+  const state = useLocation().state as { phone: string; code: string; type: 'login' | 'signup'; name: 'string' }
+  const { phone, code } = state
+  const [isVerifying, setIsVerifying] = useState(false)
+  const { newPopup } = usePopupAlertContext()
 
   useEffect(() => {})
 
-  function verifyOtp() {
-    countryCode().then((r) => console.log(r))
+  async function verifyOtp(otp: string) {
+    setIsVerifying(true)
+    console.log(phone, code, otp, state.type)
+    const res = await verifyOtp_f(phone, code, otp, state.type)
+    setIsVerifying(false)
+    if (!res.status) return newPopup({ title: 'Error verifying ', subTitle: res.message })
+    ls.set('token', res.data.token)
+    ls.set('isLoggedIn', 'true')
+    transitions(() => navigate('/', { replace: true }))()
+  }
+
+  function handelSubmit() {
+    if (isVerifying) return
+    let otp = ''
+    inputs.forEach((r: InputRef) => (otp += r.current.value))
+    if (otp.length < 6) return newPopup({ title: 'Invalid OTP', subTitle: 'Please enter a valid OTP' })
+    verifyOtp(otp)
   }
 
   const handelKeydown = useCallback(
@@ -35,14 +59,14 @@ export default function OTP() {
         i > 0 && inputs[i - 1].current?.focus()
       } else if (!isNaN(Number(nativeEvent.key))) {
         target.value = nativeEvent.key
-        if (i == 5 && inputs.every((r: InputRef) => r.current.value)) verifyOtp()
+        if (i == 5 && inputs.every((r: InputRef) => r.current.value)) handelSubmit()
         else i < 5 && inputs[i + 1].current?.focus()
-      } else if (i == 5) if (nativeEvent.key == 'Enter') verifyOtp()
+      } else if (i == 5) if (nativeEvent.key == 'Enter') handelSubmit()
     },
     [inputs, verifyOtp],
   )
   return (
-    <div className='h-dvh highlight-none flex select-none flex-col justify-between p-5'>
+    <div className='h-dvh highlight-none flex select-none select-none flex-col justify-between p-5'>
       <div className='flex flex-grow items-center justify-center pt-5'>
         <img src='/AppIcons/full.png' className='logo-long w-1/2' />
       </div>
@@ -51,7 +75,15 @@ export default function OTP() {
           <h1 className='text-[2rem] font-[450]'>Verify OTP</h1>
           <p className='-mt-2 text-sm'>
             We have sent an OTP to your mobile number ends with 6870.
-            <span className='ml-1 cursor-pointer rounded-sm text-accent active:bg-accent/30'> Edit Number?</span>
+            <span
+              className='ml-1 cursor-pointer rounded-sm text-accent active:bg-accent/30'
+              onClick={transitions(() => {
+                navigate(`/${state.type}`, { state: { phone, code, name: state.name }, replace: true })
+              })}
+            >
+              {' '}
+              Edit Number?
+            </span>
           </p>
         </div>
         <div></div>
@@ -72,7 +104,7 @@ export default function OTP() {
           })}
         </div>
         <div className='flex w-full flex-col gap-5'>
-          <Button onClick={blank_fn}>CONFIRM</Button>
+          {isVerifying ? <LoadingButton /> : <Button onClick={handelSubmit}>VERIFY</Button>}
         </div>
         <div></div>
         <div></div>

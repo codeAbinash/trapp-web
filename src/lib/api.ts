@@ -5,7 +5,9 @@ const API_URL = app.api
 
 const API = {
   send_otp_login: `${API_URL}/auth/login/send_otp`,
+  verify_otp_login: `${API_URL}/auth/login`,
   send_otp_signup: `${API_URL}/auth/signup/send_otp`,
+  verify_otp_signup: `${API_URL}/auth/signup`,
 }
 
 type defaultHeaders = {
@@ -64,7 +66,28 @@ function catchError(err: any): apiResponse {
 }
 
 // All API calls
-export async function sendOtpSignup(phone: string, country_code: string, name: string): Promise<apiResponse> {
+
+export async function verifyOtp_f(
+  phone: string,
+  country_code: string,
+  otp: string,
+  type: 'login' | 'signup',
+): Promise<apiResponse> {
+  const link = type === 'login' ? API.verify_otp_login : API.verify_otp_signup
+  const body = { phone, country_code, otp }
+  try {
+    const res = await fetch(link, {
+      method: 'POST',
+      headers: defaultHeaders,
+      body: JSON.stringify(body),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
+
+export async function sendOtpSignup_f(phone: string, country_code: string, name: string): Promise<apiResponse> {
   try {
     const body = { phone, country_code, name }
     const res = await fetch(API.send_otp_signup, {
@@ -78,7 +101,7 @@ export async function sendOtpSignup(phone: string, country_code: string, name: s
   }
 }
 
-export async function sendOtpLogin(phone: string, country_code: string): Promise<apiResponse> {
+export async function sendOtpLogin_f(phone: string, country_code: string): Promise<apiResponse> {
   try {
     const body = { phone, country_code }
     const res = await fetch(API.send_otp_login, {
