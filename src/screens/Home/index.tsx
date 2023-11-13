@@ -1,5 +1,7 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import transitions from '../../lib/transition'
+import { UserProfile } from '../Profile/utils'
+import { useSelector } from 'react-redux'
 
 const navItems = [
   {
@@ -32,6 +34,8 @@ export default function Home() {
   const navigate = useNavigate()
   const location = useLocation()
   const path = location.pathname
+  const profile: UserProfile = useSelector((state: any) => state.profile)
+  const pic = profile?.data?.profile_pic || '/images/other/pic.png'
   return (
     <div className='h-dvh'>
       <div
@@ -52,7 +56,7 @@ export default function Home() {
           </div>
 
           <img
-            src='/images/other/pic.png'
+            src={pic}
             className='profile-picture bg-inputBg aspect-square w-9 rounded-full border border-white/60 bg-white/10 object-cover'
             onClick={transitions(() => {
               navigate('/profile', { replace: true })
@@ -69,7 +73,7 @@ export default function Home() {
         {navItems.map((item, index) => (
           <div
             key={index}
-            className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1.5 pb-2.5 pt-4 ${
+            className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
               path === item.path ? 'text-accent' : 'text-white opacity-40'
             }`}
             onClick={transitions(() => navigate(item.path, { replace: true }))}
