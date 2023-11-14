@@ -92,11 +92,10 @@ type userUpdate = {
 export default function MyAccount() {
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const [isUpdating, setIsUpdating] = useState(false)
-  const [name, setName] = useState(profile?.data?.name || 'Loading...')
-  const [email, setEmail] = useState(profile?.data?.email || 'Loading...')
-  const profile_pic = profile?.data?.profile_pic || '/images/default_profile_picture.png'
-  const [profilePicture, setProfilePicture] = useState(profile?.data.profile_pic || '')
-  const phone = profile?.data?.phone || 'Loading...'
+  const [name, setName] = useState(profile?.data?.name || '')
+  const [email, setEmail] = useState(profile?.data?.email || '')
+  const [profilePicture, setProfilePicture] = useState(profile?.data.profile_pic || '/images/other/pic.png)
+  const phone = profile?.data?.phone || ''
   const code = profile?.data?.country_code || ''
   const pp = useRef<HTMLInputElement>(null)
   const { newPopup } = usePopupAlertContext()

@@ -38,7 +38,10 @@ export default function Register() {
 
   async function sendOtp() {
     setIsSendingOtp(true)
-    const res = await sendOtpSignup_f(phone, code, name.trim())
+    const phone_f = phone.trim()
+    const code_f = code.trim().replace('+', '')
+    const name_f = name.trim()
+    const res = await sendOtpSignup_f(phone_f, code_f, name_f)
     setIsSendingOtp(false)
     if (!res.status) return newPopup({ title: 'Error sending OTP', subTitle: res.message })
     transitions(() => navigate('/otp', { state: { phone, code, type: 'register', name }, replace: true }))()
