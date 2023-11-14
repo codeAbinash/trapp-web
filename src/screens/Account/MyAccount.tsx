@@ -35,7 +35,7 @@ function ProfilePicture({
         <img
           src={imageUrl}
           onClick={onImageClick}
-          className='tap97 profile-picture bg-inputBg mx-auto aspect-square w-full rounded-full border border-white/50 object-cover dark:bg-white/10'
+          className='tap97 profile-picture bg-inputBg mx-auto aspect-square w-full rounded-full border border-white/50 bg-white/10 object-cover'
         />
       </TapMotion>
       <TapMotion
@@ -70,12 +70,12 @@ export function Input(props: InputProps) {
   return (
     <div>
       <p className='font-normMid pb-2 pl-1 text-xs text-neutral-500'>{label}</p>
-      <div className='bg-inputBg flex items-center justify-center rounded-xl pl-4 dark:bg-white/10'>
-        <img src={pre_icon} className='flex w-6 opacity-30 dark:invert' />
+      <div className='bg-inputBg flex items-center justify-center rounded-xl bg-white/10 pl-4'>
+        <img src={pre_icon} className='flex w-6 opacity-30 invert' />
         <input
           type={type}
           placeholder={placeholder}
-          className='font-normMid text-text/90 grow border-none bg-transparent px-3 py-4.5 pl-4 text-sm outline-none dark:text-white'
+          className='font-normMid text-text/90 grow border-none bg-transparent px-3 py-4.5 pl-4 text-sm text-white outline-none'
           onInput={onInput}
           value={value}
         />
@@ -94,7 +94,7 @@ export default function MyAccount() {
   const [isUpdating, setIsUpdating] = useState(false)
   const [name, setName] = useState(profile?.data?.name || '')
   const [email, setEmail] = useState(profile?.data?.email || '')
-  const [profilePicture, setProfilePicture] = useState(profile?.data.profile_pic || '/images/other/pic.png)
+  const [profilePicture, setProfilePicture] = useState(profile?.data.profile_pic || '/images/other/pic.png')
   const phone = profile?.data?.phone || ''
   const code = profile?.data?.country_code || ''
   const pp = useRef<HTMLInputElement>(null)
