@@ -11,6 +11,10 @@ const cacheData = {
     name: 'trapp-font-cache-v1',
     valid: 'trapp-font-cache',
   },
+  userProfile: {
+    name: 'trapp-user-profile-v1',
+    valid: 'trapp-user-profile',
+  },
   static: {
     name: 'trapp-static-files-v1',
     valid: 'trapp-static-files',
@@ -122,6 +126,27 @@ self.addEventListener('fetch', (event) => {
       caches.match(event.request).then((cacheResponse) => {
         const fetchUrl = fetch(event.request).then((fetchResponse) => {
           return caches.open(cacheData.showCacheThenFetch.name).then((cache) => {
+            cache.put(event.request, fetchResponse.clone())
+            return fetchResponse
+          })
+        })
+        return cacheResponse || fetchUrl
+      }),
+    )
+  } else if (
+    url.startsWith('https://trappmartialarts.com/storage/users/profiles/') &&
+    (url.endsWith('.png') ||
+      url.endsWith('.jpg') ||
+      url.endsWith('.jpeg') ||
+      url.endsWith('.svg') ||
+      url.endsWith('.gif') ||
+      url.endsWith('.ico') ||
+      url.endsWith('.webp'))
+  ) {
+    event.respondWith(
+      caches.match(event.request).then((cacheResponse) => {
+        const fetchUrl = fetch(event.request).then((fetchResponse) => {
+          return caches.open(cacheData.userProfile.name).then((cache) => {
             cache.put(event.request, fetchResponse.clone())
             return fetchResponse
           })
