@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
-import { ClickTextLink } from '../../components/Input'
 import { LoadingButton } from '../../components/Loading'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import { sendOtpLogin_f } from '../../lib/api'
