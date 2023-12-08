@@ -1,8 +1,8 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setProfile } from '../../../Redux/profile'
 import store from '../../../Redux/store'
-import { getCurrentUser } from '../../../lib/api'
+import { getBanners_f, getCurrentUser_f } from '../../../lib/api'
 import transitions from '../../../lib/transition'
 import { isLoggedIn } from '../../../lib/util'
 import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
@@ -16,7 +16,7 @@ export default function HomeScreen() {
   }, [])
 
   const getUserData = useCallback(async function getUserData() {
-    const userData = await getCurrentUser()
+    const userData = await getCurrentUser_f()
     if (userData.status) {
       const profile = userData?.data as UserProfile
       store.dispatch(setProfile(profile))
@@ -35,55 +35,42 @@ export default function HomeScreen() {
   )
 }
 
-const bannerData = [
-  {
-    image: '/images/banner1.png',
-    title: 'Shop',
-    id: 1,
-  },
-  {
-    image: '/images/banner2.png',
-    title: 'Shop',
-    id: 2,
-  },
-  {
-    image: '/images/banner1.png',
-    title: 'Shop',
-    id: 3,
-  },
-  {
-    image: '/images/banner2.png',
-    title: 'Shop',
-    id: 4,
-  },
-  {
-    image: '/images/banner1.png',
-    title: 'Shop',
-    id: 5,
-  },
-  {
-    image: '/images/banner2.png',
-    title: 'Shop',
-    id: 6,
-  },
-]
+export interface Banner {
+  id: number
+  img_src: string
+  action: string
+  created_at: string
+  updated_at: string
+}
+
 function Banners() {
+  const [banners, setBanners] = useState<Banner[] | null>(null)
+
   const navigate = useNavigate()
+
+  async function loadBanners() {
+    const res = await getBanners_f()
+    if (res.status) setBanners(res.data.data)
+  }
+  useEffect(() => {
+    loadBanners()
+  }, [])
+
   return (
     <div
       className='no-scrollbar relative mx-auto mt-2 flex w-full max-w-4xl select-none snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-1.5 lg:rounded-2xl'
       // ref={containerRef}
     >
-      {bannerData == null ? (
-        <div className='shimmer tap99 flex aspect-[2/1] w-[100%] max-w-sm shrink-0 snap-center items-center justify-center overflow-hidden rounded-2xl  first:ml-5 last:mr-5  md:aspect-auto'></div>
+      {banners == null ? (
+        <div className='shimmer tap99 flex aspect-[2/1] w-[100%] max-w-sm shrink-0 snap-center items-center justify-center overflow-hidden rounded-2xl bg-white/10 first:ml-5 last:mr-5  md:aspect-auto'></div>
       ) : (
-        bannerData.map((banner) => (
+        banners.map((banner) => (
           <div
             key={banner.id}
-            onClick={transitions(() => navigate('creator/sample/videos'))}
-            className='tap99 bg-inputBg flex aspect-[1.82] w-[90%] max-w-sm shrink-0 snap-center items-center justify-center overflow-hidden rounded-xl bg-white/10 first:ml-0 last:mr-5 md:aspect-auto'
+            // onClick={transitions(() => navigate('creator/sample/videos'))}
+            className='tap99 bg-inputBg flex aspect-[1.82] w-[90%] max-w-sm shrink-0 snap-center items-center justify-center overflow-hidden rounded-xl first:ml-0 last:mr-5 md:aspect-auto'
           >
-            <img className='w-full shrink-0 rounded-2xl bg-red-500' src={banner.image} />
+            <img className='w-full shrink-0 rounded-2xl bg-white/10' src={banner.img_src} />
           </div>
         ))
       )}

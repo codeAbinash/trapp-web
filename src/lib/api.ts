@@ -3,19 +3,6 @@ import ls from './util'
 
 const API_URL = app.api
 
-const API = {
-  send_otp_login: `${API_URL}/auth/login/send_otp`,
-  verify_otp_login: `${API_URL}/auth/login`,
-  send_otp_signup: `${API_URL}/auth/signup/send_otp`,
-  verify_otp_signup: `${API_URL}/auth/signup`,
-  user: {
-    current: {
-      get: `${API_URL}/user/get_current_user`,
-      update: `${API_URL}/user/update_user`,
-    },
-  },
-}
-
 type defaultHeaders = {
   'Content-Type': 'application/json'
   Accept: 'application/json'
@@ -48,7 +35,6 @@ export type apiResponse = {
   data?: any
 }
 
-export default API
 
 type errors = {
   [key: string]: string[]
@@ -71,9 +57,39 @@ function catchError(err: any): apiResponse {
   return { status: false, message: 'Network Error' }
 }
 
+const API = {
+  send_otp_login: `${API_URL}/auth/login/send_otp`,
+  verify_otp_login: `${API_URL}/auth/login`,
+  send_otp_signup: `${API_URL}/auth/signup/send_otp`,
+  verify_otp_signup: `${API_URL}/auth/signup`,
+  user: {
+    current: {
+      get: `${API_URL}/user/get_current_user`,
+      update: `${API_URL}/user/update_user`,
+    },
+  },
+  banners : {
+    get : `${API_URL}/banner/get_all`
+  }
+}
+
+export default API
+
 // All API calls
 
-export async function getCurrentUser(): Promise<apiResponse> {
+export async function getBanners_f(): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.banners.get, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
+
+export async function getCurrentUser_f(): Promise<apiResponse> {
   const headers = authorizedHeader(defaultHeaders)
   try {
     const res = await fetch(API.user.current.get, {
