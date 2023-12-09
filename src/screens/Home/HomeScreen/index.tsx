@@ -67,7 +67,7 @@ function Banners() {
         banners.map((banner) => (
           <div
             key={banner.id}
-            // onClick={transitions(() => navigate('creator/sample/videos'))}
+            onClick={transitions(() => navigate('creator/sample/videos'))}
             className='tap99 bg-inputBg flex aspect-[1.82] w-[90%] max-w-sm shrink-0 snap-center items-center justify-center overflow-hidden rounded-xl first:ml-0 last:mr-5 md:aspect-auto'
           >
             <img className='w-full shrink-0 rounded-2xl bg-white/10' src={banner.img_src} />
