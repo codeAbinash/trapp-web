@@ -35,7 +35,6 @@ export type apiResponse = {
   data?: any
 }
 
-
 type errors = {
   [key: string]: string[]
 }
@@ -68,14 +67,29 @@ const API = {
       update: `${API_URL}/user/update_user`,
     },
   },
-  banners : {
-    get : `${API_URL}/banner/get_all`
-  }
+  banners: {
+    get: `${API_URL}/banner/get_all`,
+  },
+  home: {
+    layout: `${API_URL}/home/get_layout`,
+  },
 }
 
 export default API
 
 // All API calls
+
+export async function getHomeLayout_f(): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.home.layout, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function getBanners_f(): Promise<apiResponse> {
   try {
