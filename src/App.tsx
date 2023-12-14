@@ -21,6 +21,7 @@ import PrivacyPolicy from './screens/More/PrivacyPolicy'
 import TermsAndConditions from './screens/More/TermsAndConditions'
 import Profile from './screens/Profile/Profile'
 import Video from './screens/Video'
+import Test from './screens/Test'
 
 const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
   {
     path: 'video/:video',
     element: <Video />,
+  },
+  {
+    path: 'test',
+    element: <Test />,
   },
 ])
 
