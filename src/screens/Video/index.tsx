@@ -164,8 +164,8 @@ function Video() {
 
         <>
           <div className='mt-3 flex flex-col gap-1.5 px-5'>
-            <p className='text-xl font-[450]'>The Knockouts</p>
-            <p className='text-sm opacity-70'>2M Views - 2 months ago</p>
+            <p className='text-lg font-[450]'>The Knockouts</p>
+            <p className='text-xs opacity-70'>2M Views - 2 months ago</p>
           </div>
 
           <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
