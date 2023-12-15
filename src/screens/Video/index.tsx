@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import transitions from '../../lib/transition'
 import { Player } from 'video-react'
+import { useState } from 'react'
 
 type Option = {
   text: string
@@ -109,16 +110,33 @@ function VideThumbnails(videosData: any) {
   ))
 }
 
+function Description() {
+  const [showMore, setShowMore] = useState(false)
+
+  return (
+    <div className='mt-2 px-5 py-2 text-[0.67rem]'>
+      <div className=' rounded-xl bg-white/5 p-4' onClick={() => setShowMore(!showMore)}>
+        <p className={showMore ? '' : 'line-clamp-3'}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, voluptatibus! Quae, quas. Quisquam voluptates,
+          quibusdam, natus, quia voluptatum quod quos aperiam voluptatem quae doloribus voluptatibus. Quisquam
+          voluptates, quibusdam, natus, quia voluptatum quod quos aperiam voluptatem quae doloribus voluptatibus.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 function Video() {
   const navigate = useNavigate()
   return (
     <>
-      <div className='fixed top-0 z-10 w-full'>
+      <div className='fixed top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'>
         <Player
           playsInline
           poster='https://picsum.photos/seed/picsum/1600/900'
           src='http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov'
         ></Player>
+        <p className='mt-2 text-center text-[0.55rem] opacity-50'>Uploaded by Coach Steve - 2 months ago</p>
       </div>
       <div className='h-dvh select-none'>
         <div className='stacked relative grid-cols-1 overflow-hidden'>
@@ -144,12 +162,13 @@ function Video() {
           </div>
         </div>
 
-        <div>
-          <div className='flex flex-col gap-1.5 px-5'>
+        <>
+          <div className='mt-3 flex flex-col gap-1.5 px-5'>
             <p className='text-xl font-[450]'>The Knockouts</p>
             <p className='text-sm opacity-70'>2M Views - 2 months ago</p>
           </div>
-          <div className='no-scrollbar mt-5 flex w-full gap-3 overflow-x-scroll'>
+
+          <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
             {optionsData.map((option) => (
               <div
                 key={option.id}
@@ -160,6 +179,9 @@ function Video() {
               </div>
             ))}
           </div>
+
+          <Description />
+
           <div className='mt-1 flex items-center justify-between p-5'>
             <div className='flex items-center justify-between gap-4'>
               <img src='/icons/other/pic.png' className='w-12 rounded-full border border-white/60' />
@@ -174,7 +196,7 @@ function Video() {
               </button>
             </div>
           </div>
-        </div>
+        </>
 
         <div className='px-5'>
           <p className='my-7 mt-2 text-base font-[450]'>Related Videos</p>
