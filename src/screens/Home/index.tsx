@@ -1,38 +1,9 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import transitions from '../../lib/transition'
 import { UserProfile } from '../Profile/utils'
-import { useSelector } from 'react-redux'
-import ls from '../../lib/util'
-
-const navItems = [
-  {
-    name: 'Home',
-    path: '/',
-    icon: '/icons/navbar/home.svg',
-    icon_filled: '/icons/navbar/home_filled.svg',
-    className: 'w-[18px]',
-    className_filled: 'w-[18px]',
-  },
-  {
-    name: 'Shop',
-    path: '/shop',
-    icon: '/icons/navbar/shop.svg',
-    icon_filled: '/icons/navbar/shop_filled.svg',
-    className: 'w-[21px]',
-    className_filled: 'w-[21px]',
-    onclick: () => {
-      window.open('https://shop.trappmartialarts.com/authwithapp/' + ls.get('token'), '_blank')
-    },
-  },
-  {
-    name: 'Profile',
-    path: '/profile',
-    icon: '/icons/navbar/profile.svg',
-    icon_filled: '/icons/navbar/profile_filled.svg',
-    className: 'w-[16px]',
-    className_filled: 'w-[16px]',
-  },
-]
+import { Provider, useSelector } from 'react-redux'
+import ls, { blank_fn } from '../../lib/util'
+import { PopupAlertType, usePopupAlertContext } from '../../context/PopupAlertContext'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -40,6 +11,7 @@ export default function Home() {
   const path = location.pathname
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const pic = profile?.data?.profile_pic || '/images/other/pic.png'
+  const { newPopup } = usePopupAlertContext()
   return (
     <div className='h-dvh'>
       <div
@@ -74,24 +46,116 @@ export default function Home() {
         bg-bg/90 px-2 align-middle backdrop-blur-md md:bottom-4 md:mx-auto md:max-w-sm md:rounded-full md:border-[#77777744]
         md:px-0 md:shadow-lg'
       >
-        {navItems.map((item, index) => (
-          <div
-            key={index}
-            className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-              path === item.path ? 'text-accent' : 'text-white opacity-40'
-            }`}
-            onClick={item.onclick ? item.onclick : transitions(() => navigate(item.path, { replace: true }))}
-          >
-            <div className='flex aspect-square items-start justify-center'>
-              <img
-                className={path === item.path ? item.className_filled : 'invert ' + item.className}
-                src={path === item.path ? item.icon_filled : item.icon}
-              />
-            </div>
-            <span className='font-normMid text-center text-[0.7rem] font-[450]'>{item.name}</span>
+        <div
+          className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
+            path === '/' ? 'text-accent' : 'text-white opacity-40'
+          }`}
+          onClick={transitions(() => navigate('/', { replace: true }))}
+        >
+          <div className='flex aspect-square items-start justify-center'>
+            <img
+              className={path === '/' ? 'w-[18px]' : 'invert ' + 'w-[18px]'}
+              src={path === '/' ? '/icons/navbar/home_filled.svg' : '/icons/navbar/home.svg'}
+            />
           </div>
-        ))}
+          <span className='font-normMid text-center text-[0.7rem] font-[450]'>Home</span>
+        </div>
+
+        <div
+          className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
+            path === '/shop' ? 'text-accent' : 'text-white opacity-40'
+          }`}
+          onClick={() => {
+            if (!profile?.data?.email) {
+              newPopup({
+                title: 'Please add email',
+                subTitle: 'You need to add email to use shop',
+                action: [
+                  { text: 'Cancel', onClick: blank_fn },
+                  { text: 'Add email', onClick: () => navigate('/my-account'), className: 'text-green-500' },
+                ],
+              })
+            } else {
+              window.open('https://shop.trappmartialarts.com/authwithapp/' + ls.get('token'), '_blank')
+            }
+          }}
+        >
+          <div className='flex aspect-square items-start justify-center'>
+            <img
+              className={path === '/shop' ? 'w-[21px]' : 'invert ' + 'w-[21px]'}
+              src={path === '/shop' ? '/icons/navbar/shop_filled.svg' : '/icons/navbar/shop.svg'}
+            />
+          </div>
+          <span className='font-normMid text-center text-[0.7rem] font-[450]'>Shop</span>
+        </div>
+
+        <div
+          className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
+            path === '/profile' ? 'text-accent' : 'text-white opacity-40'
+          }`}
+          onClick={transitions(() => navigate('/profile', { replace: true }))}
+        >
+          <div className='flex aspect-square items-start justify-center'>
+            <img
+              className={path === '/profile' ? 'w-[16px]' : 'invert ' + 'w-[16px]'}
+              src={path === '/profile' ? '/icons/navbar/profile_filled.svg' : '/icons/navbar/profile.svg'}
+            />
+          </div>
+          <span className='font-normMid text-center text-[0.7rem] font-[450]'>Home</span>
+        </div>
       </div>
     </div>
   )
 }
+
+{
+  /* {navItems.map((item, index) => (
+    <div
+      key={index}
+      className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
+        path === item.path ? 'text-accent' : 'text-white opacity-40'
+      }`}
+      onClick={
+        item.onclick ? () => item.onclick(newPopup) : transitions(() => navigate(item.path, { replace: true }))
+      }
+    >
+      <div className='flex aspect-square items-start justify-center'>
+        <img
+          className={path === item.path ? item.className_filled : 'invert ' + item.className}
+          src={path === item.path ? item.icon_filled : item.icon}
+        />
+      </div>
+      <span className='font-normMid text-center text-[0.7rem] font-[450]'>{item.name}</span>
+    </div>
+  ))} */
+}
+
+// const navItems = [
+//   {
+//     name: 'Home',
+//     path: '/',
+//     icon: '/icons/navbar/home.svg',
+//     icon_filled: '/icons/navbar/home_filled.svg',
+//     className: 'w-[18px]',
+//     className_filled: 'w-[18px]',
+//   },
+//   {
+//     name: 'Shop',
+//     path: '/shop',
+//     icon: '/icons/navbar/shop.svg',
+//     icon_filled: '/icons/navbar/shop_filled.svg',
+//     className: 'w-[21px]',
+//     className_filled: 'w-[21px]',
+//     onclick: (newPopup: (popup: PopupAlertType) => void) => {
+//       window.open('https://shop.trappmartialarts.com/authwithapp/' + ls.get('token'), '_blank')
+//     },
+//   },
+//   {
+//     name: 'Profile',
+//     path: '/profile',
+//     icon: '/icons/navbar/profile.svg',
+//     icon_filled: '/icons/navbar/profile_filled.svg',
+//     className: 'w-[16px]',
+//     className_filled: 'w-[16px]',
+//   },
+// ]
