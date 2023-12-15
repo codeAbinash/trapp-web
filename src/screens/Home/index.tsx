@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import transitions from '../../lib/transition'
 import { UserProfile } from '../Profile/utils'
 import { useSelector } from 'react-redux'
+import ls from '../../lib/util'
 
 const navItems = [
   {
@@ -19,6 +20,9 @@ const navItems = [
     icon_filled: '/icons/navbar/shop_filled.svg',
     className: 'w-[21px]',
     className_filled: 'w-[21px]',
+    onclick: () => {
+      window.open('https://shop.trappmartialarts.com/authwithapp/' + ls.get('token'), '_blank')
+    },
   },
   {
     name: 'Profile',
@@ -76,7 +80,7 @@ export default function Home() {
             className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
               path === item.path ? 'text-accent' : 'text-white opacity-40'
             }`}
-            onClick={transitions(() => navigate(item.path, { replace: true }))}
+            onClick={item.onclick ? item.onclick : transitions(() => navigate(item.path, { replace: true }))}
           >
             <div className='flex aspect-square items-start justify-center'>
               <img
