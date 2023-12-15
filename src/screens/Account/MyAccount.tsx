@@ -121,7 +121,7 @@ export default function MyAccount() {
         setIsUpdating(false)
         return
       }
-      body.profile_pic = pp.current!.files![0]
+      if (pp.current!.files![0]) body.profile_pic = pp.current!.files![0]
     }
 
     const formData = new FormData()
@@ -207,12 +207,12 @@ function profilePicFileValidation(file: File): userMessage {
   const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg']
   const maxSize = 2 * 1024 * 1024
   console.log(file)
-  if (!allowedTypes.includes(file.type))
+  if (file && !allowedTypes.includes(file.type))
     return {
       message: 'Invalid file type (only .png, .jpeg, .jpg)',
       error: true,
     }
-  if (file.size > maxSize)
+  if (file && file.size > maxSize)
     return {
       message: 'Max File Size is 2MB',
       error: true,
