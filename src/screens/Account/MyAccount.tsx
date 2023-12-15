@@ -203,7 +203,7 @@ export default function MyAccount() {
   )
 }
 
-function profilePicFileValidation(file: File): userMessage {
+function profilePicFileValidation(file: File | undefined | null): userMessage {
   const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg']
   const maxSize = 2 * 1024 * 1024
   console.log(file)
