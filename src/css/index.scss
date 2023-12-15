@@ -138,3 +138,19 @@ html,
   grid-column: 1 / -1;
   grid-row: 1 / -1;
 }
+
+// react-video
+.video-react-big-play-button {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.video-react-big-play-button::before {
+  font-size: 3.5rem !important;
+  filter: drop-shadow(0rem 0rem 1.5rem rgba(0, 0, 0, 1)) !important;
+  // box-shadow: 1px 1px 20px 5px rgba(0, 0, 0, 1) !important;
+}
