@@ -93,7 +93,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: 'video/:video',
+    path: 'video/:video_id',
     element: <Video />,
   },
   {

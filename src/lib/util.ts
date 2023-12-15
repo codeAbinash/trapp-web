@@ -64,3 +64,12 @@ export type userMessage = {
   error: boolean
 }
 export const blank_user_message: userMessage = { message: '', error: false }
+
+export function niceDate(date: string) {
+  if (!date) return 'Loading...'
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+}
