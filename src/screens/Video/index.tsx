@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import transitions from '../../lib/transition'
+import { Player } from 'video-react'
 
 type Option = {
   text: string
@@ -113,7 +114,7 @@ function Video() {
   return (
     <div className='h-dvh select-none'>
       <div className='stacked relative grid-cols-1 overflow-hidden'>
-        <div className='darken_top_bottom h-full w-full '>
+        {/* <div className='darken_top_bottom h-full w-full '>
           <header className='absolute flex p-3'>
             <div className='tap95 mr-2 rounded-full p-3.5 active:bg-white/10' onClick={transitions(() => navigate(-1))}>
               <img src='/icons/other/arrow.svg' className='aspect-square w-[1.1rem] rotate-180' />
@@ -129,10 +130,15 @@ function Video() {
           <div className='flex w-full flex-col items-center justify-center gap-1.5'>
             <img src='/icons/other/play.svg' className='w-6' />
           </div>
-        </div>
+        </div> */}
+        <Player
+          playsInline
+          poster='https://picsum.photos/seed/picsum/1600/900'
+          src='http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov'
+        ></Player>
       </div>
 
-      <div className=''>
+      <div className='pt-4'>
         <div className='flex flex-col gap-1.5 px-5'>
           <p className='text-xl font-[450]'>The Knockouts</p>
           <p className='text-sm opacity-70'>2M Views - 2 months ago</p>

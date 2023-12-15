@@ -1,5 +1,5 @@
 // import 'node_modules/video-react/dist/video-react.css' // import css
-import { Player, ControlBar, VolumeMenuButton } from 'video-react'
+import { Player } from 'video-react'
 import 'video-react/dist/video-react.css' // import css
 
 function Test() {
