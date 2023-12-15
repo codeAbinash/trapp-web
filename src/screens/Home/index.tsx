@@ -1,9 +1,9 @@
+import { useSelector } from 'react-redux'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
-import { UserProfile } from '../Profile/utils'
-import { Provider, useSelector } from 'react-redux'
 import ls, { blank_fn } from '../../lib/util'
-import { PopupAlertType, usePopupAlertContext } from '../../context/PopupAlertContext'
+import { UserProfile } from '../Profile/utils'
 
 export default function Home() {
   const navigate = useNavigate()
