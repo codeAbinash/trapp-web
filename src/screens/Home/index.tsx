@@ -101,7 +101,7 @@ export default function Home() {
               src={path === '/profile' ? '/icons/navbar/profile_filled.svg' : '/icons/navbar/profile.svg'}
             />
           </div>
-          <span className='font-normMid text-center text-[0.7rem] font-[450]'>Home</span>
+          <span className='font-normMid text-center text-[0.7rem] font-[450]'>Profile</span>
         </div>
       </div>
     </div>
