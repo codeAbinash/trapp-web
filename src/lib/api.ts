@@ -78,11 +78,57 @@ const API = {
     layout: `${API_URL}/home/get_layout`,
   },
   get_video_details: `${API_URL}/video/get_v_details`,
+  creator: {
+    follow_unfollow: `${API_URL}/creator/follow`,
+  },
+  video: {
+    like_unlike: `${API_URL}/video/like`,
+    dislike_undislike: `${API_URL}/video/dislike`,
+  },
 }
 
 export default API
 
 // All API calls
+
+export async function like_unlike_f(id: string, creator_id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.video.like_unlike, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ video_id: id, creator_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
+
+export async function dislike_undislike_f(id: string, creator_id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.video.dislike_undislike, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ video_id: id, creator_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
+
+export async function follow_unfollow_f(id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.creator.follow_unfollow, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ creator_id: id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function getVideoDetails_f(id: string): Promise<apiResponse> {
   try {
