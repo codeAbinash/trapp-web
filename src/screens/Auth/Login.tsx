@@ -23,7 +23,7 @@ function Login() {
     const code_f = code.trim().replace('+', '')
     const data = await sendOtpLogin_f(phone_f, code_f)
     setIsSendingOtp(false)
-    if (!data.status) return newPopup({ title: 'Error sending OTP', subTitle: data.message })
+    // if (!data.status) return newPopup({ title: 'Error sending OTP', subTitle: data.message })
     transitions(() => navigate('/otp', { state: { phone, code, type: 'login' }, replace: true }))()
   }
 
