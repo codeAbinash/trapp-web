@@ -248,7 +248,7 @@ function ActionBar({
       </div>
       <div
         className={
-          'tap95 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]' +
+          'tap95 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
           (disliked ? ' bg-white' : ' bg-white/10')
         }
         onClick={clickDislike}
