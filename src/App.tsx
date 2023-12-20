@@ -2,7 +2,7 @@ import './css/tailwind.css'
 import './css/index.scss'
 
 import { Provider } from 'react-redux'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, useLocation } from 'react-router-dom'
 import PopupAlert from './components/PopupAlert'
 import { PopupAlertContextProvider } from './context/PopupAlertContext'
 import store from './Redux/store'
@@ -22,6 +22,7 @@ import TermsAndConditions from './screens/More/TermsAndConditions'
 import Profile from './screens/Profile/Profile'
 import Video from './screens/Video'
 import Test from './screens/Test'
+import { useEffect } from 'react'
 
 const router = createBrowserRouter([
   {
@@ -113,4 +114,13 @@ export default function App() {
       </Provider>
     </PopupAlertContextProvider>
   )
+}
+
+export function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  return null
 }

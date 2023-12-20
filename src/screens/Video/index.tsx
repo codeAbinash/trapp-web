@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import { dislike_undislike_f, follow_unfollow_f, getVideoDetails_f, like_unlike_f } from '../../lib/api'
 import { nFormatter, niceDate } from '../../lib/util'
 import Creator from '../Creator'
+import { ScrollToTop } from '../../App'
+import ChannelName from '../../components/ChannelName'
 
 const videosData = [
   {
@@ -126,6 +128,7 @@ export default function Video() {
   }, [])
   return (
     <>
+      <ScrollToTop />
       <div className='fixed top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'>
         <Player playsInline poster={videoDetails?.thumbnail || ''} src={videoDetails?.video_loc || ''}></Player>
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
@@ -191,7 +194,9 @@ function Creator({
           className='aspect-square w-12 rounded-full border border-white/60 bg-white/60'
         />
         <div className='flex flex-grow flex-col justify-between gap-1'>
-          <p className='text-sm font-[450]'>{videoDetails?.creator.channel_name || 'Loading..'} </p>
+          <p className='text-sm font-[450]'>
+            <ChannelName channel_name={videoDetails?.creator.channel_name} />{' '}
+          </p>
           <p className='text-xs opacity-70'>{nFormatter(videoDetails?.creator.follow_count || 0)} Followers</p>
         </div>
       </div>
