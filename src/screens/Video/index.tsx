@@ -102,6 +102,7 @@ export interface VideoDetails {
   followed: number
   like_count: number
   creator: Creator
+  views: number
 }
 
 export interface Creator {
@@ -163,7 +164,7 @@ export default function Video() {
           <div className='mt-5 flex flex-col gap-1.5 px-5'>
             <Title title={videoDetails?.title || null} />
             <p className='text-xs opacity-70'>
-              {nFormatter(videoDetails?.like_count || 0)} Views - {niceDate(videoDetails?.created_at || '')}
+              {nFormatter(videoDetails?.views || 0)} Views - {niceDate(videoDetails?.created_at || '')}
             </p>
           </div>
           <ActionBar videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
