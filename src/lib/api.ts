@@ -85,11 +85,26 @@ const API = {
     like_unlike: `${API_URL}/video/like`,
     dislike_undislike: `${API_URL}/video/dislike`,
   },
+  categories: {
+    get_all: `${API_URL}/video/get_cat_list`,
+  },
 }
 
 export default API
 
 // All API calls
+
+export async function getCategories_f(): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.categories.get_all, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function like_unlike_f(id: string, creator_id: string): Promise<apiResponse> {
   try {
