@@ -23,6 +23,7 @@ import Profile from './screens/Profile/Profile'
 import Video from './screens/Video'
 import Test from './screens/Test'
 import { useEffect } from 'react'
+import Category from './screens/Category/Category'
 
 const router = createBrowserRouter([
   {
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
   {
     path: 'video/:video_id',
     element: <Video />,
+  },
+  {
+    path: 'category/:cat_id',
+    element: <Category />,
   },
   {
     path: 'test',

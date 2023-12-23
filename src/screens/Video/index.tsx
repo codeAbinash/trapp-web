@@ -7,6 +7,8 @@ import { nFormatter, niceDate } from '../../lib/util'
 import Creator from '../Creator'
 import { ScrollToTop } from '../../App'
 import ChannelName from '../../components/ChannelName'
+import VideoList from '../../components/Video/VideoList'
+import VideosByCat from '../Category/VideosByCat'
 
 const videosData = [
   {
@@ -71,24 +73,10 @@ const videosData = [
   },
 ]
 
-function VideThumbnails(videosData: any) {
-  return videosData.map((videoData: any) => (
-    <div
-      key={videoData.id}
-      className='tap99 bg-inputBg relative flex aspect-[3/4] w-full  flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm'
-    >
-      <img className='w-full shrink-0' src={videoData.image} />
-      <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8 text-center'>
-        <p className='text-sm font-[450]'>{videoData.title}</p>
-        <p className='text-xs opacity-70'>{videoData.duration}</p>
-      </div>
-    </div>
-  ))
-}
-
 export interface VideoDetails {
   id: number
   creator_id: string
+  cat_id: number
   title: string
   description: string
   privacy: string
@@ -171,9 +159,9 @@ export default function Video() {
           <Description description={videoDetails?.description || ''} />
           <Creator videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
         </>
-        <div className='px-5'>
-          <p className='my-7 mt-2 text-base font-[450]'>Related Videos</p>
-          <div className='grid grid-cols-2 gap-5 pb-24'>{VideThumbnails(videosData)}</div>
+        <div>
+          <p className='my-7 mt-2 px-5 text-base font-[450]'>Related Videos</p>
+          {/* <VideosByCat cat_id={videoDetails?.cat_id || 0} /> */}
         </div>
       </div>
     </>

@@ -87,12 +87,26 @@ const API = {
   },
   categories: {
     get_all: `${API_URL}/video/get_cat_list`,
+    video_by_cat: `${API_URL}/video/get_vid_by_cat`,
   },
 }
 
 export default API
 
 // All API calls
+
+export async function getVideosByCategory_f(cat_id: number, page: number): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.categories.video_by_cat + '?page=' + page, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ cat_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function getCategories_f(): Promise<apiResponse> {
   try {
