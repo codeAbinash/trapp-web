@@ -48,7 +48,7 @@ export default function Home() {
       >
         <div
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-            path === '/' ? 'text-accent' : 'text-white opacity-40'
+            path === '/' ? 'text-color' : 'text-white opacity-40'
           }`}
           onClick={transitions(() => navigate('/', { replace: true }))}
         >
@@ -63,7 +63,7 @@ export default function Home() {
 
         <div
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-            path === '/shop' ? 'text-accent' : 'text-white opacity-40'
+            path === '/shop' ? 'text-color' : 'text-white opacity-40'
           }`}
           onClick={() => {
             if (!profile?.data?.email) {
@@ -91,7 +91,7 @@ export default function Home() {
 
         <div
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-            path === '/profile' ? 'text-accent' : 'text-white opacity-40'
+            path === '/profile' ? 'text-color' : 'text-white opacity-40'
           }`}
           onClick={transitions(() => navigate('/profile', { replace: true }))}
         >
@@ -113,7 +113,7 @@ export default function Home() {
     <div
       key={index}
       className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-        path === item.path ? 'text-accent' : 'text-white opacity-40'
+        path === item.path ? 'text-color' : 'text-white opacity-40'
       }`}
       onClick={
         item.onclick ? () => item.onclick(newPopup) : transitions(() => navigate(item.path, { replace: true }))

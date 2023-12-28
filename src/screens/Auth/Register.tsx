@@ -87,7 +87,7 @@ export default function Register() {
       <div className='mt-2 flex flex-col items-center justify-center pb-5 text-center text-[0.9rem]'>
         <p className='bottom-text text-gray-400'>Already have an account?</p>
         <span
-          className='tap95 bottom-link cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'
+          className='tap95 bottom-link text-color active:bg-color/20 cursor-pointer rounded-lg px-2 py-1 font-[450]'
           onClick={transitions(() => navigate('/login', { replace: true, state: { phone, code } }))}
         >
           LOGIN

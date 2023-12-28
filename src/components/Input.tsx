@@ -7,7 +7,7 @@ export function ClickTextLink({ text, to }: { text: string; to: string }) {
   const navigate = useNavigate()
 
   return (
-    <p className='tap95 bottom-link cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'>
+    <p className='tap95 bottom-link text-color active:bg-color/20 cursor-pointer rounded-lg px-2 py-1 font-[450]'>
       <span
         onClick={transitions(() =>
           navigate(to, {
@@ -23,10 +23,7 @@ export function ClickTextLink({ text, to }: { text: string; to: string }) {
 
 export function ClickText({ text, onClick = blank_fn }: { text: string; onClick?: any }) {
   return (
-    <p
-      className='tap95 cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'
-      onClick={onClick}
-    >
+    <p className='tap95 text-color active:bg-color/20 cursor-pointer rounded-lg px-2 py-1 font-[450]' onClick={onClick}>
       {text}
     </p>
   )
@@ -55,7 +52,7 @@ export default function Input({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={`${className} rounded-xl border-none bg-white/5 p-4.5 pl-6 text-sm tracking-[1px] outline-none`}
+      className={`${className} p-4.5 rounded-xl border-none bg-white/5 pl-6 text-sm tracking-[1px] outline-none`}
       ref={inputRef}
       onKeyDown={onKeyDown}
     />

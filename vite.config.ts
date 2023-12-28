@@ -1,3 +1,4 @@
+import path from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
@@ -16,5 +17,10 @@ export default defineConfig({
   esbuild: {
     drop: ['console', 'debugger'],
     pure: ['console.log'],
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
 })

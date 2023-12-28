@@ -135,7 +135,7 @@ function LiveNow() {
             key={live.id}
             className='tap99 bg-inputBg flex w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden shadow-sm first:ml-5 last:mr-5'
           >
-            <img className='aspect-square w-full shrink-0 rounded-full border-2 border-accent' src={live.image} />
+            <img className='border-color aspect-square w-full shrink-0 rounded-full border-2' src={live.image} />
             <p className='pt-2 text-[0.85rem]'>{live.title}</p>
           </div>
         ))}

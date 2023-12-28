@@ -118,7 +118,7 @@ export default function Video() {
   return (
     <>
       <ScrollToTop />
-      <div className='fixed top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'>
+      <div className='bg-bg/80 fixed top-0 z-10 w-full pb-2 backdrop-blur-md'>
         <Player playsInline poster={videoDetails?.thumbnail || ''} src={videoDetails?.video_loc || ''}></Player>
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
           Uploaded by {videoDetails?.creator.channel_name} - {niceDate(videoDetails?.created_at || '')}
@@ -138,8 +138,8 @@ export default function Video() {
             <img src='/images/creator-background.png' className='aspect-[15/9] w-full object-cover' />
           </div>
           <div className='h-full w-full'>
-            <div className='h-1/2 w-full bg-gradient-to-b from-bg to-black/60'></div>
-            <div className='h-1/2 w-full bg-gradient-to-t from-bg to-black/60'></div>
+            <div className='from-bg h-1/2 w-full bg-gradient-to-b to-black/60'></div>
+            <div className='from-bg h-1/2 w-full bg-gradient-to-t to-black/60'></div>
           </div>
           <div className=''>
             <div className='flex w-full flex-col items-center justify-center gap-1.5'>
@@ -270,7 +270,7 @@ function FollowButton({
 }) {
   if (!videoDetails)
     return (
-      <button className='highlight-none tap95 mt-2 rounded-full bg-accent px-6 py-[0.6rem] text-sm font-[420] text-white'>
+      <button className='highlight-none tap95 bg-color mt-2 rounded-full px-6 py-[0.6rem] text-sm font-[420] text-white'>
         Follow
       </button>
     )
@@ -293,8 +293,8 @@ function FollowButton({
 
   return (
     <button
-      className={`highlight-none tap95 mt-2 rounded-full border border-accent 
-        ${followed ? 'border-white/10 bg-transparent' : 'bg-accent'}
+      className={`highlight-none tap95 border-color mt-2 rounded-full border 
+        ${followed ? 'border-white/10 bg-transparent' : 'bg-color'}
         px-6 py-[0.6rem] text-sm font-[420] text-white`}
       onClick={handelClick}
     >

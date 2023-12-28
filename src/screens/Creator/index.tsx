@@ -9,25 +9,25 @@ function Creator() {
 
   return (
     <div className='h-dvh select-none'>
-      <div className='stacked relative h-[50vh] grid-cols-1 overflow-hidden xxs:h-[45vh]'>
+      <div className='stacked xxs:h-[45vh] relative h-[50vh] grid-cols-1 overflow-hidden'>
         <div className='darken_top_bottom h-full w-full '>
           <header className='absolute flex p-3'>
             <div className='tap95 mr-2 rounded-full p-3.5 active:bg-white/10' onClick={transitions(() => navigate(-1))}>
               <img src='/icons/other/arrow.svg' className='aspect-square w-[1.1rem] rotate-180' />
             </div>
           </header>
-          <img src='/images/creator-background.png' className='h-[50vh] w-full object-cover xxs:h-[45vh]' />
+          <img src='/images/creator-background.png' className='xxs:h-[45vh] h-[50vh] w-full object-cover' />
         </div>
         <div className='h-full w-full'>
-          <div className='h-1/2 w-full bg-gradient-to-b from-bg to-black/60'></div>
-          <div className='h-1/2 w-full bg-gradient-to-t from-bg to-black/60'></div>
+          <div className='from-bg h-1/2 w-full bg-gradient-to-b to-black/60'></div>
+          <div className='from-bg h-1/2 w-full bg-gradient-to-t to-black/60'></div>
         </div>
         <div className=''>
           <div className='flex w-full flex-col items-center justify-center gap-1.5'>
             <img src='/icons/other/pic.png' className='w-28 rounded-full border border-white/50' />
             <p className='text-[1.3rem] font-medium'>Coach Steve</p>
             <p className='text-sm opacity-90'>Wrestling Coach</p>
-            <button className='highlight-none tap95 mt-2 rounded-full bg-accent px-7 py-2 text-sm font-[420] text-white'>
+            <button className='highlight-none tap95 bg-color mt-2 rounded-full px-7 py-2 text-sm font-[420] text-white'>
               Follow
             </button>
           </div>
@@ -47,7 +47,7 @@ function Creator() {
           <p className='text-[0.82rem] opacity-70'>Playlist</p>
         </div>
       </div>
-      <div className='sticky z-10 mt-5 grid grid-cols-2 gap-3 bg-bg px-7'>
+      <div className='bg-bg sticky z-10 mt-5 grid grid-cols-2 gap-3 px-7'>
         <div
           className={`tap99 flex items-center justify-center border-2 border-transparent ${
             pathName.endsWith('videos') ? 'border-b-red-500' : ''

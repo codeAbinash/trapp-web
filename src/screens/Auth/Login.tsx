@@ -44,14 +44,14 @@ function Login() {
   return (
     <div className='h-dvh flex w-full select-none flex-col items-center justify-between'>
       <div className='relative h-[50dvh] w-full items-center justify-center'>
-        <div className='absolute top-0 z-10 h-[25dvh] w-full bg-gradient-to-b from-bg to-bg/50'></div>
+        <div className='from-bg to-bg/50 absolute top-0 z-10 h-[25dvh] w-full bg-gradient-to-b'></div>
         <img src='/images/background.jpg' className='absolute h-[inherit] w-full object-cover' />
-        <div className='absolute bottom-0 z-10 h-[25dvh] w-full bg-gradient-to-t from-bg to-bg/50'></div>
+        <div className='from-bg to-bg/50 absolute bottom-0 z-10 h-[25dvh] w-full bg-gradient-to-t'></div>
         <div className='absolute z-20 flex h-[50dvh] w-full items-center justify-center'>
           <img src='/AppIcons/full.png' className='logo-long w-1/2' />
         </div>
       </div>
-      <div className='flex h-[50dvh] w-full flex-col items-center justify-between gap-3 p-5 pt-0 xxs:h-[45dvh]'>
+      <div className='xxs:h-[45dvh] flex h-[50dvh] w-full flex-col items-center justify-between gap-3 p-5 pt-0'>
         <div className='flex w-full flex-col gap-4'>
           <MobileInput code={code} setCode={setCode} phone={phone} setPhone={setPhone} enterFn={handleLogin} />
           {isSendingOtp ? (
@@ -68,7 +68,7 @@ function Login() {
         <div className='flex flex-col items-center justify-center pb-5 text-center text-[0.9rem]'>
           <p className='bottom-text text-gray-400'>Don't have an account?</p>
           <span
-            className='tap95 bottom-link cursor-pointer rounded-lg px-2 py-1 font-[450] text-accent active:bg-accent/20'
+            className='tap95 bottom-link text-color active:bg-color/20 cursor-pointer rounded-lg px-2 py-1 font-[450]'
             onClick={transitions(() => navigate('/register', { replace: true, state: { phone, code } }))}
           >
             REGISTER
