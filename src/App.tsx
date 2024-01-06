@@ -24,6 +24,7 @@ import Video from './screens/Video'
 import Test from './screens/Test'
 import { useEffect } from 'react'
 import Category from './screens/Category/Category'
+import LiveVideo from './screens/Live/LiveVideo'
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomeScreen />,
-      },
+      },  
       {
         path: '/shop',
         element: <div> Shop </div>,
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
         element: <Playlist />,
       },
     ],
+  },
+  {
+    path: 'liveVideo/:video_id',
+    element: <LiveVideo />,
   },
   {
     path: 'video/:video_id',

@@ -28,5 +28,5 @@ export default function ChannelName({
     )
   }
 
-  return <p className='text-sm font-medium text-gray-500'>{channel_name}</p>
+  return <p className='text-sm font-medium'>{channel_name}</p>
 }

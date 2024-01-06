@@ -1,13 +1,28 @@
+import * as React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setProfile } from '../../../Redux/profile'
 import store from '../../../Redux/store'
-import { getBanners_f, getCategories_f, getCurrentUser_f, getHomeLayout_f } from '../../../lib/api'
+import { getBanners_f, getCurrentUser_f, getHomeLayout_f } from '../../../lib/api'
 import transitions from '../../../lib/transition'
 import { isLoggedIn } from '../../../lib/util'
+import { Layout, NormalVideo } from '../../../types'
 import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
 import Categories from './Categories'
-import { Layout, NormalVideo } from '../../../types'
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
+import icon from '@/lib/icons'
+import Button from '@/components/Button'
+import { CheckIcon } from 'lucide-react'
 
 export default function HomeScreen() {
   const navigate = useNavigate()
@@ -43,10 +58,66 @@ export default function HomeScreen() {
       <LiveNow />
       <Videos normal_videos={layout?.normal_video || null} />
       {/* <Videos normal_videos={null} /> */}
+      <DrawerDemo />
     </div>
   )
 }
+export function DrawerDemo() {
+  const [goal, setGoal] = React.useState(350)
 
+  function onClick(adjustment: number) {
+    setGoal(Math.max(200, Math.min(400, goal + adjustment)))
+  }
+
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        {/* <Button>Open Drawer</Button> */}
+        <p>Open</p>
+      </DrawerTrigger>
+      <DrawerContent className='bg-black text-white outline-none'>
+        <div className='mx-auto w-full max-w-sm'>
+          {/* <DrawerHeader>
+            <DrawerTitle></DrawerTitle>
+            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+          </DrawerHeader> */}
+          <div className='mt-3 flex flex-col gap-7 p-3'>
+            <div className='flex w-full items-center justify-between   px-5'>
+              <div className='flex items-center gap-5'>
+                <img src={icon('vip.svg')} className='h-10 w-10' />
+                <span className='text-xl font-semibold'>Trapp Premium</span>
+              </div>
+              <span className='text-2xl font-medium'>$9/m</span>
+            </div>
+            <div className='flex flex-col gap-2 rounded-xl bg-white/10 p-5'>
+              <div className='flex items-center gap-2'>
+                <CheckIcon className='h-5 w-5' />
+                <span>Access all premium videos</span>
+              </div>
+              <div className='flex items-center gap-2'>
+                <CheckIcon className='h-5 w-5' />
+                <span>Access live streams</span>
+              </div>
+              <div className='flex items-center gap-2'>
+                <CheckIcon className='h-5 w-5' />
+                <span>Superchat feature enabled</span>
+              </div>
+            </div>
+          </div>
+
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <Button>Continue</Button>
+            </DrawerClose>
+            <p className='mt-3 text-center text-xs'>
+              By continuing you are accepting the <a href='#'>Terms and Conditions</a>
+            </p>
+          </DrawerFooter>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  )
+}
 export interface Banner {
   id: number
   img_src: string
@@ -124,6 +195,7 @@ const LiveNowData = [
 ]
 
 function LiveNow() {
+  const navigate = useNavigate()
   return (
     <div className='mx-auto max-w-4xl'>
       <div className='p-5'>
@@ -132,10 +204,11 @@ function LiveNow() {
       <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
         {LiveNowData.map((live) => (
           <div
+            onClick={transitions(() => navigate('liveVideo/64'))}
             key={live.id}
             className='tap99 bg-inputBg flex w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden shadow-sm first:ml-5 last:mr-5'
           >
-            <img className='border-color aspect-square w-full shrink-0 rounded-full border-2' src={live.image} />
+            <img className='aspect-square w-full shrink-0 rounded-full border-2 border-color' src={live.image} />
             <p className='pt-2 text-[0.85rem]'>{live.title}</p>
           </div>
         ))}
