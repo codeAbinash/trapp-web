@@ -38,7 +38,7 @@ export function Description({ description }: { description: string }) {
   return (
     <div className='mt-2 px-5 py-2 text-[0.67rem]'>
       <div className=' rounded-xl bg-white/5 p-4' onClick={() => setShowMore(!showMore)}>
-        <p className={showMore ? '' : 'line-clamp-2'}>{description || 'No description'}</p>
+        <p className={showMore ? '' : 'line-clamp-3'}>{description || 'No description'}</p>
       </div>
     </div>
   )
