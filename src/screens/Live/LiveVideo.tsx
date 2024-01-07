@@ -144,7 +144,7 @@ function Message({ message }: { message: MessageT }) {
   )
 }
 
-const MAX_MESSAGES_SIZE = 500
+const MAX_MESSAGES_SIZE = 200
 
 function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; isLiveChatOpen: boolean }) {
   const [messages, setMessages] = useState<MessageT[]>([])
