@@ -212,18 +212,18 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
     setIsSending(false)
   }
 
-  async function autoTestMessages(count: number) {
-    const res = await live_chat_message_f('Hello ' + count, video_id!)
-    if (!res.status) return
-  }
+  // async function autoTestMessages(count: number) {
+  //   const res = await live_chat_message_f('Hello ' + count, video_id!)
+  //   if (!res.status) return
+  // }
 
-  useEffect(() => {
-    let count = 0
-    const timer = setInterval(() => {
-      autoTestMessages(count++)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [])
+  // useEffect(() => {
+  //   let count = 0
+  //   const timer = setInterval(() => {
+  //     autoTestMessages(count++)
+  //   }, 5000)
+  //   return () => clearInterval(timer)
+  // }, [])
 
   return (
     <div className='w-full select-auto'>
