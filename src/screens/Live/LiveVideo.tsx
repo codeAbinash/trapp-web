@@ -144,11 +144,11 @@ function Message({ message }: { message: MessageT }) {
   )
 }
 
-const MAX_MESSAGES_SIZE = 200
+const MAX_MESSAGES_SIZE = 500
 
 function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; isLiveChatOpen: boolean }) {
   const [messages, setMessages] = useState<MessageT[]>([])
-  const [message, setMessage] = useState('')
+  // const [message, setMessage] = useState('')
   const [isSending, setIsSending] = useState(false)
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const inputRef = useRef<null | HTMLInputElement>(null)
@@ -202,9 +202,9 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
 
   async function sendMessage() {
     if (!video_id) return
-    const msg = message.trim()
+    const msg = inputRef.current!.value
     if (!msg) return
-    setMessage('')
+    inputRef.current!.value = ''
     setIsSending(true)
     const res = await live_chat_message_f(msg, video_id!)
     if (!res.status) return
@@ -242,10 +242,6 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
         <div className='w-full'>
           <input
             ref={inputRef}
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value)
-            }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') sendMessage()
             }}
