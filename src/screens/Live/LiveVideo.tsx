@@ -1,16 +1,15 @@
 import TapMotion from '@/components/TapMotion'
 import { GiftIcon, SendIcon, XIcon } from 'lucide-react'
 import Pusher from 'pusher-js'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Player } from 'video-react'
 import { ScrollToTop } from '../../App'
-import { getVideoDetails_f, live_chat_message_f } from '../../lib/api'
+import { fetch_live_chat_f, getVideoDetails_f, live_chat_message_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
 import { UserProfile } from '../Profile/utils'
 import { VideoDetails } from '../Video/components/VideoComponents'
-import { Loading, LoadingButton } from '@/components/Loading'
 
 export default function LiveVideo() {
   const { video_id } = useParams()
@@ -39,7 +38,7 @@ export default function LiveVideo() {
       </div>
 
       <div
-        className='fixed select-none'
+        className='fixed w-full select-none'
         style={{
           marginTop: 'calc(100vw * 10 / 16)',
         }}
@@ -52,7 +51,7 @@ export default function LiveVideo() {
           <LiveChatBox setIsLiveChatOpen={setIsLiveChatOpen} />
         </div>
         <div className={`${isLiveChatOpen ? 'block' : 'hidden'}`}>
-          <LiveChatUi setIsLiveChatOpen={setIsLiveChatOpen} video_id={video_id} />
+          <LiveChatUi setIsLiveChatOpen={setIsLiveChatOpen} video_id={video_id} isLiveChatOpen={isLiveChatOpen} />
         </div>
       </div>
     </>
@@ -86,15 +85,17 @@ function LiveChatBox({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<
 }
 
 function LiveChatUi({
+  isLiveChatOpen,
   setIsLiveChatOpen,
   video_id,
 }: {
+  isLiveChatOpen: boolean
   setIsLiveChatOpen: React.Dispatch<React.SetStateAction<boolean>>
   video_id: string | undefined
 }) {
   return (
     <>
-      <div className='px-5'>
+      <div className='w-full px-5'>
         <div className='flex items-center justify-between px-3 py-3 pr-1'>
           <p>Live Chat</p>
 
@@ -109,13 +110,13 @@ function LiveChatUi({
         </div>
         <div></div>
       </div>
-      <LiveChat video_id={video_id} />
+      <LiveChat video_id={video_id} isLiveChatOpen={isLiveChatOpen} />
     </>
   )
 }
 
 interface MessageT {
-  time: string
+  created_at: string
   id: number
   name: string
   message: string
@@ -130,7 +131,7 @@ function Message({ message }: { message: MessageT }) {
         <div className='flex items-center gap-2'>
           <span className='text-xs font-semibold'>{message.name}</span>
           <span className='text-xs opacity-60'>
-            {new Date(message.time).toLocaleTimeString('en-US', {
+            {new Date(message.created_at).toLocaleTimeString('en-US', {
               hour: 'numeric',
               hour12: true,
               minute: 'numeric',
@@ -143,112 +144,36 @@ function Message({ message }: { message: MessageT }) {
   )
 }
 
-const MAX_MESSAGES_SIZE = 200
-const sampleMessages: MessageT[] = [
-  {
-    time: '2024-01-06T10:15:22.123456Z',
-    id: 1,
-    name: 'Alice Johnson',
-    message: "Hey there! How's your day going? 😊",
-    avatar: 'https://i.pravatar.cc/150?img=11',
-  },
-  {
-    time: '2024-01-06T10:17:45.987654Z',
-    id: 2,
-    name: 'Bob Smith',
-    message: "Hi, Abinash! What's the latest coding challenge you've tackled? 💻",
-    avatar: 'https://i.pravatar.cc/150?img=12',
-  },
-  {
-    time: '2024-01-06T10:20:10.234567Z',
-    id: 3,
-    name: 'Charlie Brown',
-    message: 'Hello! Just wanted to drop by and say hi! 👋',
-    avatar: 'https://i.pravatar.cc/150?img=13',
-  },
-  {
-    time: '2024-01-06T10:22:35.876543Z',
-    id: 4,
-    name: 'Diana Miller',
-    message: 'Greetings! Anything exciting happening in the coding world today? 🚀',
-    avatar: 'https://i.pravatar.cc/150?img=14',
-  },
-  {
-    time: '2024-01-06T10:25:00.765432Z',
-    id: 5,
-    name: 'Ethan Taylor',
-    message: "Hey Abinash! I'm curious, what's your favorite programming language and why? 🤔",
-    avatar: 'https://i.pravatar.cc/150?img=15',
-  },
-  {
-    time: '2024-01-06T10:27:25.543210Z',
-    id: 6,
-    name: 'Fiona Adams',
-    message: "Hello everyone! Who's up for a coding challenge today? 💪",
-    avatar: 'https://i.pravatar.cc/150?img=16',
-  },
-  {
-    time: '2024-01-06T10:30:50.135792Z',
-    id: 7,
-    name: 'George Clark',
-    message: 'Hi Abinash! Coding late into the night again? 😄',
-    avatar: 'https://i.pravatar.cc/150?img=17',
-  },
-  {
-    time: '2024-01-06T10:33:15.246801Z',
-    id: 8,
-    name: 'Hannah Turner',
-    message: "Hey there! What's the most challenging bug you've ever debugged? 🐞",
-    avatar: 'https://i.pravatar.cc/150?img=18',
-  },
-  {
-    time: '2024-01-06T10:35:40.987654Z',
-    id: 9,
-    name: 'Ian Foster',
-    message: "Hello Abinash, what's new in your coding journey? Share some highlights! 🌟",
-    avatar: 'https://i.pravatar.cc/150?img=19',
-  },
-  {
-    time: '2024-01-06T10:38:05.876543Z',
-    id: 10,
-    name: 'Julia Ramirez',
-    message: 'Hi Abinash! Long time no see. What project are you currently working on? 🚧',
-    avatar: 'https://i.pravatar.cc/150?img=20',
-  },
-  {
-    time: '2024-01-06T10:40:30.987654Z',
-    id: 11,
-    name: 'Kai Williams',
-    message: 'Hey Abinash! Any cool tech discoveries lately? 🌐',
-    avatar: 'https://i.pravatar.cc/150?img=21',
-  },
-  {
-    time: '2024-01-06T10:42:55.654321Z',
-    id: 12,
-    name: 'Lily Chen',
-    message: "Hello! Coding is like solving puzzles, isn't it? 🧩",
-    avatar: 'https://i.pravatar.cc/150?img=22',
-  },
-  {
-    time: '2024-01-06T10:45:20.765432Z',
-    id: 13,
-    name: 'Mike Davis',
-    message: 'Hi Abinash! Do you prefer frontend or backend development? 🖥️',
-    avatar: 'https://i.pravatar.cc/150?img=23',
-  },
-  {
-    time: '2024-01-06T10:47:45.321098Z',
-    id: 14,
-    name: 'Nina Rodriguez',
-    message: "Hey! What's your go-to coding snack? 🍕",
-    avatar: 'https://i.pravatar.cc/150?img=24',
-  },
-]
+const MAX_MESSAGES_SIZE = 500
 
-function LiveChat({ video_id }: { video_id: string | undefined }) {
-  const [messages, setMessages] = useState<MessageT[]>(sampleMessages)
+function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; isLiveChatOpen: boolean }) {
+  const [messages, setMessages] = useState<MessageT[]>([])
   const [message, setMessage] = useState('')
   const [isSending, setIsSending] = useState(false)
+  const messagesEndRef = useRef<null | HTMLDivElement>(null)
+  const inputRef = useRef<null | HTMLInputElement>(null)
+  const messageBoxRef = useRef<null | HTMLDivElement>(null)
+
+  const scrollToBottom = () => {
+    if (!messageBoxRef.current) return console.log('No message box')
+    const scrollDiff =
+      messageBoxRef.current?.scrollHeight - messageBoxRef.current?.scrollTop - messageBoxRef.current?.clientHeight
+    if (scrollDiff < 300) messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  function scrollToBottomForce() {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  async function loadLiveChatHistory() {
+    if (!video_id) return
+    const res = await fetch_live_chat_f(video_id)
+    if (!res.status) return console.log('Error loading live chat')
+    setMessages(res.data.data || [])
+    setTimeout(() => {
+      scrollToBottomForce()
+    }, 500)
+  }
 
   useEffect(() => {
     if (!video_id) return
@@ -257,15 +182,26 @@ function LiveChat({ video_id }: { video_id: string | undefined }) {
       cluster: 'ap2',
     })
 
-    console.log(video_id)
     const channel = pusher.subscribe(video_id.toString())
     channel.bind('MessageSent', function (data: any) {
-      console.log(data.message)
       setMessages((prev) => [...prev, data.message].slice(-MAX_MESSAGES_SIZE))
     })
   }, [])
 
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  useEffect(() => {
+    loadLiveChatHistory()
+  }, [])
+
+  useEffect(() => {
+    scrollToBottomForce()
+  }, [isLiveChatOpen])
+
   async function sendMessage() {
+    if (!video_id) return
     const msg = message.trim()
     if (!msg) return
     setMessage('')
@@ -276,13 +212,27 @@ function LiveChat({ video_id }: { video_id: string | undefined }) {
     setIsSending(false)
   }
 
+  async function autoTestMessages(count: number) {
+    const res = await live_chat_message_f('Hello ' + count, video_id!)
+    if (!res.status) return
+  }
+
+  useEffect(() => {
+    let count = 0
+    const timer = setInterval(() => {
+      autoTestMessages(count++)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
-    <div className='select-auto'>
-      <div className='flex flex-col'>
-        <div className='liveChat relative flex h-[67dvh] flex-col gap-4 overflow-auto pb-28'>
+    <div className='w-full select-auto'>
+      <div className='flex w-full flex-col'>
+        <div className='liveChat relative flex h-[67dvh] flex-col gap-4 overflow-auto' ref={messageBoxRef}>
           {messages.map((message, index) => (
             <Message message={message} key={index} />
           ))}
+          <div ref={messagesEndRef} className='w-full pb-24'></div>
         </div>
       </div>
       <div className='fixed bottom-0 flex w-full items-center justify-center gap-3 bg-bg/80 p-4 py-2 pt-2.5 backdrop-blur-md'>
@@ -291,9 +241,13 @@ function LiveChat({ video_id }: { video_id: string | undefined }) {
         </TapMotion>
         <div className='w-full'>
           <input
+            ref={inputRef}
             value={message}
             onChange={(e) => {
               setMessage(e.target.value)
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') sendMessage()
             }}
             type='text'
             placeholder='Write a message'

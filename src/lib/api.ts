@@ -51,8 +51,8 @@ async function returnResponse(res: any): Promise<apiResponse> {
     ls.clear()
     window.location.href = ''
     return { status: false, message: data.message || 'Network Error' }
-  } else if (!data.errors) return { status: false, message: data.message || 'Network Error' }
-  return { status: false, message: getError(data.errors) || data.message || 'Network Error' }
+  } else if (!data.errors) return { status: false, message: data.message || 'Network Error', data }
+  return { status: false, message: getError(data.errors) || data.message || 'Network Error', data }
 }
 
 function catchError(err: any): apiResponse {
@@ -91,12 +91,26 @@ const API = {
   },
   liveChat: {
     message: `${API_URL}/livechat/messages`,
+    fetch: `${API_URL}/livechat/fetch`,
   },
 }
 
 export default API
 
 // All API calls
+
+export async function fetch_live_chat_f(video_id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.liveChat.fetch, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ video_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function live_chat_message_f(message: string, video_id: string): Promise<apiResponse> {
   try {
