@@ -232,7 +232,7 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
           {messages.map((message, index) => (
             <Message message={message} key={index} />
           ))}
-          <div ref={messagesEndRef} className='w-full pb-24'></div>
+          <div ref={messagesEndRef} className='w-full pb-28'></div>
         </div>
       </div>
       <div className='fixed bottom-0 flex w-full items-center justify-center gap-3 bg-bg/80 p-4 py-2 pt-2.5 backdrop-blur-md'>
