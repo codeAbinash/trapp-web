@@ -169,7 +169,7 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
     if (!video_id) return
     const res = await fetch_live_chat_f(video_id)
     if (!res.status) return console.log('Error loading live chat')
-    setMessages(res.data.data || [])
+    setMessages(res.data.data.reverse() || [])
     setTimeout(() => {
       scrollToBottomForce()
     }, 500)
