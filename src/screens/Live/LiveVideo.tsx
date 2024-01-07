@@ -4,12 +4,12 @@ import Pusher from 'pusher-js'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Player } from 'video-react'
 import { ScrollToTop } from '../../App'
 import { fetch_live_chat_f, getVideoDetails_f, live_chat_message_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
 import { UserProfile } from '../Profile/utils'
 import { VideoDetails } from '../Video/components/VideoComponents'
+import VideoPlayer from './VideoPlayer'
 
 export default function LiveVideo() {
   const { video_id } = useParams()
@@ -31,7 +31,7 @@ export default function LiveVideo() {
     <>
       <ScrollToTop />
       <div className='fixed top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'>
-        <Player playsInline poster={videoDetails?.thumbnail || ''} src={videoDetails?.video_loc || ''}></Player>
+        <VideoPlayerUI videoDetails={videoDetails} />
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
           Uploaded by {videoDetails?.creator.channel_name} - {niceDate(videoDetails?.created_at || '')}
         </p>
@@ -56,6 +56,11 @@ export default function LiveVideo() {
       </div>
     </>
   )
+}
+
+function VideoPlayerUI({ videoDetails }: { videoDetails: VideoDetails | null }) {
+  if (!videoDetails) return <></>
+  return <VideoPlayer src={videoDetails?.video_loc || ''} />
 }
 
 function LiveChatBox({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
