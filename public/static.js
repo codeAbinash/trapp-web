@@ -20,6 +20,7 @@ function absorbEvent_(event) {
   return false
 }
 
-window.addEventListener('load', () => {
-  document.body.addEventListener('contextmenu', absorbEvent_)
-})
+// Disable Context Menu
+// window.addEventListener('load', () => {
+//   document.body.addEventListener('contextmenu', absorbEvent_)
+// })

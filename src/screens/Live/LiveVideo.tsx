@@ -1,25 +1,29 @@
 import TapMotion from '@/components/TapMotion'
-import { XIcon } from 'lucide-react'
+import { GiftIcon, SendIcon, XIcon } from 'lucide-react'
 import Pusher from 'pusher-js'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Player } from 'video-react'
 import { ScrollToTop } from '../../App'
-import { getVideoDetails_f } from '../../lib/api'
+import { getVideoDetails_f, live_chat_message_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
 import { UserProfile } from '../Profile/utils'
 import { VideoDetails } from '../Video/components/VideoComponents'
+import { Loading, LoadingButton } from '@/components/Loading'
 
 export default function LiveVideo() {
   const { video_id } = useParams()
   const [videoDetails, setVideoDetails] = useState<VideoDetails | null>(null)
   const [isLiveChatOpen, setIsLiveChatOpen] = useState(true)
+  const [creator_id, setCreator_id] = useState<number | null>(null)
+
   async function loadVideoDetails() {
     const res = await getVideoDetails_f(video_id!)
     if (!res.status) return
     console.log(res.data.data)
     setVideoDetails(res.data.data)
+    setCreator_id(res.data.data.creator.id)
   }
   useEffect(() => {
     loadVideoDetails()
@@ -40,17 +44,16 @@ export default function LiveVideo() {
           marginTop: 'calc(100vw * 10 / 16)',
         }}
       >
-        {!isLiveChatOpen ? (
-          <>
-            <VideoDetails videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
-            <div>
-              <p className='mb-3 mt-2 px-5 text-base font-semibold'>Live Chat</p>
-            </div>
-            <LiveChatBox setIsLiveChatOpen={setIsLiveChatOpen} />
-          </>
-        ) : (
-          <LiveChatUi setIsLiveChatOpen={setIsLiveChatOpen} />
-        )}
+        <div className={`${isLiveChatOpen ? 'hidden' : 'block'}`}>
+          <VideoDetails videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
+          <div>
+            <p className='mb-3 mt-2 px-5 text-base font-semibold'>Live Chat</p>
+          </div>
+          <LiveChatBox setIsLiveChatOpen={setIsLiveChatOpen} />
+        </div>
+        <div className={`${isLiveChatOpen ? 'block' : 'hidden'}`}>
+          <LiveChatUi setIsLiveChatOpen={setIsLiveChatOpen} video_id={video_id} />
+        </div>
       </div>
     </>
   )
@@ -61,7 +64,8 @@ function LiveChatBox({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<
   const pic = profile?.data?.profile_pic || '/images/other/pic.png'
   const name = profile?.data?.name || 'Your Name'
   return (
-    <div
+    <TapMotion
+      size='lg'
       className='px-5'
       onClick={() => {
         setIsLiveChatOpen!(true)
@@ -77,11 +81,17 @@ function LiveChatBox({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<
           </div>
         </div>
       </div>
-    </div>
+    </TapMotion>
   )
 }
 
-function LiveChatUi({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+function LiveChatUi({
+  setIsLiveChatOpen,
+  video_id,
+}: {
+  setIsLiveChatOpen: React.Dispatch<React.SetStateAction<boolean>>
+  video_id: string | undefined
+}) {
   return (
     <>
       <div className='px-5'>
@@ -99,7 +109,7 @@ function LiveChatUi({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<R
         </div>
         <div></div>
       </div>
-      <LiveChat />
+      <LiveChat video_id={video_id} />
     </>
   )
 }
@@ -235,28 +245,68 @@ const sampleMessages: MessageT[] = [
   },
 ]
 
-function LiveChat() {
+function LiveChat({ video_id }: { video_id: string | undefined }) {
   const [messages, setMessages] = useState<MessageT[]>(sampleMessages)
+  const [message, setMessage] = useState('')
+  const [isSending, setIsSending] = useState(false)
 
   useEffect(() => {
+    if (!video_id) return
+
     const pusher = new Pusher('6985392a5df45e560919', {
       cluster: 'ap2',
     })
 
-    const channel = pusher.subscribe('chat-message')
+    console.log(video_id)
+    const channel = pusher.subscribe(video_id.toString())
     channel.bind('MessageSent', function (data: any) {
       console.log(data.message)
       setMessages((prev) => [...prev, data.message].slice(-MAX_MESSAGES_SIZE))
     })
   }, [])
+
+  async function sendMessage() {
+    const msg = message.trim()
+    if (!msg) return
+    setMessage('')
+    setIsSending(true)
+    const res = await live_chat_message_f(msg, video_id!)
+    if (!res.status) return
+    console.log(res.data)
+    setIsSending(false)
+  }
+
   return (
-    <div className=''>
+    <div className='select-auto'>
       <div className='flex flex-col'>
-        <div className='liveChat relative flex h-[67dvh] flex-col gap-4 overflow-auto pb-16'>
+        <div className='liveChat relative flex h-[67dvh] flex-col gap-4 overflow-auto pb-28'>
           {messages.map((message, index) => (
             <Message message={message} key={index} />
           ))}
         </div>
+      </div>
+      <div className='fixed bottom-0 flex w-full items-center justify-center gap-3 bg-bg/80 p-4 py-2 pt-2.5 backdrop-blur-md'>
+        <TapMotion className='rounded-full bg-color p-3.5'>
+          <GiftIcon size={20} />
+        </TapMotion>
+        <div className='w-full'>
+          <input
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value)
+            }}
+            type='text'
+            placeholder='Write a message'
+            className='w-full rounded-full border border-transparent bg-white/10 p-3 text-sm outline-none backdrop-blur-md focus:border-color/50'
+          />
+        </div>
+        <TapMotion className='rounded-full bg-white/10 p-3.5' onClick={sendMessage}>
+          {isSending ? (
+            <img src='/icons/other/loading.svg' className='h-5 w-7 invert' />
+          ) : (
+            <SendIcon className='h-5 w-5' />
+          )}
+        </TapMotion>
       </div>
     </div>
   )

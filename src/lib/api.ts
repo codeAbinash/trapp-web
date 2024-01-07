@@ -89,11 +89,27 @@ const API = {
     get_all: `${API_URL}/video/get_cat_list`,
     video_by_cat: `${API_URL}/video/get_vid_by_cat`,
   },
+  liveChat: {
+    message: `${API_URL}/livechat/messages`,
+  },
 }
 
 export default API
 
 // All API calls
+
+export async function live_chat_message_f(message: string, video_id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.liveChat.message, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ message, video_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function getVideosByCategory_f(cat_id: number, page: number): Promise<apiResponse> {
   try {
