@@ -1,5 +1,5 @@
 import TapMotion from '@/components/TapMotion'
-import { GiftIcon, SendIcon, XIcon } from 'lucide-react'
+import { BadgeCheckIcon, GiftIcon, SendIcon, XIcon } from 'lucide-react'
 import Pusher from 'pusher-js'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -126,6 +126,7 @@ interface MessageT {
   name: string
   message: string
   avatar: string
+  type: 'creator' | 'user'
 }
 
 function Message({ message }: { message: MessageT }) {
@@ -134,7 +135,14 @@ function Message({ message }: { message: MessageT }) {
       <img src={message.avatar} alt='' className='h-8 w-8 rounded-full' />
       <div className='flex flex-col gap-1'>
         <div className='flex items-center gap-2'>
-          <span className='text-xs font-semibold'>{message.name}</span>
+          {message.type === 'creator' ? (
+            <span className='flex items-center justify-center gap-1 text-xs font-semibold text-green-500'>
+              Creator
+              <BadgeCheckIcon height={13} width={13} className='mr-1 inline-block' strokeWidth={2.5} />
+            </span>
+          ) : (
+            <span className='text-xs font-semibold'>{message.name}</span>
+          )}
           <span className='text-xs opacity-60'>
             {new Date(message.created_at).toLocaleTimeString('en-US', {
               hour: 'numeric',
@@ -189,6 +197,9 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
 
     const channel = pusher.subscribe(video_id.toString())
     channel.bind('MessageSent', function (data: any) {
+      setMessages((prev) => [...prev, data.message].slice(-MAX_MESSAGES_SIZE))
+    })
+    channel.bind('CreMessageSent', function (data: any) {
       setMessages((prev) => [...prev, data.message].slice(-MAX_MESSAGES_SIZE))
     })
   }, [])

@@ -1,5 +1,6 @@
 import './css/tailwind.css'
 import './css/index.scss'
+import { lazyWithPreload } from 'react-lazy-with-preload'
 
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider, useLocation } from 'react-router-dom'
@@ -24,7 +25,10 @@ import Video from './screens/Video'
 import Test from './screens/Test'
 import { useEffect } from 'react'
 import Category from './screens/Category/Category'
-import LiveVideo from './screens/Live/LiveVideo'
+
+const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
+
+LiveVideo.preload()
 
 const router = createBrowserRouter([
   {
@@ -34,7 +38,7 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomeScreen />,
-      },  
+      },
       {
         path: '/shop',
         element: <div> Shop </div>,
