@@ -5,6 +5,7 @@ import { ScrollToTop } from '../../App'
 import { getVideoDetails_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
 import { VideoDetails } from './components/VideoComponents'
+import BackButton from '../Live/BackButton'
 
 const videosData = [
   {
@@ -72,7 +73,22 @@ const videosData = [
 export default function Video() {
   const { video_id } = useParams()
   const [videoDetails, setVideoDetails] = useState<VideoDetails | null>(null)
+  const [isBackBtn, setShowBackButton] = useState(true)
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowBackButton(false)
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  function setBackButtonVisibility() {
+    if (isBackBtn) return
+    setShowBackButton(true)
+    setTimeout(() => {
+      setShowBackButton(false)
+    }, 3000)
+  }
   async function loadVideoDetails() {
     const res = await getVideoDetails_f(video_id!)
     if (!res.status) return
@@ -85,7 +101,14 @@ export default function Video() {
   return (
     <>
       <ScrollToTop />
-      <div className='sticky top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'>
+      <div
+        className='sticky top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'
+        onMouseMove={setBackButtonVisibility}
+        onTouchMove={setBackButtonVisibility}
+        onTouchStart={setBackButtonVisibility}
+        onClick={setBackButtonVisibility}
+      >
+        <BackButton show={isBackBtn} />
         <Player playsInline poster={videoDetails?.thumbnail || ''} src={videoDetails?.video_loc || ''}></Player>
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
           Uploaded by {videoDetails?.creator.channel_name} - {niceDate(videoDetails?.created_at || '')}

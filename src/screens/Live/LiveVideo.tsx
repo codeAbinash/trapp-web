@@ -10,12 +10,29 @@ import { niceDate } from '../../lib/util'
 import { UserProfile } from '../Profile/utils'
 import { VideoDetails } from '../Video/components/VideoComponents'
 import VideoPlayer from './VideoPlayer'
+import BackButton from './BackButton'
 
 export default function LiveVideo() {
   const { video_id } = useParams()
   const [videoDetails, setVideoDetails] = useState<VideoDetails | null>(null)
   const [isLiveChatOpen, setIsLiveChatOpen] = useState(true)
   const [creator_id, setCreator_id] = useState<number | null>(null)
+  const [isBackBtn, setShowBackButton] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowBackButton(false)
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  function setBackButtonVisibility() {
+    if (isBackBtn) return
+    setShowBackButton(true)
+    setTimeout(() => {
+      setShowBackButton(false)
+    }, 3000)
+  }
 
   async function loadVideoDetails() {
     const res = await getVideoDetails_f(video_id!)
@@ -30,7 +47,14 @@ export default function LiveVideo() {
   return (
     <>
       <ScrollToTop />
-      <div className='fixed top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'>
+      <div
+        className='fixed top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'
+        onMouseMove={setBackButtonVisibility}
+        onTouchMove={setBackButtonVisibility}
+        onTouchStart={setBackButtonVisibility}
+        onClick={setBackButtonVisibility}
+      >
+        <BackButton show={isBackBtn} />
         <VideoPlayerUI videoDetails={videoDetails} />
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
           Uploaded by {videoDetails?.creator.channel_name} - {niceDate(videoDetails?.created_at || '')}
