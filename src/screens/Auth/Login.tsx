@@ -62,9 +62,9 @@ function Login() {
             </Button>
           )}
         </div>
-        <div className='flex w-full flex-grow flex-col items-center justify-center gap-5'>
+        {/* <div className='flex w-full flex-grow flex-col items-center justify-center gap-5'>
           <LoginWith />
-        </div>
+        </div> */}
         <div className='flex flex-col items-center justify-center pb-5 text-center text-[0.9rem]'>
           <p className='bottom-text text-gray-400'>Don't have an account?</p>
           <span
@@ -74,6 +74,7 @@ function Login() {
             REGISTER
           </span>
         </div>
+        <div></div>
       </div>
       <div></div>
     </div>
