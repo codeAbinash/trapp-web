@@ -11,9 +11,14 @@ const OPTIONS = [
     groupName: 'Account',
     options: [
       {
-        name: 'My Account',
+        name: 'Your Account',
         icon: '/icons/red/profile.svg',
-        link: '/my-account',
+        link: '/account',
+      },
+      {
+        name: 'Your Wallet',
+        icon: '/icons/red/wallet.svg',
+        link: '/wallet',
       },
       {
         name: 'Manage Subscription',
@@ -74,12 +79,12 @@ export default function Profile() {
             src={pic}
             className='profile-picture tap99 mx-auto mt-16 aspect-square w-2/5 max-w-xs rounded-full border border-white/50'
             onClick={transitions(() => {
-              navigate('/my-account')
+              navigate('/account')
             })}
           />
         </TapMotion>
         <p className='user-full-name text-xl font-[450]'>{name}</p>
-        <div className='tap97 bg-color mt-2 flex items-center justify-center rounded-full px-3 py-1.5'>
+        <div className='tap97 mt-2 flex items-center justify-center rounded-full bg-color px-3 py-1.5'>
           <img src='/icons/other/star.svg' className='h-3.5' />
           <p className='edit-button ml-1.5 pt-[0.07rem] text-sm leading-tight'>Premium</p>
           <img src='/icons/other/arrow.svg' className='ml-2.5 h-2.5' />

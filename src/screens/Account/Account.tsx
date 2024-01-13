@@ -41,7 +41,7 @@ function ProfilePicture({
       <TapMotion
         size='sm'
         onClick={onImageClick}
-        className='tap95 anim-edit-icon edit-button bg-color absolute left-[60%] top-[75%] aspect-square h-11 rounded-full p-3 shadow-lg'
+        className='tap95 anim-edit-icon edit-button absolute left-[60%] top-[75%] aspect-square h-11 rounded-full bg-color p-3 shadow-lg'
       >
         <img src={icon('edit.svg')} className='invert' />
       </TapMotion>
@@ -75,7 +75,7 @@ export function Input(props: InputProps) {
         <input
           type={type}
           placeholder={placeholder}
-          className='font-normMid text-text/90 py-4.5 grow border-none bg-transparent px-3 pl-4 text-sm text-white outline-none'
+          className='font-normMid text-text/90 grow border-none bg-transparent px-3 py-4.5 pl-4 text-sm text-white outline-none'
           onInput={onInput}
           value={value}
         />
@@ -89,7 +89,7 @@ type userUpdate = {
   profile_pic?: File
 }
 
-export default function MyAccount() {
+export default function Account() {
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const [isUpdating, setIsUpdating] = useState(false)
   const [name, setName] = useState(profile?.data?.name || '')
@@ -153,7 +153,7 @@ export default function MyAccount() {
   return (
     <>
       <Header>
-        <span className='font-[450]'>My Account</span>
+        <span className='font-[450]'>Your Account</span>
       </Header>
       <div className='py-2'>
         <input

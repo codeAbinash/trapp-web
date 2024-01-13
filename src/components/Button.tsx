@@ -3,6 +3,7 @@ import { forwardRef } from 'react'
 import { blank_fn } from '../constants'
 import { useNavigate } from 'react-router-dom'
 import transitions from '../lib/transition'
+import { cn } from '@/lib/utils'
 
 // export default function Button({ onClick = blank_fn, children }: { onClick: any; children?: React.ReactNode }) {
 //   return (
@@ -29,10 +30,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
   return (
     <motion.button
-      className={
-        className +
-        ' button-full highlight-none bg-color w-full max-w-lg cursor-pointer select-none rounded-xl p-4 text-center text-sm text-white'
-      }
+      className={cn(
+        'button-full highlight-none w-full max-w-lg cursor-pointer select-none rounded-xl bg-color p-4 text-center text-sm text-white ' +
+          className,
+      )}
       whileTap={{ scale: 0.98 }}
       whileHover={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 400 }}

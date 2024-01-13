@@ -72,7 +72,7 @@ export default function Home() {
                 subTitle: 'You need to add email to use shop',
                 action: [
                   { text: 'Cancel', onClick: blank_fn },
-                  { text: 'Add email', onClick: () => navigate('/my-account'), className: 'text-green-500' },
+                  { text: 'Add email', onClick: () => navigate('/account'), className: 'text-green-500' },
                 ],
               })
             } else {
