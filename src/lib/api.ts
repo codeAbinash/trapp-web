@@ -80,6 +80,7 @@ const API = {
   get_video_details: `${API_URL}/video/get_v_details`,
   creator: {
     follow_unfollow: `${API_URL}/creator/follow`,
+    profile: `${API_URL}/creator/channelView`,
   },
   video: {
     like_unlike: `${API_URL}/video/like`,
@@ -98,6 +99,19 @@ const API = {
 export default API
 
 // All API calls
+
+export async function getCreatorProfile_f(cre_id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.creator.profile, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ cre_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function fetch_live_chat_f(video_id: string): Promise<apiResponse> {
   try {

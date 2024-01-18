@@ -1,8 +1,10 @@
 import ChannelName from '@/components/ChannelName'
+import TapMotion from '@/components/TapMotion'
 import { dislike_undislike_f, follow_unfollow_f, like_unlike_f } from '@/lib/api'
 import transitions from '@/lib/transition'
 import { nFormatter, niceDate } from '@/lib/util'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export interface VideoDetails {
   id: number
@@ -171,9 +173,15 @@ export function Creator({
   videoDetails: VideoDetails | null
   setVideoDetails: React.Dispatch<React.SetStateAction<VideoDetails | null>>
 }) {
+  const navigate = useNavigate()
+  function openCreatorAccount() {
+    if (!videoDetails || !videoDetails.creator_id) return
+    navigate(`/creator/${videoDetails.creator_id}/videos`)
+  }
+
   return (
     <div className='flex items-center justify-between p-5 pt-3'>
-      <div className='flex items-center justify-between gap-4'>
+      <TapMotion size='lg' className='flex items-center justify-between gap-4' onClick={openCreatorAccount}>
         <img
           src={videoDetails?.creator.channel_logo}
           className='aspect-square w-12 rounded-full border border-white/60 bg-white/60'
@@ -184,7 +192,7 @@ export function Creator({
           </div>
           <p className='text-xs opacity-70'>{nFormatter(videoDetails?.creator.follow_count || 0)} Followers</p>
         </div>
-      </div>
+      </TapMotion>
       <FollowButton videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
     </div>
   )
