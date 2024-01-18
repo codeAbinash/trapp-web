@@ -7,7 +7,7 @@ function VideThumbnails({ videosData }: { videosData: VideosOrLive[] }) {
 
   return videosData.map((videoData) => (
     <div
-      onClick={() => navigate(`/video/${videoData.id}`)}
+      onClick={() => navigate(`/${videoData.video_type === 'live' ? 'liveVideo' : 'video'}/${videoData.id}`)}
       key={videoData.id}
       className='tap99 bg-inputBg relative flex aspect-[3/4] w-full  flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm'
     >
