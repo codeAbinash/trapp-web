@@ -93,16 +93,6 @@ const router = createBrowserRouter([
   {
     path: 'creator/:creator',
     element: <Creator />,
-    children: [
-      {
-        path: 'videos',
-        element: <Videos />,
-      },
-      {
-        path: 'playlist',
-        element: <Playlist />,
-      },
-    ],
   },
   {
     path: 'liveVideo/:video_id',

@@ -176,7 +176,7 @@ export function Creator({
   const navigate = useNavigate()
   function openCreatorAccount() {
     if (!videoDetails || !videoDetails.creator_id) return
-    navigate(`/creator/${videoDetails.creator_id}/videos`)
+    navigate(`/creator/${videoDetails.creator_id}`)
   }
 
   return (
