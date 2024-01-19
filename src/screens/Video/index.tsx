@@ -6,6 +6,7 @@ import { getVideoDetails_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
 import { VideoDetails } from './components/VideoComponents'
 import BackButton from '../Live/BackButton'
+import VideosByCat from '../Category/VideosByCat'
 
 const videosData = [
   {
@@ -96,8 +97,9 @@ export default function Video() {
     setVideoDetails(res.data.data)
   }
   useEffect(() => {
+    setVideoDetails(null)
     loadVideoDetails()
-  }, [])
+  }, [video_id])
   return (
     <>
       <ScrollToTop />
@@ -119,7 +121,7 @@ export default function Video() {
         <VideoDetails videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
         <div>
           <p className='my-7 mt-2 px-5 text-base font-[450]'>Related Videos</p>
-          {/* <VideosByCat cat_id={videoDetails?.cat_id || 0} /> */}
+          {videoDetails?.cat_id && <VideosByCat cat_id={videoDetails?.cat_id} />}
         </div>
       </div>
     </>

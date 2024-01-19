@@ -4,6 +4,7 @@ import { VideosOrLive } from './types'
 import { useEffect, useRef, useState } from 'react'
 import { channelVideos } from '@/lib/api'
 import { current } from '@reduxjs/toolkit'
+import Button from '@/components/Button'
 
 function VideThumbnails({ videosData }: { videosData: VideosOrLive[] }) {
   const navigate = useNavigate()
@@ -50,15 +51,19 @@ function Videos({ videosData, creatorId }: { videosData: VideosOrLive[] | null |
     loadVideos(1)
   }, [])
 
+  function LoadMore() {
+    // Load More Data
+    if (isLoading) return
+    setIsLoading(true)
+    loadVideos(page)
+    setPage((page) => page + 1)
+  }
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          // Load More Data
-          if (isLoading) return
-          setIsLoading(true)
-          loadVideos(page)
-          setPage((page) => page + 1)
+          LoadMore()
         }
       },
       { threshold: 1 },
@@ -78,7 +83,7 @@ function Videos({ videosData, creatorId }: { videosData: VideosOrLive[] | null |
   if (!videosData)
     return (
       <div className='mt-5 w-full'>
-        <VideoListShimmer />
+        <VideoListShimmer count={6} />
       </div>
     )
 
@@ -93,18 +98,22 @@ function Videos({ videosData, creatorId }: { videosData: VideosOrLive[] | null |
       <div className='grid grid-cols-2 gap-5 p-5'>
         <VideThumbnails videosData={videos || []} />
       </div>
-      <div className='pb-24'>
-        {isMorePageAvailable ? (
-          isLoading ? (
-            <div className='tap95 highlight-none font-normMid w-full animate-pulse rounded-full text-xs'>
-              <VideoListShimmer />
-            </div>
-          ) : null
-        ) : videos?.length === 0 ? (
-          <span className='font-normMid mt-5 text-xs opacity-50'>No More Videos</span>
+      <div>
+        {isMorePageAvailable && isLoading ? (
+          <div className='tap95 highlight-none font-normMid w-full animate-pulse rounded-full text-xs'>
+            <VideoListShimmer count={6} />
+          </div>
         ) : null}
       </div>
-      {isMorePageAvailable && <div ref={observerTarget} className='mt-30 mb-20 h-3 w-full'></div>}
+      {isMorePageAvailable && (
+        <div ref={observerTarget} className='w-full px-8 pb-20'>
+          {isLoading ? null : (
+            <Button onClick={() => LoadMore()} className='font-normMid rounded-full bg-[#101010] text-sm text-white'>
+              Show More Videos
+            </Button>
+          )}
+        </div>
+      )}
     </>
   )
 }

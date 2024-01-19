@@ -3,6 +3,7 @@ import { getVideosByCategory_f } from '../../lib/api'
 import VideoList, { VideoListShimmer } from '../../components/Video/VideoList'
 import { Loading } from '../../components/Loading'
 import { NormalVideo } from '../../types'
+import Button from '@/components/Button'
 
 export default function VideosByCat({ cat_id }: { cat_id: number }) {
   const [videos, setVideos] = useState<NormalVideo[] | null>(null)
@@ -27,15 +28,19 @@ export default function VideosByCat({ cat_id }: { cat_id: number }) {
     setIsLoading(false)
   }
 
+  function LoadMore() {
+    if (isLoading) return
+    setIsLoading(true)
+    loadCategory(page)
+    setPage(page + 1)
+  }
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           // Load More Data
-          if (isLoading) return
-          setIsLoading(true)
-          loadCategory(page)
-          setPage(page + 1)
+          LoadMore()
         }
       },
       { threshold: 1 },
@@ -70,7 +75,15 @@ export default function VideosByCat({ cat_id }: { cat_id: number }) {
           <span className='font-normMid mt-5 text-xs opacity-50'>No More Videos</span>
         ) : null}
       </div>
-      {isMorePageAvailable && <div ref={observerTarget}></div>}
+      {isMorePageAvailable && (
+        <div ref={observerTarget} className='w-full px-8 pb-20'>
+          {isLoading ? null : (
+            <Button onClick={() => LoadMore()} className='font-normMid rounded-full bg-[#101010] text-sm text-white'>
+              Show More Videos
+            </Button>
+          )}
+        </div>
+      )}
     </>
   )
 }

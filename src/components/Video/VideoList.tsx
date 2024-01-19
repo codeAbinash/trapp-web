@@ -27,10 +27,11 @@ export default function VideoList({ videos }: { videos: NormalVideo[] | null }) 
   )
 }
 
-export function VideoListShimmer() {
+export function VideoListShimmer({ count }: { count?: number }) {
+  const arr = Array.from(Array(count || 6).keys())
   return (
     <div className='grid grid-cols-2 gap-4 px-5 pb-10'>
-      {[1, 2, 3, 4, 5, 6].map((i) => (
+      {arr.map((i) => (
         <div
           key={i}
           className='tap99 bg-inputBg relative flex aspect-[3/4] w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm'
