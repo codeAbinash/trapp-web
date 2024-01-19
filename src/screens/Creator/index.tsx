@@ -124,7 +124,11 @@ function Creator() {
           ) : null}
         </div>
       </div>
-      <div>{currentTab === 'videos' ? <Videos videosData={creatorProfile?.videosOrLives} /> : null}</div>
+      <div>
+        {currentTab === 'videos' ? (
+          <Videos videosData={creatorProfile?.videosOrLives.data} creatorId={creatorId} />
+        ) : null}
+      </div>
       <div>{currentTab === 'playlist' ? <Playlist /> : null}</div>
     </div>
   )

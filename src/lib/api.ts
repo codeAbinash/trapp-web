@@ -100,6 +100,19 @@ export default API
 
 // All API calls
 
+export async function channelVideos(cre_id: string, page: number): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.creator.profile + '?page=' + page, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ cre_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
+
 export async function getCreatorProfile_f(cre_id: string): Promise<apiResponse> {
   try {
     const res = await fetch(API.creator.profile, {
