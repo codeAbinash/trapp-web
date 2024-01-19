@@ -104,7 +104,7 @@ function Videos({ videosData, creatorId }: { videosData: VideosOrLive[] | null |
           <span className='font-normMid mt-5 text-xs opacity-50'>No More Videos</span>
         ) : null}
       </div>
-      {isMorePageAvailable && <div ref={observerTarget}></div>}
+      {isMorePageAvailable && <div ref={observerTarget} className='mt-30 mb-20 h-3 w-full'></div>}
     </>
   )
 }
