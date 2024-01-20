@@ -1,6 +1,5 @@
 import Button from '@/components/Button'
 import { Header } from '@/components/Header/Header'
-import Watermark from '@/components/Watermark'
 
 export default function Wallet() {
   return (
@@ -58,5 +57,10 @@ function Coin() {
       src='/AppIcons/full.svg'
       className='aspect-square w-10 rounded-full border border-color/20 bg-color/20 p-1.5'
     />
+  )
+}
+export function SmallCoin() {
+  return (
+    <img src='/AppIcons/full.svg' className='aspect-square w-7 rounded-full border border-color/20 bg-color/20 p-1' />
   )
 }

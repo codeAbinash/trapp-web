@@ -116,7 +116,7 @@ export default function App() {
   return (
     <PopupAlertContextProvider>
       <Provider store={store}>
-        <div className='bg-bg text-white'>
+        <div className='dark bg-bg text-white'>
           <PopupAlert />
           <RouterProvider router={router} />
         </div>

@@ -9,8 +9,9 @@ import { fetch_live_chat_f, getVideoDetails_f, live_chat_message_f } from '../..
 import { niceDate } from '../../lib/util'
 import { UserProfile } from '../Profile/utils'
 import { VideoDetails } from '../Video/components/VideoComponents'
-import VideoPlayer from './VideoPlayer'
 import BackButton from './BackButton'
+import SendGift from './GIft'
+import VideoPlayer from './VideoPlayer'
 
 export default function LiveVideo() {
   const { video_id } = useParams()
@@ -55,7 +56,7 @@ export default function LiveVideo() {
         onClick={setBackButtonVisibility}
       >
         <BackButton show={isBackBtn} />
-        <VideoPlayerUI videoDetails={videoDetails} />
+        {/* <VideoPlayerUI videoDetails={videoDetails} /> */}
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
           Uploaded by {videoDetails?.creator.channel_name} - {niceDate(videoDetails?.created_at || '')}
         </p>
@@ -276,9 +277,11 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
         </div>
       </div>
       <div className='fixed bottom-0 flex w-full items-center justify-center gap-3 bg-bg/80 p-4 py-2 pt-2.5 backdrop-blur-md'>
-        <TapMotion className='rounded-full bg-color p-3.5'>
-          <GiftIcon size={20} />
-        </TapMotion>
+        <SendGift>
+          <TapMotion className='rounded-full bg-color p-3.5'>
+            <GiftIcon size={20} />
+          </TapMotion>
+        </SendGift>
         <div className='w-full'>
           <input
             ref={inputRef}

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setProfile } from '../../../Redux/profile'
@@ -10,18 +9,9 @@ import { Layout, NormalVideo } from '../../../types'
 import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
 import Categories from './Categories'
 
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer'
-import icon from '@/lib/icons'
 import Button from '@/components/Button'
+import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from '@/components/ui/drawer'
+import icon from '@/lib/icons'
 import { CheckIcon } from 'lucide-react'
 
 export default function HomeScreen() {
@@ -63,24 +53,13 @@ export default function HomeScreen() {
   )
 }
 export function DrawerDemo() {
-  const [goal, setGoal] = React.useState(350)
-
-  function onClick(adjustment: number) {
-    setGoal(Math.max(200, Math.min(400, goal + adjustment)))
-  }
-
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        {/* <Button>Open Drawer</Button> */}
         <p>Open</p>
       </DrawerTrigger>
       <DrawerContent className='bg-black text-white outline-none'>
         <div className='mx-auto w-full max-w-sm'>
-          {/* <DrawerHeader>
-            <DrawerTitle></DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
-          </DrawerHeader> */}
           <div className='mt-3 flex flex-col gap-7 p-3'>
             <div className='flex w-full items-center justify-between   px-5'>
               <div className='flex items-center gap-5'>
@@ -104,7 +83,6 @@ export function DrawerDemo() {
               </div>
             </div>
           </div>
-
           <DrawerFooter>
             <DrawerClose asChild>
               <Button>Continue</Button>
