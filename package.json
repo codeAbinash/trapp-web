@@ -17,6 +17,8 @@
     "@reduxjs/toolkit": "^1.9.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "embla-carousel-autoplay": "8.0.0-rc19",
+    "embla-carousel-react": "8.0.0-rc19",
     "emoji-store": "^2.0.1",
     "framer-motion": "^10.16.4",
     "hls.js": "^1.4.14",
