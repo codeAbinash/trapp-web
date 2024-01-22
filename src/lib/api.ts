@@ -94,11 +94,26 @@ const API = {
     message: `${API_URL}/livechat/messages`,
     fetch: `${API_URL}/livechat/fetch`,
   },
+  stickers: {
+    all: `${API_URL}/stickers/fetch`,
+  },
 }
 
 export default API
 
 // All API calls
+
+export async function getStickers_f(): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.stickers.all, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function channelVideos(cre_id: string, page: number): Promise<apiResponse> {
   try {

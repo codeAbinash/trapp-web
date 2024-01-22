@@ -1,4 +1,5 @@
 import Button from '@/components/Button'
+import { Coin } from '@/components/Coin'
 import { Header } from '@/components/Header/Header'
 
 export default function Wallet() {
@@ -48,19 +49,5 @@ function AddCoinBox({ count, price }: { count: number; price: number }) {
         </Button>
       </div>
     </div>
-  )
-}
-
-function Coin() {
-  return (
-    <img
-      src='/AppIcons/full.svg'
-      className='aspect-square w-10 rounded-full border border-color/20 bg-color/20 p-1.5'
-    />
-  )
-}
-export function SmallCoin() {
-  return (
-    <img src='/AppIcons/full.svg' className='aspect-square w-7 rounded-full border border-color/20 bg-color/20 p-1' />
   )
 }
