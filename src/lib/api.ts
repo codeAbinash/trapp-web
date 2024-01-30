@@ -100,11 +100,26 @@ const API = {
   subscription: {
     call: `${API_URL}/payment/CallSubscription`,
   },
+  wallet: {
+    get_coins_list: `${API_URL}/wallet/GetCoinBundle`,
+  },
 }
 
 export default API
 
 // All API calls
+
+export async function getCoinsList_f(): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.wallet.get_coins_list, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function callSubscription_f() {
   try {

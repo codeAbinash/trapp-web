@@ -1,8 +1,35 @@
 import Button from '@/components/Button'
 import { Coin } from '@/components/Coin'
 import { Header } from '@/components/Header/Header'
+import { getCoinsList_f } from '@/lib/api'
+import { nFormatter } from '@/lib/util'
+import { useEffect, useState } from 'react'
 
+export interface Price {
+  id: number
+  coins: number
+  price: number
+  created_at: string
+  updated_at: string
+}
 export default function Wallet() {
+  const [prices, setPrices] = useState<Price[] | null>(null)
+
+  async function loadPrices() {
+    const res = await getCoinsList_f()
+    if (!res) return
+    console.log(res.data.coins_bundle)
+    setPrices(res.data.coins_bundle)
+  }
+
+  useEffect(() => {
+    loadPrices()
+  }, [])
+
+  useEffect(() => {
+    console.log(prices)
+  }, [prices])
+
   return (
     <>
       <Header>
@@ -23,10 +50,8 @@ export default function Wallet() {
         <div>
           <p className='mb-3 mt-5 text-[1.125rem] font-medium'>Add Coins</p>
           <div className='flex flex-col gap-3.5'>
-            <AddCoinBox count={100} price={10} />
-            <AddCoinBox count={250} price={20} />
-            <AddCoinBox count={500} price={40} />
-            {/* <AddCoinBox count={1000} price={80} /> */}
+            {prices === null && Array.from(Array(4)).map((_, i) => <AddCoinBoxSkeleton key={i} />)}
+            {prices?.map((price) => <AddCoinBox key={price.id} count={price.coins} price={price.price} />)}
           </div>
         </div>
       </div>
@@ -40,13 +65,23 @@ function AddCoinBox({ count, price }: { count: number; price: number }) {
       <div className='flex items-center gap-4'>
         <Coin />
         <p>
-          <span className='font-medium'>{count}</span> Trapp Coins
+          <span className='font-medium'>{nFormatter(count)}</span> Trapp Coins
         </p>
       </div>
       <div>
         <Button className='rounded-full bg-color px-7 py-2.5 text-white/90'>
-          <span className='font-medium'>${price}</span>
+          <span className='font-medium'>${nFormatter(price)}</span>
         </Button>
+      </div>
+    </div>
+  )
+}
+
+function AddCoinBoxSkeleton() {
+  return (
+    <div className='flex animate-pulse justify-between rounded-[1.25rem] border border-white/20 bg-white/10 p-4'>
+      <div className='flex items-center gap-4 opacity-0'>
+        <Coin />
       </div>
     </div>
   )
