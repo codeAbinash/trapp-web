@@ -9,11 +9,6 @@ import { Layout, NormalVideo } from '../../../types'
 import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
 import Categories from './Categories'
 
-import Button from '@/components/Button'
-import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from '@/components/ui/drawer'
-import icon from '@/lib/icons'
-import { CheckIcon } from 'lucide-react'
-
 export default function HomeScreen() {
   const navigate = useNavigate()
   const [layout, setLayout] = useState<Layout | null>(null)
@@ -48,52 +43,7 @@ export default function HomeScreen() {
       <LiveNow />
       <Videos normal_videos={layout?.normal_video || null} />
       {/* <Videos normal_videos={null} /> */}
-      <DrawerDemo />
     </div>
-  )
-}
-export function DrawerDemo() {
-  return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <p>Open</p>
-      </DrawerTrigger>
-      <DrawerContent className='bg-black text-white outline-none'>
-        <div className='mx-auto w-full max-w-sm'>
-          <div className='mt-3 flex flex-col gap-7 p-3'>
-            <div className='flex w-full items-center justify-between   px-5'>
-              <div className='flex items-center gap-5'>
-                <img src={icon('vip.svg')} className='h-10 w-10' />
-                <span className='text-xl font-semibold'>Trapp Premium</span>
-              </div>
-              <span className='text-2xl font-medium'>$9/m</span>
-            </div>
-            <div className='flex flex-col gap-2 rounded-xl bg-white/10 p-5'>
-              <div className='flex items-center gap-2'>
-                <CheckIcon className='h-5 w-5' />
-                <span>Access all premium videos</span>
-              </div>
-              <div className='flex items-center gap-2'>
-                <CheckIcon className='h-5 w-5' />
-                <span>Access live streams</span>
-              </div>
-              <div className='flex items-center gap-2'>
-                <CheckIcon className='h-5 w-5' />
-                <span>Superchat feature enabled</span>
-              </div>
-            </div>
-          </div>
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <Button>Continue</Button>
-            </DrawerClose>
-            <p className='mt-3 text-center text-xs'>
-              By continuing you are accepting the <a href='#'>Terms and Conditions</a>
-            </p>
-          </DrawerFooter>
-        </div>
-      </DrawerContent>
-    </Drawer>
   )
 }
 export interface Banner {

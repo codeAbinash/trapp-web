@@ -12,6 +12,7 @@ export type UserProfile = {
     created_at: string
     updated_at: string
   }
+  subscription_status: 'expired' | 'active'
   message: string
 } | null
 

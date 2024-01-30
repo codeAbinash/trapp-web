@@ -97,12 +97,26 @@ const API = {
   stickers: {
     all: `${API_URL}/stickers/fetch`,
   },
+  subscription: {
+    call: `${API_URL}/payment/CallSubscription`,
+  },
 }
 
 export default API
 
 // All API calls
 
+export async function callSubscription_f() {
+  try {
+    const res = await fetch(API.subscription.call, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 export async function getStickers_f(): Promise<apiResponse> {
   try {
     const res = await fetch(API.stickers.all, {
