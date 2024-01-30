@@ -1,11 +1,13 @@
+import { SubscriptionDrawer } from '@/App'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { app } from '../../constants'
-import transitions from '../../lib/transition'
-import { UserProfile } from './utils'
 import TapMotion from '../../components/TapMotion'
 import Watermark from '../../components/Watermark'
+import { app } from '../../constants'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
+import transitions from '../../lib/transition'
+import { UserProfile } from './utils'
 const OPTIONS = [
   {
     groupName: 'Account',
@@ -70,6 +72,7 @@ export default function Profile() {
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const name = profile?.data?.name || 'Your Name'
   const pic = profile?.data?.profile_pic || '/images/other/pic.png'
+  const [isOpened, setIsOpened] = useState(false)
 
   return (
     <div className='bg-bg pb-28'>
@@ -86,7 +89,9 @@ export default function Profile() {
         <p className='user-full-name text-xl font-[450]'>{name}</p>
         <div className='tap97 mt-2 flex items-center justify-center rounded-full bg-color px-3 py-1.5'>
           <img src='/icons/other/star.svg' className='h-3.5' />
-          <p className='edit-button ml-1.5 pt-[0.07rem] text-sm leading-tight'>Premium</p>
+          <p className='edit-button ml-1.5 pt-[0.07rem] text-sm leading-tight' onClick={() => setIsOpened(true)}>
+            Premium
+          </p>
           <img src='/icons/other/arrow.svg' className='ml-2.5 h-2.5' />
         </div>
       </div>
@@ -129,7 +134,7 @@ export default function Profile() {
             </div>
           </div>
         ))}
-
+        <SubscriptionDrawer isOpened={isOpened} setIsOpened={setIsOpened} />
         <LogOut />
       </div>
 

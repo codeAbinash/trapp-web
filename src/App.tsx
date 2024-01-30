@@ -124,7 +124,7 @@ export default function App() {
         <div className='dark bg-bg text-white'>
           <PopupAlert />
           <RouterProvider router={router} />
-          <SubscriptionDrawer />
+          <SubScriptionDrawerContainer />
         </div>
       </Provider>
     </PopupAlertContextProvider>
@@ -140,10 +140,15 @@ export function ScrollToTop() {
   return null
 }
 
-export function SubscriptionDrawer() {
+function SubScriptionDrawerContainer() {
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const [isLoading, setIsLoading] = useState(false)
   const [isOpened, setIsOpened] = useState(profile?.subscription_status === 'expired')
+
+  return <SubscriptionDrawer isOpened={isOpened} setIsOpened={setIsOpened} />
+}
+
+export function SubscriptionDrawer({ isOpened, setIsOpened }: { isOpened: boolean; setIsOpened: any }) {
+  const [isLoading, setIsLoading] = useState(false)
 
   async function subscriptionAPI() {
     setIsLoading(true)
@@ -155,7 +160,7 @@ export function SubscriptionDrawer() {
   }
 
   return (
-    <Drawer open={isOpened}>
+    <Drawer open={isOpened} onClose={() => setIsOpened(false)}>
       <DrawerContent className='bg-black text-white outline-none'>
         <div className='mx-auto w-full max-w-sm'>
           <div className='mt-3 flex flex-col gap-7 p-3'>
