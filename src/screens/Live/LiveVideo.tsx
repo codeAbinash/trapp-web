@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { ScrollToTop } from '../../App'
 import { fetch_live_chat_f, getVideoDetails_f, live_chat_message_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
+import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
 import { UserProfile } from '../Profile/utils'
 import { VideoDetails } from '../Video/components/VideoComponents'
 import BackButton from './BackButton'
@@ -19,6 +20,9 @@ export default function LiveVideo() {
   const [isLiveChatOpen, setIsLiveChatOpen] = useState(true)
   const [creator_id, setCreator_id] = useState<number | null>(null)
   const [isBackBtn, setShowBackButton] = useState(true)
+  const profile: UserProfile = useSelector((state: any) => state.profile)
+  const isSubscribed = profile?.subscription_status === 'active'
+  const { setIsOpened } = useSubscriptionDrawer()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,7 +36,12 @@ export default function LiveVideo() {
     setShowBackButton(true)
     setTimeout(() => {
       setShowBackButton(false)
-    }, 3000)
+    }, 5000)
+  }
+
+  function clickOnVideo() {
+    setIsOpened(!isSubscribed)
+    setBackButtonVisibility()
   }
 
   async function loadVideoDetails() {
@@ -49,14 +58,14 @@ export default function LiveVideo() {
     <>
       <ScrollToTop />
       <div
-        className='fixed top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'
+        className='fixed top-0 z-10 flex aspect-video w-full flex-col items-center justify-end bg-bg/80 pb-2 backdrop-blur-md'
         onMouseMove={setBackButtonVisibility}
         onTouchMove={setBackButtonVisibility}
         onTouchStart={setBackButtonVisibility}
-        onClick={setBackButtonVisibility}
+        onClick={clickOnVideo}
       >
         <BackButton show={isBackBtn} />
-        {/* <VideoPlayerUI videoDetails={videoDetails} /> */}
+        <VideoPlayerUI videoDetails={videoDetails} />
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
           Uploaded by {videoDetails?.creator.channel_name} - {niceDate(videoDetails?.created_at || '')}
         </p>
@@ -73,6 +82,7 @@ export default function LiveVideo() {
           <div>
             <p className='mb-3 mt-2 px-5 text-base font-semibold'>Live Chat</p>
           </div>
+          ``
           <LiveChatBox setIsLiveChatOpen={setIsLiveChatOpen} />
         </div>
         <div className={`${isLiveChatOpen ? 'block' : 'hidden'}`}>
@@ -186,7 +196,6 @@ const MAX_MESSAGES_SIZE = 500
 
 function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; isLiveChatOpen: boolean }) {
   const [messages, setMessages] = useState<MessageT[]>([])
-  // const [message, setMessage] = useState('')
   const [isSending, setIsSending] = useState(false)
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const inputRef = useRef<null | HTMLInputElement>(null)

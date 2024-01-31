@@ -1,14 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { NormalVideo } from '../../types'
-import { useSubscriptionDrawer } from '@/screens/Home/HomeScreen/subscriptionDrawerContext'
-import { UserProfile } from '@/screens/Profile/utils'
-import { useSelector } from 'react-redux'
 
 export default function VideoList({ videos }: { videos: NormalVideo[] | null }) {
   const navigate = useNavigate()
-  const { isOpened, setIsOpened } = useSubscriptionDrawer()
-  const profile: UserProfile = useSelector((state: any) => state.profile)
-  const isSubscribed = profile?.subscription_status === 'active'
 
   if (!videos) return null
 
@@ -18,10 +12,7 @@ export default function VideoList({ videos }: { videos: NormalVideo[] | null }) 
     <div className='grid grid-cols-2 gap-5 p-5 pb-24'>
       {videos.map((video) => (
         <div
-          onClick={() => {
-            if (!isSubscribed) return setIsOpened(true)
-            navigate(`/video/${video.id}`)
-          }}
+          onClick={() => navigate(`/video/${video.id}`)}
           key={video.id}
           className='tap99 bg-inputBg relative flex aspect-[3/4] w-full  flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm'
         >

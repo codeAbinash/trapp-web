@@ -1,10 +1,9 @@
-import { useNavigate } from 'react-router-dom'
-import { VideoListShimmer } from '@/components/Video/VideoList'
-import { VideosOrLive } from './types'
-import { useEffect, useRef, useState } from 'react'
-import { channelVideos } from '@/lib/api'
-import { current } from '@reduxjs/toolkit'
 import Button from '@/components/Button'
+import { VideoListShimmer } from '@/components/Video/VideoList'
+import { channelVideos } from '@/lib/api'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { VideosOrLive } from './types'
 
 function VideThumbnails({ videosData }: { videosData: VideosOrLive[] }) {
   const navigate = useNavigate()
@@ -30,6 +29,7 @@ function Videos({ videosData, creatorId }: { videosData: VideosOrLive[] | null |
   const observerTarget = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isMorePageAvailable, setIsMorePageAvailable] = useState(true)
+  // const
 
   async function loadVideos(currPage: number) {
     setIsLoading(true)

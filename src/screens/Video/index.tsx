@@ -7,6 +7,9 @@ import { niceDate } from '../../lib/util'
 import { VideoDetails } from './components/VideoComponents'
 import BackButton from '../Live/BackButton'
 import VideosByCat from '../Category/VideosByCat'
+import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
+import { UserProfile } from '../Profile/utils'
+import { useSelector } from 'react-redux'
 
 const videosData = [
   {
@@ -75,6 +78,9 @@ export default function Video() {
   const { video_id } = useParams()
   const [videoDetails, setVideoDetails] = useState<VideoDetails | null>(null)
   const [isBackBtn, setShowBackButton] = useState(true)
+  const { setIsOpened } = useSubscriptionDrawer()
+  const profile: UserProfile = useSelector((state: any) => state.profile)
+  const isSubscribed = profile?.subscription_status === 'active'
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -88,8 +94,14 @@ export default function Video() {
     setShowBackButton(true)
     setTimeout(() => {
       setShowBackButton(false)
-    }, 3000)
+    }, 5000)
   }
+
+  function clickOnVideo() {
+    setIsOpened(!isSubscribed)
+    setBackButtonVisibility()
+  }
+
   async function loadVideoDetails() {
     const res = await getVideoDetails_f(video_id!)
     if (!res.status) return
@@ -99,16 +111,17 @@ export default function Video() {
   useEffect(() => {
     setVideoDetails(null)
     loadVideoDetails()
+    setIsOpened(!isSubscribed)
   }, [video_id])
   return (
     <>
       <ScrollToTop />
       <div
-        className='sticky top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'
+        className='fixed top-0 z-10 flex aspect-video w-full flex-col items-center justify-end bg-bg/80 pb-2 backdrop-blur-md'
         onMouseMove={setBackButtonVisibility}
         onTouchMove={setBackButtonVisibility}
         onTouchStart={setBackButtonVisibility}
-        onClick={setBackButtonVisibility}
+        onClick={clickOnVideo}
       >
         <BackButton show={isBackBtn} />
         <Player playsInline poster={videoDetails?.thumbnail || ''} src={videoDetails?.video_loc || ''}></Player>

@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react'
+import Hls from 'hls.js'
+import React, { useEffect, useRef } from 'react'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
-import Hls from 'hls.js'
 
 interface VideoPlayerProps {
   src: string
@@ -13,6 +13,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
 
   useEffect(() => {
     if (!videoRef.current) return
+
+    let timer1: NodeJS.Timeout | undefined
+    let timer2: NodeJS.Timeout | undefined
 
     const initPlayer = () => {
       const player = videojs(videoRef.current!, {
@@ -36,7 +39,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
           })
           .catch(() => {
             // Stream is not available, retry after a delay
-            setTimeout(checkStreamAvailability, 5000) // Retry after 5 seconds (adjust as needed)
+            timer1 = setTimeout(checkStreamAvailability, 5000) // Retry after 5 seconds (adjust as needed)
           })
       }
 
@@ -53,7 +56,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
               code: 4, // MEDIA_ERR_SRC_NOT_SUPPORTED
               message: 'Stream Has Been Ended',
             })
-            setTimeout(checkStreamAvailability, 5000) // Retry after 5 seconds (adjust as needed)
+            timer2 = setTimeout(checkStreamAvailability, 5000) // Retry after 5 seconds (adjust as needed)
           }
         })
 
@@ -75,6 +78,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
       if (playerRef.current) {
         playerRef.current.dispose()
       }
+
+      timer1 && clearTimeout(timer1)
+      timer2 && clearTimeout(timer2)
     }
   }, [src])
 
