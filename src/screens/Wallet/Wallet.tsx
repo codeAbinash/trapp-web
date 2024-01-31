@@ -4,6 +4,8 @@ import { Header } from '@/components/Header/Header'
 import { getCoinsList_f } from '@/lib/api'
 import { nFormatter } from '@/lib/util'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { UserProfile } from '../Profile/utils'
 
 export interface Price {
   id: number
@@ -14,6 +16,7 @@ export interface Price {
 }
 export default function Wallet() {
   const [prices, setPrices] = useState<Price[] | null>(null)
+  const profile: UserProfile = useSelector((state: any) => state.profile)
 
   async function loadPrices() {
     const res = await getCoinsList_f()
@@ -25,10 +28,6 @@ export default function Wallet() {
   useEffect(() => {
     loadPrices()
   }, [])
-
-  useEffect(() => {
-    console.log(prices)
-  }, [prices])
 
   return (
     <>
@@ -43,7 +42,7 @@ export default function Wallet() {
           <p>Wallet Balance</p>
           <div className='mt-1.5 flex items-center gap-3'>
             <Coin />
-            <p className='text-[2.5rem]'>200</p>
+            <p className='text-[2.5rem]'>{profile.data.coins}</p>
           </div>
         </div>
 
