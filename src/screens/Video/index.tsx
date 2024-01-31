@@ -117,7 +117,7 @@ export default function Video() {
     <>
       <ScrollToTop />
       <div
-        className='fixed top-0 z-10 flex aspect-video w-full flex-col items-center justify-end bg-bg/80 pb-2 backdrop-blur-md'
+        className='sticky top-0 z-10 w-full bg-bg/80 pb-2 backdrop-blur-md'
         onMouseMove={setBackButtonVisibility}
         onTouchMove={setBackButtonVisibility}
         onTouchStart={setBackButtonVisibility}
