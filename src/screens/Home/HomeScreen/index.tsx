@@ -1,4 +1,5 @@
-import { FunctionComponent, ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setProfile } from '../../../Redux/profile'
 import store from '../../../Redux/store'
@@ -8,15 +9,11 @@ import { isLoggedIn } from '../../../lib/util'
 import { Layout, NormalVideo } from '../../../types'
 import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
 import Categories from './Categories'
-import { SubscriptionDrawer } from '@/App'
-import { useSelector } from 'react-redux'
 import { useSubscriptionDrawer } from './subscriptionDrawerContext'
 
 export default function HomeScreen() {
   const navigate = useNavigate()
   const [layout, setLayout] = useState<Layout | null>(null)
-
-  const [isOpened, setIsOpened] = useState(false)
 
   useEffect(() => {
     if (!isLoggedIn()) navigate('/login', { replace: true })
@@ -131,7 +128,7 @@ const LiveNowData = [
 function LiveNow() {
   const navigate = useNavigate()
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const isSubscribed = profile.subscription_status === 'active'
+  const isSubscribed = profile?.subscription_status === 'active' || false
   const { isOpened, setIsOpened } = useSubscriptionDrawer()
   return (
     <>
@@ -205,7 +202,7 @@ function VideosShimmer() {
 function VideoThumbnails(videosData: NormalVideo[]) {
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const navigate = useNavigate()
-  const isSubscribed = profile.subscription_status === 'active'
+  const isSubscribed = profile?.subscription_status === 'active' || false
 
   const { isOpened, setIsOpened } = useSubscriptionDrawer()
 
