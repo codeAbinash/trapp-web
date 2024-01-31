@@ -31,6 +31,7 @@ import { UserProfile } from './screens/Profile/utils'
 import Test from './screens/Test'
 import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
+import { SubscriptionDrawerProvider, useSubscriptionDrawer } from './screens/Home/HomeScreen/subscriptionDrawerContext'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
 
@@ -121,14 +122,20 @@ export default function App() {
   return (
     <PopupAlertContextProvider>
       <Provider store={store}>
-        <div className='dark bg-bg text-white'>
-          <PopupAlert />
-          <RouterProvider router={router} />
-          <SubScriptionDrawerContainer />
-        </div>
+        <SubscriptionDrawerProvider>
+          <div className='dark bg-bg text-white'>
+            <PopupAlert />
+            <RouterProvider router={router} />
+            <DrawerWrapper />
+          </div>
+        </SubscriptionDrawerProvider>
       </Provider>
     </PopupAlertContextProvider>
   )
+}
+function DrawerWrapper() {
+  const { isOpened, setIsOpened } = useSubscriptionDrawer()
+  return <SubscriptionDrawer isOpened={isOpened} setIsDrawerOpen={setIsOpened} />
 }
 
 export function ScrollToTop() {
@@ -144,10 +151,16 @@ function SubScriptionDrawerContainer() {
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const [isOpened, setIsOpened] = useState(profile?.subscription_status === 'expired')
 
-  return <SubscriptionDrawer isOpened={isOpened} setIsOpened={setIsOpened} />
+  return <SubscriptionDrawer isOpened={isOpened} setIsDrawerOpen={setIsOpened} />
 }
 
-export function SubscriptionDrawer({ isOpened, setIsOpened }: { isOpened: boolean; setIsOpened: any }) {
+export function SubscriptionDrawer({
+  isOpened,
+  setIsDrawerOpen: setIsOpened,
+}: {
+  isOpened: boolean
+  setIsDrawerOpen: any
+}) {
   const [isLoading, setIsLoading] = useState(false)
 
   async function subscriptionAPI() {

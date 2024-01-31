@@ -139,7 +139,7 @@ export default function Profile() {
             </div>
           </div>
         ))}
-        <SubscriptionDrawer isOpened={isOpened} setIsOpened={setIsOpened} />
+        <SubscriptionDrawer isOpened={isOpened} setIsDrawerOpen={setIsOpened} />
         <LogOut />
       </div>
 

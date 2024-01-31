@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { FunctionComponent, ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setProfile } from '../../../Redux/profile'
 import store from '../../../Redux/store'
@@ -8,10 +8,15 @@ import { isLoggedIn } from '../../../lib/util'
 import { Layout, NormalVideo } from '../../../types'
 import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
 import Categories from './Categories'
+import { SubscriptionDrawer } from '@/App'
+import { useSelector } from 'react-redux'
+import { useSubscriptionDrawer } from './subscriptionDrawerContext'
 
 export default function HomeScreen() {
   const navigate = useNavigate()
   const [layout, setLayout] = useState<Layout | null>(null)
+
+  const [isOpened, setIsOpened] = useState(false)
 
   useEffect(() => {
     if (!isLoggedIn()) navigate('/login', { replace: true })
@@ -46,6 +51,7 @@ export default function HomeScreen() {
     </div>
   )
 }
+
 export interface Banner {
   id: number
   img_src: string
@@ -124,24 +130,32 @@ const LiveNowData = [
 
 function LiveNow() {
   const navigate = useNavigate()
+  const profile: UserProfile = useSelector((state: any) => state.profile)
+  const isSubscribed = profile.subscription_status === 'active'
+  const { isOpened, setIsOpened } = useSubscriptionDrawer()
   return (
-    <div className='mx-auto max-w-4xl'>
-      <div className='p-5'>
-        <p className='text-lg font-[450]'>Live Now</p>
+    <>
+      <div className='mx-auto max-w-4xl'>
+        <div className='p-5'>
+          <p className='text-lg font-[450]'>Live Now</p>
+        </div>
+        <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
+          {LiveNowData.map((live) => (
+            <div
+              onClick={transitions(() => {
+                if (!isSubscribed) setIsOpened(true)
+                else navigate('liveVideo/67')
+              })}
+              key={live.id}
+              className='tap99 bg-inputBg flex w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden shadow-sm first:ml-5 last:mr-5'
+            >
+              <img className='aspect-square w-full shrink-0 rounded-full border-2 border-color' src={live.image} />
+              <p className='pt-2 text-[0.85rem]'>{live.title}</p>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
-        {LiveNowData.map((live) => (
-          <div
-            onClick={transitions(() => navigate('liveVideo/67'))}
-            key={live.id}
-            className='tap99 bg-inputBg flex w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden shadow-sm first:ml-5 last:mr-5'
-          >
-            <img className='aspect-square w-full shrink-0 rounded-full border-2 border-color' src={live.image} />
-            <p className='pt-2 text-[0.85rem]'>{live.title}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   )
 }
 function Videos({ normal_videos }: { normal_videos: NormalVideo[] | null }) {
@@ -189,21 +203,33 @@ function VideosShimmer() {
 }
 
 function VideoThumbnails(videosData: NormalVideo[]) {
+  const profile: UserProfile = useSelector((state: any) => state.profile)
   const navigate = useNavigate()
-  return videosData.map((videoData) => (
-    <div
-      key={videoData.id}
-      className='tap99 bg-inputBg relative flex aspect-[3/4] w-[35%] max-w-[200px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm first:ml-5 last:mr-5'
-      onClick={transitions(() => navigate(`/video/${videoData.id}`))}
-    >
-      <img className='h-full w-full shrink-0 object-cover' src={videoData.thumbnail} />
-      <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8   text-center'>
-        <p className='line-clamp-1 text-sm font-[450]'>{videoData.title}</p>
-        {/* <p className='text-xs opacity-70'>{videoData.duration}</p> */}
-        <p className='text-xs opacity-70'>12min 36sec</p>
-      </div>
-    </div>
-  ))
+  const isSubscribed = profile.subscription_status === 'active'
+
+  const { isOpened, setIsOpened } = useSubscriptionDrawer()
+
+  return (
+    <>
+      {videosData.map((videoData) => (
+        <div
+          key={videoData.id}
+          className='tap99 bg-inputBg relative flex aspect-[3/4] w-[35%] max-w-[200px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm first:ml-5 last:mr-5'
+          onClick={transitions(() => {
+            if (!isSubscribed) setIsOpened(true)
+            else navigate(`/video/${videoData.id}`)
+          })}
+        >
+          <img className='h-full w-full shrink-0 object-cover' src={videoData.thumbnail} />
+          <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8   text-center'>
+            <p className='line-clamp-1 text-sm font-[450]'>{videoData.title}</p>
+            {/* <p className='text-xs opacity-70'>{videoData.duration}</p> */}
+            <p className='text-xs opacity-70'>12min 36sec</p>
+          </div>
+        </div>
+      ))}
+    </>
+  )
 }
 
 // How to shuffle array

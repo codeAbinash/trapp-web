@@ -5,7 +5,7 @@ import ls from '../../lib/util'
 export interface UserProfile {
   status: boolean
   data: Data
-  subscription_status: string
+  subscription_status: 'expired' | 'active'
   message: string
 }
 
