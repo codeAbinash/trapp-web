@@ -4,7 +4,7 @@ import './css/tailwind.css'
 
 import { CheckIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Provider, useSelector } from 'react-redux'
+import { Provider } from 'react-redux'
 import { RouterProvider, createBrowserRouter, useLocation } from 'react-router-dom'
 import store from './Redux/store'
 import { NormalButton } from './components/Button'
@@ -22,16 +22,16 @@ import Category from './screens/Category/Category'
 import Creator from './screens/Creator'
 import Home from './screens/Home'
 import HomeScreen from './screens/Home/HomeScreen'
+import { SubscriptionDrawerProvider, useSubscriptionDrawer } from './screens/Home/HomeScreen/subscriptionDrawerContext'
 import AboutUs from './screens/More/AboutUs'
 import ContactUs from './screens/More/ContactUs'
 import PrivacyPolicy from './screens/More/PrivacyPolicy'
 import TermsAndConditions from './screens/More/TermsAndConditions'
+import OrderStatus from './screens/OrderStatus'
 import Profile from './screens/Profile/Profile'
-import { UserProfile } from './screens/Profile/utils'
 import Test from './screens/Test'
 import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
-import { SubscriptionDrawerProvider, useSubscriptionDrawer } from './screens/Home/HomeScreen/subscriptionDrawerContext'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
 
@@ -113,6 +113,10 @@ const router = createBrowserRouter([
     element: <Category />,
   },
   {
+    path: 'orderStatus/:order_id',
+    element: <OrderStatus />,
+  },
+  {
     path: 'test',
     element: <Test />,
   },
@@ -147,13 +151,6 @@ export function ScrollToTop() {
   return null
 }
 
-function SubScriptionDrawerContainer() {
-  const profile: UserProfile = useSelector((state: any) => state.profile)
-  const [isOpened, setIsOpened] = useState(profile?.subscription_status === 'expired')
-
-  return <SubscriptionDrawer isOpened={isOpened} setIsDrawerOpen={setIsOpened} />
-}
-
 export function SubscriptionDrawer({
   isOpened,
   setIsDrawerOpen: setIsOpened,
@@ -167,7 +164,7 @@ export function SubscriptionDrawer({
     setIsLoading(true)
     const res = await callSubscription_f()
     if (!res.status) return
-    window.open(res.data.payment_link, '_blank')
+    window.open(res.data.payment_link, '_self')
     setIsLoading(false)
     setIsOpened(false)
   }
