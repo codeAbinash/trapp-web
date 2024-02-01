@@ -11,6 +11,15 @@ import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
 import Categories from './Categories'
 import { DrawerWrapper } from '@/App'
 
+export const getUserData = async function () {
+  const userData = await getCurrentUser_f()
+  if (userData.status) {
+    const profile = userData?.data as UserProfile
+    store.dispatch(setProfile(profile))
+    setProfileInfoLs(profile)
+  }
+}
+
 export default function HomeScreen() {
   const navigate = useNavigate()
   const [layout, setLayout] = useState<Layout | null>(null)
@@ -18,15 +27,6 @@ export default function HomeScreen() {
   useEffect(() => {
     if (!isLoggedIn()) navigate('/login', { replace: true })
     getUserData()
-  }, [])
-
-  const getUserData = useCallback(async function () {
-    const userData = await getCurrentUser_f()
-    if (userData.status) {
-      const profile = userData?.data as UserProfile
-      store.dispatch(setProfile(profile))
-      setProfileInfoLs(profile)
-    }
   }, [])
 
   const getLayout = useCallback(async function () {

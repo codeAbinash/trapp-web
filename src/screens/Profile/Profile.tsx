@@ -1,4 +1,5 @@
 import { DrawerWrapper } from '@/App'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TapMotion from '../../components/TapMotion'
@@ -6,6 +7,7 @@ import Watermark from '../../components/Watermark'
 import { app } from '../../constants'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
+import { getUserData } from '../Home/HomeScreen'
 import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
 import { UserProfile } from './utils'
 const OPTIONS = [
@@ -74,6 +76,9 @@ export default function Profile() {
   const pic = profile?.data?.profile_pic || '/images/other/pic.png'
 
   const { setIsOpened } = useSubscriptionDrawer()
+  useEffect(() => {
+    getUserData()
+  }, [])
 
   return (
     <div className='bg-bg pb-28'>

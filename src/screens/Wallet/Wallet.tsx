@@ -1,10 +1,12 @@
 import Button from '@/components/Button'
 import { Coin } from '@/components/Coin'
 import { Header } from '@/components/Header/Header'
-import { getCoinsList_f } from '@/lib/api'
+import { buyCoins_f, getCoinsList_f } from '@/lib/api'
 import { nFormatter } from '@/lib/util'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getUserData } from '../Home/HomeScreen'
 import { UserProfile } from '../Profile/utils'
 
 export interface Price {
@@ -14,6 +16,7 @@ export interface Price {
   created_at: string
   updated_at: string
 }
+
 export default function Wallet() {
   const [prices, setPrices] = useState<Price[] | null>(null)
   const profile: UserProfile = useSelector((state: any) => state.profile)
@@ -24,6 +27,9 @@ export default function Wallet() {
     console.log(res.data.coins_bundle)
     setPrices(res.data.coins_bundle)
   }
+  useEffect(() => {
+    getUserData()
+  }, [])
 
   useEffect(() => {
     loadPrices()
@@ -50,7 +56,9 @@ export default function Wallet() {
           <p className='mb-3 mt-5 text-[1.125rem] font-medium'>Add Coins</p>
           <div className='flex flex-col gap-3.5'>
             {prices === null && Array.from(Array(4)).map((_, i) => <AddCoinBoxSkeleton key={i} />)}
-            {prices?.map((price) => <AddCoinBox key={price.id} count={price.coins} price={price.price} />)}
+            {prices?.map((price) => (
+              <AddCoinBox key={price.id} count={price.coins} price={price.price} id={price.id} />
+            ))}
           </div>
         </div>
       </div>
@@ -58,7 +66,18 @@ export default function Wallet() {
   )
 }
 
-function AddCoinBox({ count, price }: { count: number; price: number }) {
+function AddCoinBox({ count, price, id }: { count: number; price: number; id: number }) {
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+
+  async function buyCoin() {
+    setLoading(true)
+    const res = await buyCoins_f(id.toString())
+    if (!res) return
+    if (res?.data?.payment_link) window.open(res.data.payment_link, '_blank')
+    navigate(-1)
+  }
+
   return (
     <div className='flex justify-between rounded-[1.25rem] border border-white/20 bg-white/10 p-4'>
       <div className='flex items-center gap-4'>
@@ -68,8 +87,12 @@ function AddCoinBox({ count, price }: { count: number; price: number }) {
         </p>
       </div>
       <div>
-        <Button className='rounded-full bg-color px-7 py-2.5 text-white/90'>
-          <span className='font-medium'>${nFormatter(price)}</span>
+        <Button className='rounded-full bg-color px-7 py-2.5 text-white/90' onClick={buyCoin} disabled={loading}>
+          {loading ? (
+            <img src='/icons/other/loading.svg' className='h-5 w-5 invert' />
+          ) : (
+            <span className='font-medium'>${nFormatter(price)}</span>
+          )}
         </Button>
       </div>
     </div>
