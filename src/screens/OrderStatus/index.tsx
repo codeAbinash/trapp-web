@@ -88,22 +88,22 @@ export default function OrderStatus() {
           <div className={`mt-10 flex-col justify-center ${orderStatus?.status === 'complete' ? 'flex' : 'hidden'}`}>
             <div className='w-full rounded-xl bg-white/5 px-5 py-5'>
               {/*Details*/}
-              <div className='flex flex-col gap-2'>
+              <div className='flex flex-col gap-2 text-xs'>
                 <div className='flex justify-between'>
-                  <p className='text-sm'>Product</p>
-                  <p className='text-sm'>{orderStatus?.product_type}</p>
+                  <p>Product</p>
+                  <p>{orderStatus?.product_type}</p>
                 </div>
                 <div className='flex justify-between'>
-                  <p className='text-sm'>Order ID</p>
-                  <p className='text-sm'>{orderStatus?.order_id}</p>
+                  <p>Order ID</p>
+                  <p>{orderStatus?.order_id}</p>
                 </div>
                 <div className='flex justify-between'>
-                  <p className='text-sm'>Price</p>
-                  <p className='text-sm'>${orderStatus?.price}</p>
+                  <p>Price</p>
+                  <p>${orderStatus?.price}</p>
                 </div>
                 <div className='flex justify-between'>
-                  <p className='text-sm'>Description</p>
-                  <p className='text-sm'>{orderStatus?.description}</p>
+                  <p>Description</p>
+                  <p>{orderStatus?.description}</p>
                 </div>
               </div>
             </div>
