@@ -86,7 +86,7 @@ export default function OrderStatus() {
         </div>
         <div className='p-5'>
           <div className={`mt-10 flex-col justify-center ${orderStatus?.status === 'complete' ? 'flex' : 'hidden'}`}>
-            <div className='w-full rounded-xl bg-white/5 px-5 py-5'>
+            <div className='w-full rounded-xl bg-white/10 px-5 py-5'>
               {/*Details*/}
               <div className='flex flex-col gap-2 text-xs'>
                 <div className='flex justify-between'>
