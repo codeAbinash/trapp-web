@@ -38,7 +38,7 @@ export default function OrderStatus() {
 
   return (
     <>
-      <Header>Verifying payment</Header>
+      <Header>Payment Status</Header>
       <div>
         <div className='flex w-full flex-col items-center justify-center pt-10'>
           {!orderStatus || orderStatus.status === 'pending' ? (
