@@ -27,13 +27,13 @@ import AboutUs from './screens/More/AboutUs'
 import ContactUs from './screens/More/ContactUs'
 import PrivacyPolicy from './screens/More/PrivacyPolicy'
 import TermsAndConditions from './screens/More/TermsAndConditions'
-import OrderStatus from './screens/OrderStatus'
 import Profile from './screens/Profile/Profile'
 import Test from './screens/Test'
 import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
+const OrderStatus = lazyWithPreload(() => import('./screens/OrderStatus'))
 
 LiveVideo.preload()
 
@@ -130,14 +130,13 @@ export default function App() {
           <div className='dark bg-bg text-white'>
             <PopupAlert />
             <RouterProvider router={router} />
-            <DrawerWrapper />
           </div>
         </SubscriptionDrawerProvider>
       </Provider>
     </PopupAlertContextProvider>
   )
 }
-function DrawerWrapper() {
+export function DrawerWrapper() {
   const { isOpened, setIsOpened } = useSubscriptionDrawer()
   return <SubscriptionDrawer isOpened={isOpened} setIsDrawerOpen={setIsOpened} />
 }
@@ -159,6 +158,15 @@ export function SubscriptionDrawer({
   setIsDrawerOpen: any
 }) {
   const [isLoading, setIsLoading] = useState(false)
+
+  // If the route is /orderStatus/:order_id, then disable the drawer
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    if (pathname.includes('/orderStatus/')) {
+      setIsOpened(false)
+    }
+  }, [pathname])
 
   async function subscriptionAPI() {
     setIsLoading(true)

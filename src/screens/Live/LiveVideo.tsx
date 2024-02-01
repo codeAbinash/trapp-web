@@ -4,7 +4,7 @@ import Pusher from 'pusher-js'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { ScrollToTop } from '../../App'
+import { DrawerWrapper, ScrollToTop } from '../../App'
 import { fetch_live_chat_f, getVideoDetails_f, live_chat_message_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
 import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
@@ -91,6 +91,7 @@ export default function LiveVideo() {
           <LiveChatUi setIsLiveChatOpen={setIsLiveChatOpen} video_id={video_id} isLiveChatOpen={isLiveChatOpen} />
         </div>
       </div>
+      <DrawerWrapper />
     </>
   )
 }

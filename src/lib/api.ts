@@ -99,6 +99,7 @@ const API = {
   },
   subscription: {
     call: `${API_URL}/payment/CallSubscription`,
+    status: `${API_URL}/payment/FetchOrder/`,
   },
   wallet: {
     get_coins_list: `${API_URL}/wallet/GetCoinBundle`,
@@ -108,6 +109,18 @@ const API = {
 export default API
 
 // All API calls
+
+export async function fetchOrderStatus_f(order_id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.subscription.status + order_id, {
+      method: 'GET',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function getCoinsList_f(): Promise<apiResponse> {
   try {

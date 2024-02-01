@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Player } from 'video-react'
-import { ScrollToTop } from '../../App'
+import { DrawerWrapper, ScrollToTop } from '../../App'
 import { getVideoDetails_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
-import { VideoDetails } from './components/VideoComponents'
-import BackButton from '../Live/BackButton'
 import VideosByCat from '../Category/VideosByCat'
 import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
+import BackButton from '../Live/BackButton'
 import { UserProfile } from '../Profile/utils'
-import { useSelector } from 'react-redux'
+import { VideoDetails } from './components/VideoComponents'
 
 const videosData = [
   {
@@ -137,6 +137,7 @@ export default function Video() {
           {videoDetails?.cat_id && <VideosByCat cat_id={videoDetails?.cat_id} />}
         </div>
       </div>
+      <DrawerWrapper />
     </>
   )
 }

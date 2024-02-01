@@ -1,5 +1,4 @@
-import { SubscriptionDrawer } from '@/App'
-import { useState } from 'react'
+import { DrawerWrapper } from '@/App'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TapMotion from '../../components/TapMotion'
@@ -7,8 +6,8 @@ import Watermark from '../../components/Watermark'
 import { app } from '../../constants'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
-import { UserProfile } from './utils'
 import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
+import { UserProfile } from './utils'
 const OPTIONS = [
   {
     groupName: 'Account',
@@ -148,6 +147,7 @@ export default function Profile() {
         Version {app.name} ({app.code})
       </p>
       <Watermark />
+      <DrawerWrapper />
     </div>
   )
 }

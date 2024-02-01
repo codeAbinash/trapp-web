@@ -9,6 +9,7 @@ import { isLoggedIn } from '../../../lib/util'
 import { Layout, NormalVideo } from '../../../types'
 import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
 import Categories from './Categories'
+import { DrawerWrapper } from '@/App'
 
 export default function HomeScreen() {
   const navigate = useNavigate()
@@ -44,6 +45,7 @@ export default function HomeScreen() {
       <LiveNow />
       <Videos normal_videos={layout?.normal_video || null} />
       {/* <Videos normal_videos={null} /> */}
+      <DrawerWrapper />
     </div>
   )
 }
