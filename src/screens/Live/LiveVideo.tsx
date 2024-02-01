@@ -52,7 +52,9 @@ export default function LiveVideo() {
     setCreator_id(res.data.data.creator.id)
   }
   useEffect(() => {
+    setVideoDetails(null)
     loadVideoDetails()
+    setIsOpened(!isSubscribed)
   }, [])
   return (
     <>

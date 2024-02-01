@@ -8,6 +8,7 @@ import { app } from '../../constants'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
 import { UserProfile } from './utils'
+import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
 const OPTIONS = [
   {
     groupName: 'Account',
@@ -72,7 +73,8 @@ export default function Profile() {
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const name = profile?.data?.name || 'Your Name'
   const pic = profile?.data?.profile_pic || '/images/other/pic.png'
-  const [isOpened, setIsOpened] = useState(false)
+
+  const { setIsOpened } = useSubscriptionDrawer()
 
   return (
     <div className='bg-bg pb-28'>
@@ -139,7 +141,6 @@ export default function Profile() {
             </div>
           </div>
         ))}
-        <SubscriptionDrawer isOpened={isOpened} setIsDrawerOpen={setIsOpened} />
         <LogOut />
       </div>
 

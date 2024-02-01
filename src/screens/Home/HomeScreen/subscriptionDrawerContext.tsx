@@ -1,5 +1,5 @@
 import { SubscriptionDrawer } from '@/App'
-import { createContext, FunctionComponent, ReactNode, useState, useContext } from 'react'
+import { createContext, FunctionComponent, ReactNode, useState, useContext, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 interface SubscriptionDrawerContextProps {
@@ -13,7 +13,16 @@ const SubscriptionDrawerContext = createContext<SubscriptionDrawerContextProps |
 // Create a provider component
 export const SubscriptionDrawerProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   const profile = useSelector((state: any) => state.profile)
-  const [isOpened, setIsOpened] = useState(profile?.subscription_status === 'expired')
+  const [isOpened, setIsOpened] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsOpened(profile?.subscription_status === 'expired')
+    }, 3000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <SubscriptionDrawerContext.Provider value={{ isOpened, setIsOpened }}>
       {children}
