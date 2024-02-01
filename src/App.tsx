@@ -33,7 +33,7 @@ import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
-const OrderStatus = lazyWithPreload(() => import('./screens/OrderStatus'))
+const OrderStatus = lazyWithPreload(() => import('./screens/OrderStatus/OrderStatus'))
 
 LiveVideo.preload()
 
