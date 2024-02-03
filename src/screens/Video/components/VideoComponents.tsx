@@ -24,6 +24,7 @@ export interface VideoDetails {
   like_count: number
   creator: Creator
   views: number
+  hls_link: string
 }
 
 export interface Creator {

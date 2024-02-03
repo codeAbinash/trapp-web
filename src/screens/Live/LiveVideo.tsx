@@ -96,7 +96,7 @@ export default function LiveVideo() {
 
 function VideoPlayerUI({ videoDetails }: { videoDetails: VideoDetails | null }) {
   if (!videoDetails) return <></>
-  return <VideoPlayer src={videoDetails?.video_loc || ''} />
+  return <VideoPlayer src={videoDetails?.hls_link || ''} />
 }
 
 function LiveChatBox({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
