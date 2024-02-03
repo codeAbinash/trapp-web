@@ -33,7 +33,7 @@ export default function Categories() {
           catagories?.map((category) => (
             <div
               key={category.id}
-              className='tap99 bg-inputBg relative flex aspect-square w-[26%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm first:ml-5 last:mr-5'
+              className='tap99 bg-inputBg relative flex aspect-square w-[26%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 p-3 shadow-sm first:ml-5 last:mr-5'
               onClick={() =>
                 navigate(`/category/${category.id}`, {
                   state: category,
