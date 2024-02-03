@@ -141,7 +141,7 @@ function LiveNow({ live_videos }: { live_videos: LiveVideo[] | null }) {
         <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
           {live_videos.map((live) => (
             <div
-              onClick={transitions(() => navigate('liveVideo/67'))}
+              onClick={transitions(() => navigate(`liveVideo/${live.id}`))}
               key={live.id}
               className='tap99 bg-inputBg flex w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden shadow-sm first:ml-5 last:mr-5'
             >
