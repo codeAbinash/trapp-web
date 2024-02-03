@@ -128,8 +128,6 @@ const LiveNowData = [
 
 function LiveNow({ live_videos }: { live_videos: LiveVideo[] | null }) {
   const navigate = useNavigate()
-  const profile: UserProfile = useSelector((state: any) => state.profile)
-
   if (live_videos == null) return <LiveVideosShimmer />
 
   return (
@@ -139,6 +137,12 @@ function LiveNow({ live_videos }: { live_videos: LiveVideo[] | null }) {
           <p className='text-lg font-[450]'>Live Now</p>
         </div>
         <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
+          {live_videos.length === 0 && (
+            <div className='tap99 flex w-full max-w-4xl items-center justify-center py-5'>
+              <p className='text-center text-[0.85rem]'>No live videos available at the moment.</p>
+            </div>
+          )}
+
           {live_videos.map((live) => (
             <div
               onClick={transitions(() => navigate(`liveVideo/${live.id}`))}
