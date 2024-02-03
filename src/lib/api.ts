@@ -93,6 +93,7 @@ const API = {
   liveChat: {
     message: `${API_URL}/livechat/messages`,
     fetch: `${API_URL}/livechat/fetch`,
+    send_sticker: `${API_URL}/livechat/SendSticker`,
   },
   stickers: {
     all: `${API_URL}/stickers/fetch`,
@@ -110,6 +111,19 @@ const API = {
 export default API
 
 // All API calls
+
+export async function send_sticker_f(sticker_id: string, video_id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.liveChat.send_sticker, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ sticker_id, video_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function buyCoins_f(coin_bundle_id: string): Promise<apiResponse> {
   try {

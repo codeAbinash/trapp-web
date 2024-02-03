@@ -1,26 +1,16 @@
 import { useCallback, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setProfile } from '../../Redux/profile'
-import store from '../../Redux/store'
 import Button from '../../components/Button'
 import { Header } from '../../components/Header/Header'
 import { LoadingButton } from '../../components/Loading'
 import TapMotion from '../../components/TapMotion'
 import Watermark from '../../components/Watermark'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
-import API, { authorizedHeader, formDataHeaders, getCurrentUser_f, getError } from '../../lib/api'
+import API, { authorizedHeader, formDataHeaders, getError } from '../../lib/api'
 import icon from '../../lib/icons'
 import { blank_fn, delayFn, userMessage } from '../../lib/util'
-import { UserProfile, setProfileInfoLs } from '../Profile/utils'
-
-async function updateLocalUserData() {
-  const userProfileData = await getCurrentUser_f()
-  if (userProfileData.status) {
-    setProfileInfoLs(userProfileData.data)
-    store.dispatch(setProfile(userProfileData.data as UserProfile))
-  }
-}
+import { UserProfile, updateLocalUserData } from '../Profile/utils'
 
 function ProfilePicture({
   imageUrl,

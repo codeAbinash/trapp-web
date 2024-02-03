@@ -47,7 +47,6 @@ export default function LiveVideo() {
   async function loadVideoDetails() {
     const res = await getVideoDetails_f(video_id!)
     if (!res.status) return
-    console.log(res.data.data)
     setVideoDetails(res.data.data)
     setCreator_id(res.data.data.creator.id)
   }
@@ -67,7 +66,7 @@ export default function LiveVideo() {
         onClick={clickOnVideo}
       >
         <BackButton show={isBackBtn} />
-        <VideoPlayerUI videoDetails={videoDetails} />
+        {/* <VideoPlayerUI videoDetails={videoDetails} /> */} {/* TODO: Uncomment this line */}
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
           Uploaded by {videoDetails?.creator.channel_name} - {niceDate(videoDetails?.created_at || '')}
         </p>
@@ -84,7 +83,6 @@ export default function LiveVideo() {
           <div>
             <p className='mb-3 mt-2 px-5 text-base font-semibold'>Live Chat</p>
           </div>
-          ``
           <LiveChatBox setIsLiveChatOpen={setIsLiveChatOpen} />
         </div>
         <div className={`${isLiveChatOpen ? 'block' : 'hidden'}`}>
@@ -158,36 +156,78 @@ function LiveChatUi({
   )
 }
 
-interface MessageT {
-  created_at: string
+interface NormalMessage {
   id: number
+  video_id: number
+  user_id: number
+  type: string
   name: string
-  message: string
   avatar: string
-  type: 'creator' | 'user'
+  message: string
+  message_type: 'plain_text'
+  sticker: null
+  created_at: string
+  updated_at: string
 }
 
-function Message({ message }: { message: MessageT }) {
+interface StickerMessage {
+  id: number
+  video_id: number
+  user_id: number
+  type: string
+  name: string
+  avatar: string
+  message: null
+  message_type: 'stickers'
+  sticker: string
+  created_at: string
+  updated_at: string
+}
+
+function Message({ message }: { message: NormalMessage | StickerMessage }) {
+  if (message.message_type === 'stickers')
+    return (
+      <div className='flex gap-4 pl-5 pr-5'>
+        <img src={message.avatar} alt='' className='mt-2 h-8 w-8 rounded-full' />
+        <div className='flex w-full flex-col py-3'>
+          <span className='text-xs font-semibold'>
+            {message.name}
+            <MessageTime message={message} />
+          </span>
+          <img src={message.sticker} alt='' className='mt-3 h-20 w-20' />
+        </div>
+        <div className='text-sm'>{message.message}</div>
+      </div>
+    )
+
+  if (message.type === 'creator')
+    return (
+      <div className='flex items-center gap-4 pl-5 pr-5'>
+        <img src={message.avatar} alt='' className='h-8 w-8 rounded-full' />
+        <div className='flex flex-col gap-1'>
+          <div>
+            <span className='flex items-center gap-1 text-xs font-semibold text-green-500'>
+              Creator
+              <BadgeCheckIcon height={13} width={13} className='mr-1 inline-block' strokeWidth={2.5} />
+              <MessageTime message={message} />
+            </span>
+          </div>
+          <div className='text-sm'>{message.message}</div>
+        </div>
+      </div>
+    )
+
   return (
     <div className='flex items-center gap-4 pl-5 pr-5'>
       <img src={message.avatar} alt='' className='h-8 w-8 rounded-full' />
       <div className='flex flex-col gap-1'>
         <div className='flex items-center gap-2'>
-          {message.type === 'creator' ? (
-            <span className='flex items-center justify-center gap-1 text-xs font-semibold text-green-500'>
-              Creator
-              <BadgeCheckIcon height={13} width={13} className='mr-1 inline-block' strokeWidth={2.5} />
+          <div>
+            <span className='text-xs font-semibold'>
+              {message.name}
+              <MessageTime message={message} />
             </span>
-          ) : (
-            <span className='text-xs font-semibold'>{message.name}</span>
-          )}
-          <span className='text-xs opacity-60'>
-            {new Date(message.created_at).toLocaleTimeString('en-US', {
-              hour: 'numeric',
-              hour12: true,
-              minute: 'numeric',
-            })}
-          </span>
+          </div>
         </div>
         <div className='text-sm'>{message.message}</div>
       </div>
@@ -195,10 +235,22 @@ function Message({ message }: { message: MessageT }) {
   )
 }
 
+function MessageTime({ message }: { message: NormalMessage | StickerMessage }) {
+  return (
+    <span className='pl-2 text-xs font-normal opacity-60'>
+      {new Date(message.created_at).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        hour12: true,
+        minute: 'numeric',
+      })}
+    </span>
+  )
+}
+
 const MAX_MESSAGES_SIZE = 500
 
 function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; isLiveChatOpen: boolean }) {
-  const [messages, setMessages] = useState<MessageT[]>([])
+  const [messages, setMessages] = useState<NormalMessage[]>([])
   const [isSending, setIsSending] = useState(false)
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
   const inputRef = useRef<null | HTMLInputElement>(null)
@@ -220,6 +272,7 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
     const res = await fetch_live_chat_f(video_id)
     if (!res.status) return console.log('Error loading live chat')
     setMessages(res.data.data.reverse() || [])
+    console.log(res.data.data)
     setTimeout(() => {
       scrollToBottomForce()
     }, 500)
@@ -234,9 +287,14 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
 
     const channel = pusher.subscribe(video_id.toString())
     channel.bind('MessageSent', function (data: any) {
+      console.log(data)
       setMessages((prev) => [...prev, data.message].slice(-MAX_MESSAGES_SIZE))
     })
     channel.bind('CreMessageSent', function (data: any) {
+      setMessages((prev) => [...prev, data.message].slice(-MAX_MESSAGES_SIZE))
+    })
+    channel.bind('StickerSent', function (data: any) {
+      console.log(data)
       setMessages((prev) => [...prev, data.message].slice(-MAX_MESSAGES_SIZE))
     })
   }, [])
@@ -289,7 +347,7 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
         </div>
       </div>
       <div className='fixed bottom-0 flex w-full items-center justify-center gap-3 bg-bg/80 p-4 py-2 pt-2.5 backdrop-blur-md'>
-        <SendGift>
+        <SendGift video_id={video_id}>
           <TapMotion className='rounded-full bg-color p-3.5'>
             <GiftIcon size={20} />
           </TapMotion>
