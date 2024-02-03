@@ -66,7 +66,7 @@ export default function LiveVideo() {
         onClick={clickOnVideo}
       >
         <BackButton show={isBackBtn} />
-        {/* <VideoPlayerUI videoDetails={videoDetails} /> */} {/* TODO: Uncomment this line */}
+        <VideoPlayerUI videoDetails={videoDetails} />
         <p className='mt-2 text-center text-[0.55rem] opacity-50'>
           Uploaded by {videoDetails?.creator.channel_name} - {niceDate(videoDetails?.created_at || '')}
         </p>
