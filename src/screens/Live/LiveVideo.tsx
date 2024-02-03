@@ -339,11 +339,17 @@ function LiveChat({ video_id, isLiveChatOpen }: { video_id: string | undefined; 
   return (
     <div className='w-full select-auto'>
       <div className='flex w-full flex-col'>
-        <div className='liveChat relative flex h-[67dvh] flex-col gap-4 overflow-auto' ref={messageBoxRef}>
+        <div
+          className='liveChat relative flex flex-col gap-4 overflow-auto'
+          ref={messageBoxRef}
+          style={{
+            height: 'calc(100dvh - (100vw * 10 / 16))',
+          }}
+        >
           {messages.map((message, index) => (
             <Message message={message} key={index} />
           ))}
-          <div ref={messagesEndRef} className='w-full pb-28'></div>
+          <div ref={messagesEndRef} className='w-full pb-32'></div>
         </div>
       </div>
       <div className='fixed bottom-0 flex w-full items-center justify-center gap-3 bg-bg/80 p-4 py-2 pt-2.5 backdrop-blur-md'>
