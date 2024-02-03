@@ -6,7 +6,7 @@ import store from '../../../Redux/store'
 import { getBanners_f, getCurrentUser_f, getHomeLayout_f } from '../../../lib/api'
 import transitions from '../../../lib/transition'
 import { isLoggedIn } from '../../../lib/util'
-import { Layout, NormalVideo } from '../../../types'
+import { Layout, LiveVideo, NormalVideo } from '../../../types'
 import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
 import Categories from './Categories'
 import { DrawerWrapper } from '@/App'
@@ -42,7 +42,7 @@ export default function HomeScreen() {
     <div className='bg-bg pb-28'>
       <Banners />
       <Categories />
-      <LiveNow />
+      <LiveNow live_videos={layout?.live_video || null} />
       <Videos normal_videos={layout?.normal_video || null} />
       {/* <Videos normal_videos={null} /> */}
       <DrawerWrapper />
@@ -126,9 +126,12 @@ const LiveNowData = [
   },
 ]
 
-function LiveNow() {
+function LiveNow({ live_videos }: { live_videos: LiveVideo[] | null }) {
   const navigate = useNavigate()
   const profile: UserProfile = useSelector((state: any) => state.profile)
+
+  if (live_videos == null) return <LiveVideosShimmer />
+
   return (
     <>
       <div className='mx-auto max-w-4xl'>
@@ -136,14 +139,17 @@ function LiveNow() {
           <p className='text-lg font-[450]'>Live Now</p>
         </div>
         <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
-          {LiveNowData.map((live) => (
+          {live_videos.map((live) => (
             <div
               onClick={transitions(() => navigate('liveVideo/67'))}
               key={live.id}
               className='tap99 bg-inputBg flex w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden shadow-sm first:ml-5 last:mr-5'
             >
-              <img className='aspect-square w-full shrink-0 rounded-full border-2 border-color' src={live.image} />
-              <p className='pt-2 text-[0.85rem]'>{live.title}</p>
+              <img
+                className='aspect-square w-full shrink-0 rounded-full border-2 border-color object-cover'
+                src={live.creator.channel_logo}
+              />
+              <p className='pt-2 text-[0.85rem]'>{live.creator.channel_name}</p>
             </div>
           ))}
         </div>
@@ -151,6 +157,25 @@ function LiveNow() {
     </>
   )
 }
+
+function LiveVideosShimmer() {
+  return (
+    <div className='mx-auto max-w-4xl'>
+      <div className='p-5'>
+        <p className='text-lg font-[450]'>Live Now</p>
+      </div>
+      <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div
+            key={i}
+            className='tap99 flex aspect-square w-[22%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-full bg-white/10 shadow-sm first:ml-5 last:mr-5'
+          ></div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function Videos({ normal_videos }: { normal_videos: NormalVideo[] | null }) {
   if (normal_videos == null) return <VideosShimmer />
 

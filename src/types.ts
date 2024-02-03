@@ -13,6 +13,21 @@ export interface Response {
 
 export interface Layout {
   normal_video: NormalVideo[]
+  live_video: LiveVideo[]
+}
+
+export interface LiveVideo {
+  id: number
+  creator_id: string
+  creator: Creator
+}
+
+export interface Creator {
+  id: number
+  channel_name: string
+  channel_logo: string
+  first_name: string
+  last_name: string
 }
 
 export interface NormalVideo {
@@ -20,14 +35,15 @@ export interface NormalVideo {
   creator_id: string
   cat_id: string
   title: string
-  description: string
-  privacy: Privacy
+  description: null | string
+  privacy: string
   thumbnail: string
   video_loc: string
-  video_type: VideoType
+  video_type: string
+  views: number
   created_at: string
   updated_at: string
-  views: number
+  live_api_data: null
 }
 
 export interface Category {
