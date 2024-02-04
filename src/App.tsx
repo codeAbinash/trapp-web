@@ -22,6 +22,7 @@ import Category from './screens/Category/Category'
 import Creator from './screens/Creator'
 import Home from './screens/Home'
 import HomeScreen from './screens/Home/HomeScreen'
+import { PremiumDrawerProvider } from './screens/Home/HomeScreen/premiumDrawerContext'
 import { SubscriptionDrawerProvider, useSubscriptionDrawer } from './screens/Home/HomeScreen/subscriptionDrawerContext'
 import AboutUs from './screens/More/AboutUs'
 import ContactUs from './screens/More/ContactUs'
@@ -127,10 +128,12 @@ export default function App() {
     <PopupAlertContextProvider>
       <Provider store={store}>
         <SubscriptionDrawerProvider>
-          <div className='dark bg-bg text-white'>
-            <PopupAlert />
-            <RouterProvider router={router} />
-          </div>
+          <PremiumDrawerProvider>
+            <div className='dark bg-bg text-white'>
+              <PopupAlert />
+              <RouterProvider router={router} />
+            </div>
+          </PremiumDrawerProvider>
         </SubscriptionDrawerProvider>
       </Provider>
     </PopupAlertContextProvider>

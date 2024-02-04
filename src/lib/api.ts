@@ -101,6 +101,7 @@ const API = {
   subscription: {
     call: `${API_URL}/payment/CallSubscription`,
     status: `${API_URL}/payment/FetchOrder/`,
+    cancel: `${API_URL}/payment/CancelSubscription`,
   },
   wallet: {
     get_coins_list: `${API_URL}/wallet/GetCoinBundle`,
@@ -111,6 +112,18 @@ const API = {
 export default API
 
 // All API calls
+
+export async function cancelSubscription_f(): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.subscription.cancel, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function send_sticker_f(sticker_id: string, video_id: string): Promise<apiResponse> {
   try {

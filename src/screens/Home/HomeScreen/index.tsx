@@ -1,15 +1,12 @@
+import { DrawerWrapper } from '@/App'
 import { useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setProfile } from '../../../Redux/profile'
-import store from '../../../Redux/store'
-import { getBanners_f, getCurrentUser_f, getHomeLayout_f } from '../../../lib/api'
+import { getBanners_f, getHomeLayout_f } from '../../../lib/api'
 import transitions from '../../../lib/transition'
 import { isLoggedIn } from '../../../lib/util'
 import { Layout, LiveVideo, NormalVideo } from '../../../types'
-import { UserProfile, setProfileInfoLs, updateLocalUserData } from '../../Profile/utils'
+import { updateLocalUserData } from '../../Profile/utils'
 import Categories from './Categories'
-import { DrawerWrapper } from '@/App'
 
 export default function HomeScreen() {
   const navigate = useNavigate()
@@ -83,39 +80,6 @@ function Banners() {
     </div>
   )
 }
-
-const LiveNowData = [
-  {
-    image: '/images/categories/category1.png',
-    title: 'Coach Steve',
-    id: 1,
-  },
-  {
-    image: '/images/categories/category2.png',
-    title: 'Coach Alex',
-    id: 2,
-  },
-  {
-    image: '/images/categories/category3.png',
-    title: 'Coach Leo',
-    id: 3,
-  },
-  {
-    image: '/images/categories/category1.png',
-    title: 'Coach Jamal',
-    id: 4,
-  },
-  {
-    image: '/images/categories/category2.png',
-    title: 'Coach Jamal',
-    id: 5,
-  },
-  {
-    image: '/images/categories/category3.png',
-    title: 'Coach Jamal',
-    id: 6,
-  },
-]
 
 function LiveNow({ live_videos }: { live_videos: LiveVideo[] | null }) {
   const navigate = useNavigate()
@@ -236,21 +200,3 @@ function VideoThumbnails(videosData: NormalVideo[]) {
     </>
   )
 }
-
-// How to shuffle array
-// function shuffle(array: any) {
-//   var currentIndex = array.length,
-//     randomIndex
-
-//   // While there remain elements to shuffle...
-//   while (currentIndex != 0) {
-//     // Pick a remaining element...
-//     randomIndex = Math.floor(Math.random() * currentIndex)
-//     currentIndex--
-
-//     // And swap it with the current element.
-//     ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
-//   }
-
-//   return array
-// }

@@ -7,74 +7,94 @@ import Watermark from '../../components/Watermark'
 import { app } from '../../constants'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
+import { usePremiumDrawer } from '../Home/HomeScreen/premiumDrawerContext'
 import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
 import { UserProfile, updateLocalUserData } from './utils'
-const OPTIONS = [
-  {
-    groupName: 'Account',
-    options: [
-      {
-        name: 'Your Account',
-        icon: '/icons/red/profile.svg',
-        link: '/account',
-      },
-      {
-        name: 'Your Wallet',
-        icon: '/icons/red/wallet.svg',
-        link: '/wallet',
-      },
-      {
-        name: 'Manage Subscription',
-        icon: '/icons/red/star.svg',
-        small: 'Log out',
-        link: '/manage-subscription',
-      },
-      {
-        name: 'Transaction History',
-        icon: '/icons/red/clock.svg',
-        small: 'Log out',
-        link: '/transaction-history',
-      },
-    ],
-  },
-  {
-    options: [
-      {
-        name: 'Privacy Policy',
-        icon: '/icons/red/shield-done.svg',
-        link: '/privacy-policy',
-      },
-      {
-        name: 'Terms & Conditions',
-        icon: '/icons/red/doc.svg',
-        link: '/terms-and-conditions',
-      },
-      {
-        name: 'About Us',
-        icon: '/icons/red/about.svg',
-        link: '/about-us',
-      },
-      {
-        name: 'Contact Us',
-        icon: '/icons/red/message.svg',
-        link: '/contact-us',
-      },
-      {
-        name: 'Share App',
-        icon: '/icons/red/send.svg',
-      },
-    ],
-    groupName: 'More',
-  },
-]
+type Option = {
+  name: string
+  icon: string
+  link?: string
+  small?: string
+  onClick?: () => void
+}
+
+type OptionGroup = {
+  groupName?: string
+  options: Option[]
+}
+
+type ProfileOptions = OptionGroup[]
 
 export default function Profile() {
   const navigate = useNavigate()
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const name = profile?.data?.name || 'Your Name'
   const pic = profile?.data?.profile_pic || '/images/other/pic.png'
+  const setIsOpenedNormal = useSubscriptionDrawer().setIsOpened
+  const setIsOpenedPremium = usePremiumDrawer().setIsOpened
 
-  const { setIsOpened } = useSubscriptionDrawer()
+  const OPTIONS: ProfileOptions = [
+    {
+      groupName: 'Account',
+      options: [
+        {
+          name: 'Your Account',
+          icon: '/icons/red/profile.svg',
+          link: '/account',
+        },
+        {
+          name: 'Your Wallet',
+          icon: '/icons/red/wallet.svg',
+          link: '/wallet',
+        },
+        {
+          name: 'Manage Subscription',
+          icon: '/icons/red/star.svg',
+          small: 'Log out',
+          link: '/manage-subscription',
+          onClick: () => {
+            if (profile?.subscription_status.status === 'expired') setIsOpenedNormal(true)
+            else setIsOpenedPremium(true)
+          },
+        },
+        {
+          name: 'Transaction History',
+          icon: '/icons/red/clock.svg',
+          small: 'Log out',
+          link: '/transaction-history',
+        },
+      ],
+    },
+    {
+      options: [
+        {
+          name: 'Privacy Policy',
+          icon: '/icons/red/shield-done.svg',
+          link: '/privacy-policy',
+        },
+        {
+          name: 'Terms & Conditions',
+          icon: '/icons/red/doc.svg',
+          link: '/terms-and-conditions',
+        },
+        {
+          name: 'About Us',
+          icon: '/icons/red/about.svg',
+          link: '/about-us',
+        },
+        {
+          name: 'Contact Us',
+          icon: '/icons/red/message.svg',
+          link: '/contact-us',
+        },
+        {
+          name: 'Share App',
+          icon: '/icons/red/send.svg',
+        },
+      ],
+      groupName: 'More',
+    },
+  ]
   useEffect(() => {
     updateLocalUserData()
   }, [])
@@ -92,12 +112,13 @@ export default function Profile() {
           />
         </TapMotion>
         <p className='user-full-name text-xl font-[450]'>{name}</p>
-        <div className='tap97 mt-2 flex items-center justify-center rounded-full bg-color px-3 py-1.5'>
+        {/* <div className='tap97 mt-2 flex items-center justify-center rounded-full bg-color px-3 py-1.5'>
           <img src='/icons/other/star.svg' className='h-3.5' />
           <p
             className='edit-button ml-1.5 pt-[0.07rem] text-sm leading-tight'
             onClick={() => {
-              if (profile?.subscription_status.status === 'expired') setIsOpened(true)
+              if (profile?.subscription_status.status === 'expired') setIsOpenNormal(true)
+              else setIsOpenedPremium(true)
             }}
           >
             Premium
@@ -105,7 +126,13 @@ export default function Profile() {
           {profile?.subscription_status.status === 'expired' && (
             <img src='/icons/other/arrow.svg' className='ml-2.5 h-2.5' />
           )}
-        </div>
+        </div> */}
+        {profile?.subscription_status.status === 'active' && (
+          <div className='tap97 mt-2 flex items-center justify-center rounded-full bg-color px-3 py-1.5'>
+            <img src='/icons/other/star.svg' className='h-3.5' />
+            <p className='edit-button ml-1.5 pt-[0.07rem] text-sm leading-tight'>Premium</p>
+          </div>
+        )}
       </div>
       <div className='p-5'>
         {OPTIONS.map((optionGroup, i: number) => (
@@ -117,7 +144,8 @@ export default function Profile() {
                   className='tap99 flex items-center justify-between p-2 py-2.5 pl-2 pr-0'
                   key={i}
                   onClick={transitions(() => {
-                    if (option.link) navigate(option.link)
+                    if (option.onClick) option.onClick()
+                    else if (option.link) navigate(option.link)
                   })}
                 >
                   <div className='flex w-full items-center justify-between gap-6'>

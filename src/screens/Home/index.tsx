@@ -1,10 +1,18 @@
+import { NormalButton } from '@/components/Button'
+import { LoadingButton } from '@/components/Loading'
+import { Drawer, DrawerClose, DrawerContent, DrawerFooter } from '@/components/ui/drawer'
+import { cancelSubscription_f } from '@/lib/api'
+import icon from '@/lib/icons'
+import { CalendarCheckIcon, CalendarXIcon, CheckIcon } from 'lucide-react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
 import ls, { blank_fn } from '../../lib/util'
-import { UserProfile } from '../Profile/utils'
-import icon from '@/lib/icons'
+import { UserProfile, updateLocalUserData } from '../Profile/utils'
+import { usePremiumDrawer } from './HomeScreen/premiumDrawerContext'
+import { useSubscriptionDrawer } from './HomeScreen/subscriptionDrawerContext'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -13,6 +21,9 @@ export default function Home() {
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const pic = profile?.data?.profile_pic || '/images/other/pic.png'
   const { newPopup } = usePopupAlertContext()
+  const setPremiumOpen = usePremiumDrawer().setIsOpened
+  const setNormalOpen = useSubscriptionDrawer().setIsOpened
+
   return (
     <div className='h-dvh'>
       <div
@@ -31,7 +42,15 @@ export default function Home() {
               })}
             />
           </div>
-          <img src={icon('vip.svg')} className='bg-inputBg aspect-square w-8' />
+
+          <img
+            src={icon('vip.svg')}
+            className='bg-inputBg aspect-square w-7'
+            onClick={transitions(() => {
+              if (profile?.subscription_status.status === 'expired') setNormalOpen(true)
+              else setPremiumOpen(true)
+            })}
+          />
           <img
             src={pic}
             className='bg-inputBg aspect-square w-9 rounded-full border border-white/60 bg-white/10 object-cover'
@@ -105,58 +124,120 @@ export default function Home() {
           <span className='font-normMid text-center text-[0.7rem] font-[450]'>Profile</span>
         </div>
       </div>
+      <PremiumDrawerWrapper />
     </div>
   )
 }
 
-{
-  /* {navItems.map((item, index) => (
-    <div
-      key={index}
-      className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-        path === item.path ? 'text-color' : 'text-white opacity-40'
-      }`}
-      onClick={
-        item.onclick ? () => item.onclick(newPopup) : transitions(() => navigate(item.path, { replace: true }))
-      }
-    >
-      <div className='flex aspect-square items-start justify-center'>
-        <img
-          className={path === item.path ? item.className_filled : 'invert ' + item.className}
-          src={path === item.path ? item.icon_filled : item.icon}
-        />
-      </div>
-      <span className='font-normMid text-center text-[0.7rem] font-[450]'>{item.name}</span>
-    </div>
-  ))} */
+function PremiumDrawerWrapper() {
+  const { isOpened, setIsOpened } = usePremiumDrawer()
+  return <PremiumDrawer isOpened={isOpened} setIsDrawerOpen={setIsOpened} />
 }
 
-// const navItems = [
-//   {
-//     name: 'Home',
-//     path: '/',
-//     icon: '/icons/navbar/home.svg',
-//     icon_filled: '/icons/navbar/home_filled.svg',
-//     className: 'w-[18px]',
-//     className_filled: 'w-[18px]',
-//   },
-//   {
-//     name: 'Shop',
-//     path: '/shop',
-//     icon: '/icons/navbar/shop.svg',
-//     icon_filled: '/icons/navbar/shop_filled.svg',
-//     className: 'w-[21px]',
-//     className_filled: 'w-[21px]',
-//     onclick: (newPopup: (popup: PopupAlertType) => void) => {
-//       window.open('https://shop.trappmartialarts.com/authwithapp/' + ls.get('token'), '_blank')
-//     },
-//   },
-//   {
-//     name: 'Profile',
-//     path: '/profile',
-//     icon: '/icons/navbar/profile.svg',
-//     icon_filled: '/icons/navbar/profile_filled.svg',
-//     className: 'w-[16px]',
-//     className_filled: 'w-[16px]',
-//   },
-// ]
+export function PremiumDrawer({ isOpened, setIsDrawerOpen: setIsOpened }: { isOpened: boolean; setIsDrawerOpen: any }) {
+  const [isLoading, setIsLoading] = useState(false)
+  const { newPopup } = usePopupAlertContext()
+  const user: UserProfile = useSelector((state: any) => state.profile)
+
+  async function cancelSubscription() {
+    setIsOpened(false)
+    newPopup({
+      title: 'Are you sure?',
+      subTitle: (
+        <span className=''>
+          You will not be able to access premium content after you cancel your subscription. Are you sure you want to
+          cancel? This action cannot be undone.
+        </span>
+      ),
+      action: [
+        {
+          className: 'text-red-500',
+          text: 'Yes, cancel',
+          onClick: () => {
+            setTimeout(() => {
+              newPopup({
+                title: 'Asking one more time',
+                subTitle: 'Are you sure you want to cancel your subscription? Maybe you want to reconsider?',
+                action: [
+                  {
+                    className: 'text-red-500',
+                    text: 'Yes, cancel',
+                    onClick: async () => {
+                      setIsLoading(true)
+                      const res = await cancelSubscription_f()
+                      if (!res.status) return
+                      setIsLoading(false)
+                      setIsOpened(false)
+                      newPopup({
+                        title: 'Subscription Cancelled',
+                        subTitle: 'Your subscription has been cancelled successfully.',
+                        action: [{ text: 'Okay', onClick: blank_fn }],
+                      })
+                      updateLocalUserData()
+                    },
+                  },
+                  { text: 'No', onClick: blank_fn },
+                ],
+              })
+            }, 500)
+          },
+        },
+        { text: 'No', onClick: blank_fn },
+      ],
+    })
+  }
+
+  return (
+    <Drawer open={isOpened} onClose={() => setIsOpened(false)}>
+      <DrawerContent className='bg-black text-white outline-none'>
+        <div className='mx-auto w-full max-w-sm'>
+          <div className='mt-3 flex flex-col gap-4 p-3'>
+            <div className='flex w-full items-center justify-between px-5'>
+              <div className='flex items-center gap-5'>
+                <img src={icon('vip.svg')} className='h-10 w-10' />
+                <span className='text-xl font-semibold'>Trapp Premium</span>
+                <span className='rounded-md bg-color px-2 py-1 text-xs font-medium'>Subscribed</span>
+              </div>
+            </div>
+            <div className='mt10 mt-4 flex flex-col gap-2 rounded-xl bg-white/10 p-5'>
+              <div className='flex items-center gap-2'>
+                <CheckIcon className='h-5 w-5 text-green-500' />
+                <span>Access all premium videos</span>
+              </div>
+              <div className='flex items-center gap-2'>
+                <CheckIcon className='h-5 w-5 text-green-500' />
+                <span>Access live streams</span>
+              </div>
+              <div className='flex items-center gap-2'>
+                <CheckIcon className='h-5 w-5 text-green-500' />
+                <span>Superchat feature enabled</span>
+              </div>
+            </div>
+            <div className='flex flex-col gap-2 rounded-xl bg-white/10 p-5 text-sm'>
+              <div className='flex items-center gap-2'>
+                <CalendarCheckIcon className='h-5 w-5 text-green-500' />
+                <span className='pt-0.5'>
+                  Start Date : {new Date(user.subscription_status.start_at).toLocaleString()}
+                </span>
+              </div>
+              <div className='flex items-center gap-2'>
+                <CalendarXIcon className='h-5 w-5 text-red-500' />
+                <span className='pt-0.5'>End Date : {new Date(user.subscription_status.end_at).toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              {isLoading ? (
+                <LoadingButton text='Loading' />
+              ) : (
+                <NormalButton onClick={cancelSubscription}>Cancel Subscription</NormalButton>
+              )}
+            </DrawerClose>
+            <p className='mt-3 text-center text-xs'>You are subscribed to Trapp Premium.</p>
+          </DrawerFooter>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  )
+}
