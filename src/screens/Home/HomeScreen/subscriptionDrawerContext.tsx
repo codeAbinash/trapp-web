@@ -17,7 +17,7 @@ export const SubscriptionDrawerProvider: FunctionComponent<{ children: ReactNode
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsOpened(profile?.subscription_status.status === 'expired')
+      setIsOpened(profile?.subscription_status?.status !== 'active')
     }, 3000)
 
     return () => clearTimeout(timer)

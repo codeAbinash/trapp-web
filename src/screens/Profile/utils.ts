@@ -22,7 +22,7 @@ import ls from '../../lib/util'
 //   updated_at: string
 // }
 
-export interface UserProfile {
+export type UserProfile = {
   status: boolean
   data: Data
   subscription_status: SubscriptionStatus

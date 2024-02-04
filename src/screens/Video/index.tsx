@@ -80,7 +80,7 @@ export default function Video() {
   const [isBackBtn, setShowBackButton] = useState(true)
   const { setIsOpened } = useSubscriptionDrawer()
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const isSubscribed = profile?.subscription_status.status === 'active'
+  const isSubscribed = profile?.subscription_status?.status === 'active'
 
   useEffect(() => {
     const timer = setTimeout(() => {

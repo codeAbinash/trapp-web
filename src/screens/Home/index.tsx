@@ -47,7 +47,7 @@ export default function Home() {
             src={icon('vip.svg')}
             className='bg-inputBg aspect-square w-7'
             onClick={transitions(() => {
-              if (profile?.subscription_status.status === 'expired') setNormalOpen(true)
+              if (profile?.subscription_status?.status !== 'active') setNormalOpen(true)
               else setPremiumOpen(true)
             })}
           />
@@ -217,12 +217,14 @@ export function PremiumDrawer({ isOpened, setIsDrawerOpen: setIsOpened }: { isOp
               <div className='flex items-center gap-2'>
                 <CalendarCheckIcon className='h-5 w-5 text-green-500' />
                 <span className='pt-0.5'>
-                  Start Date : {new Date(user.subscription_status.start_at).toLocaleString()}
+                  Start Date : {new Date(user?.subscription_status?.start_at).toLocaleString()}
                 </span>
               </div>
               <div className='flex items-center gap-2'>
                 <CalendarXIcon className='h-5 w-5 text-red-500' />
-                <span className='pt-0.5'>End Date : {new Date(user.subscription_status.end_at).toLocaleString()}</span>
+                <span className='pt-0.5'>
+                  End Date : {new Date(user?.subscription_status?.end_at).toLocaleString()}
+                </span>
               </div>
             </div>
           </div>

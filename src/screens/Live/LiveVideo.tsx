@@ -21,7 +21,7 @@ export default function LiveVideo() {
   const [creator_id, setCreator_id] = useState<number | null>(null)
   const [isBackBtn, setShowBackButton] = useState(true)
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const isSubscribed = profile?.subscription_status.status === 'active'
+  const isSubscribed = profile?.subscription_status?.status === 'active'
   const { setIsOpened } = useSubscriptionDrawer()
 
   useEffect(() => {

@@ -53,7 +53,7 @@ export default function Profile() {
           small: 'Log out',
           link: '/manage-subscription',
           onClick: () => {
-            if (profile?.subscription_status.status === 'expired') setIsOpenedNormal(true)
+            if (profile?.subscription_status?.status !== 'active') setIsOpenedNormal(true)
             else setIsOpenedPremium(true)
           },
         },
@@ -127,7 +127,7 @@ export default function Profile() {
             <img src='/icons/other/arrow.svg' className='ml-2.5 h-2.5' />
           )}
         </div> */}
-        {profile?.subscription_status.status === 'active' && (
+        {profile?.subscription_status?.status === 'active' && (
           <div className='tap97 mt-2 flex items-center justify-center rounded-full bg-color px-3 py-1.5'>
             <img src='/icons/other/star.svg' className='h-3.5' />
             <p className='edit-button ml-1.5 pt-[0.07rem] text-sm leading-tight'>Premium</p>
