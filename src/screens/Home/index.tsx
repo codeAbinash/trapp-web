@@ -3,7 +3,7 @@ import { LoadingButton } from '@/components/Loading'
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter } from '@/components/ui/drawer'
 import { cancelSubscription_f } from '@/lib/api'
 import icon from '@/lib/icons'
-import { CalendarCheckIcon, CalendarXIcon, CheckIcon } from 'lucide-react'
+import { CheckIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
@@ -43,14 +43,8 @@ export default function Home() {
             />
           </div>
 
-          <img
-            src={icon('vip.svg')}
-            className='bg-inputBg aspect-square w-7'
-            onClick={transitions(() => {
-              if (profile?.subscription_status?.status !== 'active') setNormalOpen(true)
-              else setPremiumOpen(true)
-            })}
-          />
+          <PremiumIcon />
+
           <img
             src={pic}
             className='bg-inputBg aspect-square w-9 rounded-full border border-white/60 bg-white/10 object-cover'
@@ -127,6 +121,25 @@ export default function Home() {
       <PremiumDrawerWrapper />
     </div>
   )
+}
+
+function PremiumIcon() {
+  const setPremiumOpen = usePremiumDrawer().setIsOpened
+  const setNormalOpen = useSubscriptionDrawer().setIsOpened
+  const profile: UserProfile = useSelector((state: any) => state.profile)
+  const [isLoading, setIsLoading] = useState(false)
+
+  async function onclick() {
+    setIsLoading(true)
+    await updateLocalUserData()
+    if (profile?.subscription_status?.status !== 'active') setNormalOpen(true)
+    else setPremiumOpen(true)
+    setIsLoading(false)
+  }
+
+  if (isLoading) return <img src='/icons/other/loading.svg' className='w-7 p-1 invert' />
+
+  return <img src={icon('vip.svg')} className='bg-inputBg aspect-square w-7' onClick={onclick} />
 }
 
 function PremiumDrawerWrapper() {
@@ -215,16 +228,7 @@ export function PremiumDrawer({ isOpened, setIsDrawerOpen: setIsOpened }: { isOp
             </div>
             <div className='flex flex-col gap-2 rounded-xl bg-white/10 p-5 text-sm'>
               <div className='flex items-center gap-2'>
-                <CalendarCheckIcon className='h-5 w-5 text-green-500' />
-                <span className='pt-0.5'>
-                  Start Date : {new Date(user?.subscription_status?.start_at).toLocaleString()}
-                </span>
-              </div>
-              <div className='flex items-center gap-2'>
-                <CalendarXIcon className='h-5 w-5 text-red-500' />
-                <span className='pt-0.5'>
-                  End Date : {new Date(user?.subscription_status?.end_at).toLocaleString()}
-                </span>
+                <span>Subscription ends on {new Date(user?.subscription_status?.end_at).toLocaleString()}</span>
               </div>
             </div>
           </div>
