@@ -3,24 +3,50 @@ import store from '@/Redux/store'
 import { getCurrentUser_f } from '@/lib/api'
 import ls from '../../lib/util'
 
+// export interface UserProfile {
+//   status: boolean
+//   data: Data
+//   subscription_status: 'expired' | 'active'
+//   message: string
+// }
+
+// interface Data {
+//   id: number
+//   name: string
+//   country_code: string
+//   phone: string
+//   email: string
+//   profile_pic: string
+//   coins: number
+//   created_at: string
+//   updated_at: string
+// }
+
 export interface UserProfile {
   status: boolean
   data: Data
-  subscription_status: 'expired' | 'active'
+  subscription_status: SubscriptionStatus
   message: string
 }
 
-interface Data {
+export interface Data {
   id: number
   name: string
   country_code: string
   phone: string
-  email: string
+  email: null
   profile_pic: string
   coins: number
   created_at: string
   updated_at: string
 }
+
+export interface SubscriptionStatus {
+  status: 'expired' | 'active'
+  start_at: string
+  end_at: string
+}
+
 export function getProfileInfoLs(): UserProfile {
   return JSON.parse(ls.get('userProfile') || 'null')
 }
@@ -34,5 +60,6 @@ export async function updateLocalUserData() {
   if (userProfileData.status) {
     setProfileInfoLs(userProfileData.data)
     store.dispatch(setProfile(userProfileData.data as UserProfile))
+    console.log(userProfileData)
   }
 }

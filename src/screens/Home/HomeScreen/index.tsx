@@ -7,18 +7,9 @@ import { getBanners_f, getCurrentUser_f, getHomeLayout_f } from '../../../lib/ap
 import transitions from '../../../lib/transition'
 import { isLoggedIn } from '../../../lib/util'
 import { Layout, LiveVideo, NormalVideo } from '../../../types'
-import { UserProfile, setProfileInfoLs } from '../../Profile/utils'
+import { UserProfile, setProfileInfoLs, updateLocalUserData } from '../../Profile/utils'
 import Categories from './Categories'
 import { DrawerWrapper } from '@/App'
-
-export const getUserData = async function () {
-  const userData = await getCurrentUser_f()
-  if (userData.status) {
-    const profile = userData?.data as UserProfile
-    store.dispatch(setProfile(profile))
-    setProfileInfoLs(profile)
-  }
-}
 
 export default function HomeScreen() {
   const navigate = useNavigate()
@@ -26,7 +17,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (!isLoggedIn()) navigate('/login', { replace: true })
-    getUserData()
+    updateLocalUserData()
   }, [])
 
   const getLayout = useCallback(async function () {

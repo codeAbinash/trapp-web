@@ -7,9 +7,8 @@ import Watermark from '../../components/Watermark'
 import { app } from '../../constants'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
-import { getUserData } from '../Home/HomeScreen'
 import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
-import { UserProfile } from './utils'
+import { UserProfile, updateLocalUserData } from './utils'
 const OPTIONS = [
   {
     groupName: 'Account',
@@ -77,7 +76,7 @@ export default function Profile() {
 
   const { setIsOpened } = useSubscriptionDrawer()
   useEffect(() => {
-    getUserData()
+    updateLocalUserData()
   }, [])
 
   return (
@@ -98,12 +97,14 @@ export default function Profile() {
           <p
             className='edit-button ml-1.5 pt-[0.07rem] text-sm leading-tight'
             onClick={() => {
-              if (profile?.subscription_status === 'expired') setIsOpened(true)
+              if (profile?.subscription_status.status === 'expired') setIsOpened(true)
             }}
           >
             Premium
           </p>
-          {profile?.subscription_status === 'expired' && <img src='/icons/other/arrow.svg' className='ml-2.5 h-2.5' />}
+          {profile?.subscription_status.status === 'expired' && (
+            <img src='/icons/other/arrow.svg' className='ml-2.5 h-2.5' />
+          )}
         </div>
       </div>
       <div className='p-5'>

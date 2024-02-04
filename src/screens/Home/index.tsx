@@ -4,6 +4,7 @@ import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
 import ls, { blank_fn } from '../../lib/util'
 import { UserProfile } from '../Profile/utils'
+import icon from '@/lib/icons'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -30,7 +31,7 @@ export default function Home() {
               })}
             />
           </div>
-
+          <img src={icon('vip.svg')} className='bg-inputBg aspect-square w-8' />
           <img
             src={pic}
             className='bg-inputBg aspect-square w-9 rounded-full border border-white/60 bg-white/10 object-cover'

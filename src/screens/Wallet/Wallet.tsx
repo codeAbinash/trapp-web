@@ -6,8 +6,7 @@ import { nFormatter } from '@/lib/util'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getUserData } from '../Home/HomeScreen'
-import { UserProfile } from '../Profile/utils'
+import { UserProfile, updateLocalUserData } from '../Profile/utils'
 
 export interface Price {
   id: number
@@ -28,7 +27,7 @@ export default function Wallet() {
     setPrices(res.data.coins_bundle)
   }
   useEffect(() => {
-    getUserData()
+    updateLocalUserData()
   }, [])
 
   useEffect(() => {
