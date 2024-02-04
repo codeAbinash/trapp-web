@@ -67,14 +67,12 @@ export default function Wallet() {
 
 function AddCoinBox({ count, price, id }: { count: number; price: number; id: number }) {
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
 
   async function buyCoin() {
     setLoading(true)
     const res = await buyCoins_f(id.toString())
     if (!res) return
     if (res?.data?.payment_link) window.open(res.data.payment_link, '_blank')
-    navigate(-1)
   }
 
   return (
