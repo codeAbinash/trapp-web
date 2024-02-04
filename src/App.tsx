@@ -32,6 +32,7 @@ import Profile from './screens/Profile/Profile'
 import Test from './screens/Test'
 import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
+import Transactions from './screens/Transactions/Transactions'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
 const OrderStatus = lazyWithPreload(() => import('./screens/OrderStatus/OrderStatus'))
@@ -96,6 +97,11 @@ const router = createBrowserRouter([
   {
     path: 'wallet',
     element: <Wallet />,
+  },
+
+  {
+    path: 'transaction-history',
+    element: <Transactions />,
   },
   {
     path: 'creator/:creator',

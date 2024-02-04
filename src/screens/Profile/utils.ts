@@ -60,6 +60,5 @@ export async function updateLocalUserData() {
   if (userProfileData.status) {
     setProfileInfoLs(userProfileData.data)
     store.dispatch(setProfile(userProfileData.data as UserProfile))
-    console.log(userProfileData)
   }
 }

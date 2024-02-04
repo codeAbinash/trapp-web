@@ -106,12 +106,25 @@ const API = {
   wallet: {
     get_coins_list: `${API_URL}/wallet/GetCoinBundle`,
     buy_coins: `${API_URL}/payment/BuyCoins`,
+    transactions: `${API_URL}/wallet/TransactionsFetch`,
   },
 }
 
 export default API
 
 // All API calls
+
+export async function getTransactions_f(page: number): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.wallet.transactions + '?page=' + page, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function cancelSubscription_f(): Promise<apiResponse> {
   try {
