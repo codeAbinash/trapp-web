@@ -41,9 +41,7 @@ export default function OrderStatus() {
     <>
       <Header
         onclick={() => {
-          // close the window
-          window.close()
-          // navigate('/wallet', { replace: true })
+          navigate('/', { replace: true })
         }}
       >
         Payment Status
