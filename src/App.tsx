@@ -4,7 +4,7 @@ import './css/tailwind.css'
 
 import { CheckIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { RouterProvider, createBrowserRouter, useLocation } from 'react-router-dom'
 import store from './Redux/store'
 import { NormalButton } from './components/Button'
@@ -29,10 +29,11 @@ import ContactUs from './screens/More/ContactUs'
 import PrivacyPolicy from './screens/More/PrivacyPolicy'
 import TermsAndConditions from './screens/More/TermsAndConditions'
 import Profile from './screens/Profile/Profile'
+import { UserProfile } from './screens/Profile/utils'
 import Test from './screens/Test'
+import Transactions from './screens/Transactions/Transactions'
 import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
-import Transactions from './screens/Transactions/Transactions'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
 const OrderStatus = lazyWithPreload(() => import('./screens/OrderStatus/OrderStatus'))
@@ -167,8 +168,7 @@ export function SubscriptionDrawer({
   setIsDrawerOpen: any
 }) {
   const [isLoading, setIsLoading] = useState(false)
-
-  // If the route is /orderStatus/:order_id, then disable the drawer
+  const user: UserProfile = useSelector((state: any) => state.profile)
   const { pathname } = useLocation()
 
   useEffect(() => {
@@ -176,6 +176,13 @@ export function SubscriptionDrawer({
       setIsOpened(false)
     }
   }, [pathname])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (user) setIsOpened(user?.subscription_status?.status !== 'active')
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [])
 
   async function subscriptionAPI() {
     setIsLoading(true)
@@ -185,6 +192,8 @@ export function SubscriptionDrawer({
     setIsLoading(false)
     setIsOpened(false)
   }
+
+  if (!user) return null
 
   return (
     <Drawer open={isOpened} onClose={() => setIsOpened(false)}>

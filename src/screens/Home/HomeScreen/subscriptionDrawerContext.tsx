@@ -12,16 +12,7 @@ const SubscriptionDrawerContext = createContext<SubscriptionDrawerContextProps |
 
 // Create a provider component
 export const SubscriptionDrawerProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
-  const profile: UserProfile = useSelector((state: any) => state.profile)
   const [isOpened, setIsOpened] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpened(profile?.subscription_status?.status !== 'active')
-    }, 3000)
-
-    return () => clearTimeout(timer)
-  }, [])
 
   return (
     <SubscriptionDrawerContext.Provider value={{ isOpened, setIsOpened }}>
