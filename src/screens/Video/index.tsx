@@ -78,9 +78,9 @@ export default function Video() {
   const { video_id } = useParams()
   const [videoDetails, setVideoDetails] = useState<VideoDetails | null>(null)
   const [isBackBtn, setShowBackButton] = useState(true)
-  const { setIsOpened } = useSubscriptionDrawer()
+  // const { setIsOpened } = useSubscriptionDrawer()
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const isSubscribed = profile?.subscription_status?.status === 'active'
+  // const isSubscribed = profile?.subscription_status?.status === 'active'
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -98,7 +98,7 @@ export default function Video() {
   }
 
   function clickOnVideo() {
-    setIsOpened(!isSubscribed)
+    // setIsOpened(!isSubscribed)
     setBackButtonVisibility()
   }
 
@@ -111,7 +111,7 @@ export default function Video() {
   useEffect(() => {
     setVideoDetails(null)
     loadVideoDetails()
-    setIsOpened(!isSubscribed)
+    // setIsOpened(!isSubscribed)
   }, [video_id])
   return (
     <>

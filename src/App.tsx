@@ -178,10 +178,10 @@ export function SubscriptionDrawer({
   }, [pathname])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (user) setIsOpened(user?.subscription_status?.status !== 'active')
-    }, 3000)
-    return () => clearTimeout(timer)
+    // const timer = setTimeout(() => {
+    //   if (user) setIsOpened(user?.subscription_status?.status !== 'active')
+    // }, 3000)
+    // return () => clearTimeout(timer)
   }, [])
 
   async function subscriptionAPI() {
