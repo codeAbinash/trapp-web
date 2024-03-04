@@ -7,6 +7,7 @@ import { isLoggedIn } from '../../../lib/util'
 import { Layout, LiveVideo, NormalVideo } from '../../../types'
 import { updateLocalUserData } from '../../Profile/utils'
 import Categories from './Categories'
+import { getDurationString } from '@/lib/utils'
 
 export default function HomeScreen() {
   const navigate = useNavigate()
@@ -193,7 +194,7 @@ function VideoThumbnails(videosData: NormalVideo[]) {
           <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8   text-center'>
             <p className='line-clamp-1 text-sm font-[450]'>{videoData.title}</p>
             {/* <p className='text-xs opacity-70'>{videoData.duration}</p> */}
-            <p className='text-xs opacity-70'>12min 36sec</p>
+            <p className='text-xs opacity-70'>{getDurationString(videoData.video_duration)}</p>
           </div>
         </div>
       ))}
