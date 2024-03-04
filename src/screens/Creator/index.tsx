@@ -129,7 +129,7 @@ function Creator() {
           <Videos videosData={creatorProfile?.videosOrLives.data} creatorId={creatorId} />
         ) : null}
       </div>
-      <div>{currentTab === 'playlist' ? <Playlist /> : null}</div>
+      <div>{currentTab === 'playlist' ? <Playlist creator_id={creatorId} /> : null}</div>
     </div>
   )
 }

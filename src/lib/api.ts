@@ -86,6 +86,9 @@ const API = {
     like_unlike: `${API_URL}/video/like`,
     dislike_undislike: `${API_URL}/video/dislike`,
   },
+  playlist: {
+    get_playlist_by_creator: `${API_URL}/video/get_play_list`,
+  },
   categories: {
     get_all: `${API_URL}/video/get_cat_list`,
     video_by_cat: `${API_URL}/video/get_vid_by_cat`,
@@ -113,6 +116,19 @@ const API = {
 export default API
 
 // All API calls
+
+export async function getPlaylistByCreator_f(creator_id: string): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.playlist.get_playlist_by_creator, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ creator_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
 
 export async function getTransactions_f(page: number): Promise<apiResponse> {
   try {

@@ -36,6 +36,7 @@ export interface VideosOrLive {
   video_loc: string
   video_type: string
   views: number
+  video_duration: string
 }
 
 export interface Link {

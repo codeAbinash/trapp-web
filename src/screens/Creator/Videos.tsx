@@ -4,23 +4,26 @@ import { channelVideos } from '@/lib/api'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { VideosOrLive } from './types'
+import { getDurationString } from '@/lib/utils'
 
 function VideThumbnails({ videosData }: { videosData: VideosOrLive[] }) {
   const navigate = useNavigate()
 
-  return videosData.map((videoData) => (
-    <div
-      onClick={() => navigate(`/${videoData.video_type === 'live' ? 'liveVideo' : 'video'}/${videoData.id}`)}
-      key={videoData.id}
-      className='tap99 bg-inputBg relative flex aspect-[3/4] w-full  flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm'
-    >
-      <img className='w-full shrink-0' src={videoData.thumbnail} />
-      <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8 text-center'>
-        <p className='text-sm font-[450]'>{videoData.title}</p>
-        <p className='text-xs opacity-70'>Video Duration</p>
+  return videosData.map((videoData) => {
+    return (
+      <div
+        onClick={() => navigate(`/${videoData.video_type === 'live' ? 'liveVideo' : 'video'}/${videoData.id}`)}
+        key={videoData.id}
+        className='tap99 bg-inputBg relative flex aspect-[3/4] w-full  flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm'
+      >
+        <img className='w-full shrink-0' src={videoData.thumbnail} />
+        <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8 text-center'>
+          <p className='text-sm font-[450]'>{videoData.title}</p>
+          <p className='text-xs opacity-70'>{getDurationString(videoData.video_duration)}</p>
+        </div>
       </div>
-    </div>
-  ))
+    )
+  })
 }
 
 function Videos({ videosData, creatorId }: { videosData: VideosOrLive[] | null | undefined; creatorId: string }) {
