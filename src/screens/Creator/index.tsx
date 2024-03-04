@@ -1,13 +1,14 @@
-import { Outlet, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import transitions from '../../lib/transition'
-import Videos from './Videos'
 import { follow_unfollow_f, getCreatorProfile_f } from '@/lib/api'
-import { useEffect, useState } from 'react'
 import { nFormatter } from '@/lib/util'
-import { CreatorProfileT } from './types'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import transitions from '../../lib/transition'
 import Playlist from './Playlist'
+import Videos from './Videos'
+import { CreatorProfileT } from './types'
 
 export function FollowButton({ videoDetails, creatorId }: { videoDetails: CreatorProfileT | null; creatorId: string }) {
+  const [followed, setFollowed] = useState(!!videoDetails?.is_followed)
   if (!videoDetails)
     return (
       <button className='highlight-none tap95 mt-2 rounded-full bg-color px-6 py-[0.6rem] text-sm font-[420] text-white'>
@@ -15,7 +16,6 @@ export function FollowButton({ videoDetails, creatorId }: { videoDetails: Creato
       </button>
     )
 
-  const [followed, setFollowed] = useState(!!videoDetails.is_followed)
   const handelClick = async () => {
     transitions(() => setFollowed((prev) => !prev))()
     const res = await follow_unfollow_f(creatorId)
@@ -38,10 +38,10 @@ export function FollowButton({ videoDetails, creatorId }: { videoDetails: Creato
 
 function Creator() {
   const navigate = useNavigate()
-  const location = useLocation()
+  // const location = useLocation()
   const params = useParams()
   const creatorId = params.creator as string
-  const pathName = location.pathname
+  // const pathName = location.pathname
   const [currentTab, setCurrentTab] = useState<'videos' | 'playlist'>('videos')
 
   const [creatorProfile, setCreatorProfile] = useState<CreatorProfileT | null>(null)

@@ -44,6 +44,7 @@ export interface NormalVideo {
   created_at: string
   updated_at: string
   live_api_data: null
+  video_duration: string
 }
 
 export interface Category {

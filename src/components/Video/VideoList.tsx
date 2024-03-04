@@ -19,7 +19,7 @@ export default function VideoList({ videos }: { videos: NormalVideo[] | null }) 
           <img className='h-full w-full shrink-0 bg-cover object-cover' src={video.thumbnail} />
           <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent pb-1.5 pt-8 text-center'>
             <p className='text-sm font-[450]'>{video.title}</p>
-            <p className='text-xs opacity-70'>12 Min 13sec</p>
+            <p className='text-xs opacity-70'>{video.video_duration}</p>
           </div>
         </div>
       ))}
