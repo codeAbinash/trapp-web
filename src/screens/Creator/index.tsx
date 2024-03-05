@@ -96,7 +96,7 @@ function Creator() {
           <p className='text-[0.82rem] opacity-70'>Followers</p>
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <p className='text-[1.3rem] font-[450]'>{nFormatter(creatorProfile?.playlist_count || 0)}</p>
+          <p className='text-[1.3rem] font-[450]'>{nFormatter(creatorProfile?.playlists_count || 0)}</p>
           <p className='text-[0.82rem] opacity-70'>Playlist</p>
         </div>
       </div>
@@ -119,17 +119,33 @@ function Creator() {
           onClick={transitions(() => setCurrentTab('playlist'))}
         >
           Playlist
-          {creatorProfile?.playlist_count ? (
-            <span className='pl-1 text-xs'> ({nFormatter(creatorProfile?.playlist_count)})</span>
+          {creatorProfile?.playlists_count ? (
+            <span className='pl-1 text-xs'> ({nFormatter(creatorProfile?.playlists_count)})</span>
           ) : null}
         </div>
       </div>
       <div>
         {currentTab === 'videos' ? (
-          <Videos videosData={creatorProfile?.videosOrLives.data} creatorId={creatorId} />
+          creatorProfile?.videos_counts ? (
+            <Videos videosData={creatorProfile?.videosOrLives.data} creatorId={creatorId} />
+          ) : (
+            <div className='flex h-[30vh] items-center justify-center'>
+              <p className='font-[450]'>No Videos</p>
+            </div>
+          )
         ) : null}
       </div>
-      <div>{currentTab === 'playlist' ? <Playlist creator_id={creatorId} /> : null}</div>
+      <div>
+        {currentTab === 'playlist' ? (
+          creatorProfile?.playlists_count ? (
+            <Playlist creator_id={creatorId} />
+          ) : (
+            <div className='flex h-[30vh] items-center justify-center'>
+              <p className='font-[450]'>No Playlist</p>
+            </div>
+          )
+        ) : null}
+      </div>
     </div>
   )
 }

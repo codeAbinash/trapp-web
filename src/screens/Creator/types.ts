@@ -9,7 +9,7 @@ export interface CreatorProfileT {
   is_followed: boolean
   follow_counts: number
   videos_counts: number
-  playlist_count: number
+  playlists_count: number
   videosOrLives: VideosOrLives
 }
 
