@@ -1,53 +1,16 @@
 import { VideoListShimmer } from '@/components/Video/VideoList'
 import { getPlaylistByCreator_f } from '@/lib/api'
+import { Playlist } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
-
-const playListData = [
-  {
-    image: '/images/video/video1.png',
-    title: 'Ultimate Knockouts',
-    count: '10 Videos',
-    id: 1,
-  },
-  {
-    image: '/images/video/video2.png',
-    title: 'Boxing Night',
-    count: '7 Videos',
-    id: 2,
-  },
-  {
-    image: '/images/video/video3.png',
-    title: 'The Knockouts',
-    count: '5 Videos',
-    id: 3,
-  },
-  {
-    image: '/images/video/video1.png',
-    title: 'The Knockouts',
-    count: '6 Videos',
-    id: 4,
-  },
-  {
-    image: '/images/video/video2.png',
-    title: 'Boxing Night',
-    count: '3 Videos',
-    id: 5,
-  },
-]
-
-export interface Playlist {
-  id: number
-  playlist_name: string
-  creator_id: string
-  thumbnail: string
-  created_at: string
-  updated_at: string
-  videos_count: number
-}
+import { useNavigate } from 'react-router-dom'
 
 function PlayListThumbnails({ playListData }: { playListData: Playlist[] }) {
+  const navigate = useNavigate()
   return playListData.map((videoData) => (
     <div
+      onClick={() => {
+        navigate(`/playlist/${videoData.id}`, { state: videoData })
+      }}
       key={videoData.id}
       className='tap99 bg-inputBg relative flex aspect-[3/4] w-full  flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm'
     >

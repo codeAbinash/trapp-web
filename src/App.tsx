@@ -34,6 +34,7 @@ import Test from './screens/Test'
 import Transactions from './screens/Transactions/Transactions'
 import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
+import Playlist from './screens/Playlist/Playlist'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
 const OrderStatus = lazyWithPreload(() => import('./screens/OrderStatus/OrderStatus'))
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
   {
     path: 'category/:cat_id',
     element: <Category />,
+  },
+  {
+    path: 'playlist/:playlist_id',
+    element: <Playlist />,
   },
   {
     path: 'orderStatus/:order_id',

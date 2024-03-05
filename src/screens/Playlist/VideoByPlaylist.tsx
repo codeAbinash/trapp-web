@@ -1,19 +1,19 @@
 import Button from '@/components/Button'
+import VideoList, { VideoListShimmer } from '@/components/Video/VideoList'
+import { getVideosByPlaylist_f } from '@/lib/api'
+import { NormalVideo } from '@/types'
 import { useEffect, useRef, useState } from 'react'
-import VideoList, { VideoListShimmer } from '../../components/Video/VideoList'
-import { getVideosByCategory_f } from '../../lib/api'
-import { NormalVideo } from '../../types'
 
-export default function VideosByCat({ cat_id }: { cat_id: number }) {
+export default function VideoByPlaylist({ playlist_id }: { playlist_id: number }) {
   const [videos, setVideos] = useState<NormalVideo[] | null>(null)
   const [page, setPage] = useState(1)
   const observerTarget = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isMorePageAvailable, setIsMorePageAvailable] = useState(true)
 
-  async function loadCategory(curr_page: number) {
+  async function loadPlaylist(curr_page: number) {
     setIsLoading(true)
-    const res = await getVideosByCategory_f(cat_id, curr_page)
+    const res = await getVideosByPlaylist_f(playlist_id, curr_page)
     if (!res.status) return
     if (res.data.data.next_page_url === null) {
       setIsMorePageAvailable(false)
@@ -28,7 +28,7 @@ export default function VideosByCat({ cat_id }: { cat_id: number }) {
   function LoadMore() {
     if (isLoading) return
     setIsLoading(true)
-    loadCategory(page)
+    loadPlaylist(page)
     setPage(page + 1)
   }
 
@@ -55,7 +55,7 @@ export default function VideosByCat({ cat_id }: { cat_id: number }) {
   }, [observerTarget, isLoading])
 
   useEffect(() => {
-    loadCategory(page)
+    loadPlaylist(page)
   }, [])
 
   return (

@@ -54,3 +54,13 @@ export interface Category {
   created_at: string
   updated_at: string
 }
+
+export interface Playlist {
+  id: number
+  playlist_name: string
+  creator_id: string
+  thumbnail: string
+  created_at: string
+  updated_at: string
+  videos_count: number
+}

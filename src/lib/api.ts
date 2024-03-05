@@ -88,6 +88,7 @@ const API = {
   },
   playlist: {
     get_playlist_by_creator: `${API_URL}/video/get_play_list`,
+    get_videos_by_playlist: `${API_URL}/video/get_vid_by_playlist`,
   },
   categories: {
     get_all: `${API_URL}/video/get_cat_list`,
@@ -123,6 +124,19 @@ export async function getPlaylistByCreator_f(creator_id: string): Promise<apiRes
       method: 'POST',
       headers: authorizedHeader(defaultHeaders),
       body: JSON.stringify({ creator_id }),
+    })
+    return await returnResponse(res)
+  } catch (err) {
+    return catchError(err)
+  }
+}
+
+export async function getVideosByPlaylist_f(playlist_id: number, curr_page: number): Promise<apiResponse> {
+  try {
+    const res = await fetch(API.playlist.get_videos_by_playlist + '?page=' + curr_page, {
+      method: 'POST',
+      headers: authorizedHeader(defaultHeaders),
+      body: JSON.stringify({ playlist_id }),
     })
     return await returnResponse(res)
   } catch (err) {

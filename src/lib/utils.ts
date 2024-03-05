@@ -8,7 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 export function getDurationString(duration: string) {
   if (!duration) return ''
   const d = JSON.parse(duration)
-  console.log(d)
   const hours = d.hours
   const minutes = d.minute
   const seconds = d.seconds
