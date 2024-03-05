@@ -1,8 +1,10 @@
+import { ScrollToTop } from '@/App'
 import { Header } from '../../components/Header/Header'
 
 export default function TermsAndConditions() {
   return (
     <>
+      <ScrollToTop />
       <Header>
         <span className='font-[450]'> Terms and Conditions </span>
       </Header>

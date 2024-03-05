@@ -1,8 +1,10 @@
+import { ScrollToTop } from '@/App'
 import { Header } from '../../components/Header/Header'
 
 export default function PrivacyPolicy() {
   return (
     <>
+      <ScrollToTop />
       <Header>
         <span className='font-[450]'> Privacy Policy</span>
       </Header>

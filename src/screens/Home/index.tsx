@@ -31,15 +31,15 @@ export default function Home() {
           <img src='/AppIcons/full.png' className='h-8' />
         </div>
         <div className='flex items-center justify-center gap-6'>
-          {/* <div className='relative'>
+          <div className='relative'>
             <img
               src='/icons/other/notification.svg'
               className='tap95 w-4.5 opacity-60 invert'
-              onClick={transitions(() => {
-                navigate('/notifications')
-              })}
+              // onClick={transitions(() => {
+              //   navigate('/notifications')
+              // })}
             />
-          </div> */}
+          </div>
 
           <PremiumIcon />
 
