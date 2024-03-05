@@ -125,26 +125,14 @@ function Creator() {
         </div>
       </div>
       <div>
-        {currentTab === 'videos' ? (
-          creatorProfile?.videos_counts ? (
-            <Videos videosData={creatorProfile?.videosOrLives.data} creatorId={creatorId} />
-          ) : (
-            <div className='flex h-[30vh] items-center justify-center'>
-              <p className='font-[450]'>No Videos</p>
-            </div>
-          )
-        ) : null}
+        <Videos
+          videosData={creatorProfile?.videosOrLives.data}
+          creatorId={creatorId}
+          hidden={currentTab !== 'videos'}
+        />
       </div>
       <div>
-        {currentTab === 'playlist' ? (
-          creatorProfile?.playlists_count ? (
-            <Playlist creator_id={creatorId} />
-          ) : (
-            <div className='flex h-[30vh] items-center justify-center'>
-              <p className='font-[450]'>No Playlist</p>
-            </div>
-          )
-        ) : null}
+        <Playlist creator_id={creatorId} hidden={currentTab !== 'playlist'} />
       </div>
     </div>
   )

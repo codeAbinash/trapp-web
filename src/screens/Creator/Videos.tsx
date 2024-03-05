@@ -26,7 +26,15 @@ function VideThumbnails({ videosData }: { videosData: VideosOrLive[] }) {
   })
 }
 
-function Videos({ videosData, creatorId }: { videosData: VideosOrLive[] | null | undefined; creatorId: string }) {
+function Videos({
+  videosData,
+  creatorId,
+  hidden,
+}: {
+  videosData: VideosOrLive[] | null | undefined
+  creatorId: string
+  hidden: boolean
+}) {
   const [videos, setVideos] = useState<VideosOrLive[] | null>([] || null)
   const [page, setPage] = useState(2)
   const observerTarget = useRef<HTMLDivElement>(null)
@@ -82,6 +90,8 @@ function Videos({ videosData, creatorId }: { videosData: VideosOrLive[] | null |
       }
     }
   }, [observerTarget, isLoading])
+
+  if (hidden) return null
 
   if (!videosData)
     return (

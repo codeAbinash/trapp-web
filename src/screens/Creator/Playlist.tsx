@@ -22,7 +22,7 @@ function PlayListThumbnails({ playListData }: { playListData: Playlist[] }) {
     </div>
   ))
 }
-function Playlist({ creator_id }: { creator_id: string }) {
+function Playlist({ creator_id, hidden }: { creator_id: string; hidden: boolean }) {
   const [playlists, setPlaylists] = useState<Playlist[] | null>(null)
 
   const getPlaylist = useCallback(async () => {
@@ -35,10 +35,19 @@ function Playlist({ creator_id }: { creator_id: string }) {
     getPlaylist()
   }, [getPlaylist])
 
+  if (hidden) return null
+
   if (!playlists)
     return (
       <div className='mt-5 w-full'>
         <VideoListShimmer count={6} />
+      </div>
+    )
+
+  if (playlists.length === 0)
+    return (
+      <div className='flex min-h-[30vh] items-center justify-center text-center text-white'>
+        <p className='text-sm'>No Playlists Found</p>
       </div>
     )
 
