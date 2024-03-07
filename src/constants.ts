@@ -11,3 +11,5 @@ export const app = {
   api: 'https://trappmartialarts.com/api',
   secret: 'hellothisisocdexindia',
 }
+
+export const DEFAULT_PP = '/AppIcons/t-pp.png' // Default Profile Picture when user has not uploaded any picture

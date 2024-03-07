@@ -11,6 +11,7 @@ import API, { authorizedHeader, formDataHeaders, getError } from '../../lib/api'
 import icon from '../../lib/icons'
 import { blank_fn, delayFn, userMessage } from '../../lib/util'
 import { UserProfile, updateLocalUserData } from '../Profile/utils'
+import { DEFAULT_PP } from '@/constants'
 
 function ProfilePicture({
   imageUrl,
@@ -84,7 +85,7 @@ export default function Account() {
   const [isUpdating, setIsUpdating] = useState(false)
   const [name, setName] = useState(profile?.data?.name || '')
   const [email, setEmail] = useState(profile?.data?.email || '')
-  const [profilePicture, setProfilePicture] = useState(profile?.data.profile_pic || '/AppIcons/t-pp.png')
+  const [profilePicture, setProfilePicture] = useState(profile?.data.profile_pic || DEFAULT_PP)
   const phone = profile?.data?.phone || ''
   const code = profile?.data?.country_code || ''
   const pp = useRef<HTMLInputElement>(null)

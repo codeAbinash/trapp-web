@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import TapMotion from '../../components/TapMotion'
 import Watermark from '../../components/Watermark'
-import { app } from '../../constants'
+import { DEFAULT_PP, app } from '../../constants'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
 import { usePremiumDrawer } from '../Home/HomeScreen/premiumDrawerContext'
@@ -29,7 +29,7 @@ export default function Profile() {
   const navigate = useNavigate()
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const name = profile?.data?.name || 'Your Name'
-  const pic = profile?.data?.profile_pic || '/AppIcons/t-pp.png'
+  const pic = profile?.data?.profile_pic || DEFAULT_PP
   const setIsOpenedNormal = useSubscriptionDrawer().setIsOpened
   const setIsOpenedPremium = usePremiumDrawer().setIsOpened
 

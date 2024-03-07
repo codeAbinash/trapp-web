@@ -13,6 +13,7 @@ import { VideoDetails } from '../Video/components/VideoComponents'
 import BackButton from './BackButton'
 import SendGift from './GIft'
 import VideoPlayer from './VideoPlayer'
+import { DEFAULT_PP } from '@/constants'
 
 export default function LiveVideo() {
   const { video_id } = useParams()
@@ -101,7 +102,7 @@ function VideoPlayerUI({ videoDetails }: { videoDetails: VideoDetails | null }) 
 
 function LiveChatBox({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const pic = profile?.data?.profile_pic || '/AppIcons/t-pp.png'
+  const pic = profile?.data?.profile_pic || DEFAULT_PP
   const name = profile?.data?.name || 'Your Name'
   return (
     <TapMotion

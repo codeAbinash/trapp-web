@@ -13,13 +13,14 @@ import ls, { blank_fn } from '../../lib/util'
 import { UserProfile, updateLocalUserData } from '../Profile/utils'
 import { usePremiumDrawer } from './HomeScreen/premiumDrawerContext'
 import { useSubscriptionDrawer } from './HomeScreen/subscriptionDrawerContext'
+import { DEFAULT_PP } from '@/constants'
 
 export default function Home() {
   const navigate = useNavigate()
   const location = useLocation()
   const path = location.pathname
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const pic = profile?.data?.profile_pic || '/AppIcons/t-pp.png'
+  const pic = profile?.data?.profile_pic || DEFAULT_PP
   const { newPopup } = usePopupAlertContext()
 
   return (
