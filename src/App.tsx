@@ -35,16 +35,23 @@ import Transactions from './screens/Transactions/Transactions'
 import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
 import Playlist from './screens/Playlist/Playlist'
+import ls from './lib/util'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
 const OrderStatus = lazyWithPreload(() => import('./screens/OrderStatus/OrderStatus'))
 
 LiveVideo.preload()
 
+function CheckIfLoggedIn() {
+  const token = ls.get('token')
+  if (token) return <Home />
+  else return <Login />
+}
+
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <CheckIfLoggedIn />,
     children: [
       {
         path: '/',
