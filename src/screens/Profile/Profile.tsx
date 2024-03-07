@@ -29,7 +29,7 @@ export default function Profile() {
   const navigate = useNavigate()
   const profile: UserProfile = useSelector((state: any) => state.profile)
   const name = profile?.data?.name || 'Your Name'
-  const pic = profile?.data?.profile_pic || '/images/other/pic.png'
+  const pic = profile?.data?.profile_pic || '/AppIcons/t-pp.png'
   const setIsOpenedNormal = useSubscriptionDrawer().setIsOpened
   const setIsOpenedPremium = usePremiumDrawer().setIsOpened
 

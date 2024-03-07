@@ -19,7 +19,7 @@ export default function Home() {
   const location = useLocation()
   const path = location.pathname
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const pic = profile?.data?.profile_pic || '/images/other/pic.png'
+  const pic = profile?.data?.profile_pic || '/AppIcons/t-pp.png'
   const { newPopup } = usePopupAlertContext()
 
   return (

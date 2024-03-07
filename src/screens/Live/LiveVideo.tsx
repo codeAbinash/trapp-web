@@ -101,7 +101,7 @@ function VideoPlayerUI({ videoDetails }: { videoDetails: VideoDetails | null }) 
 
 function LiveChatBox({ setIsLiveChatOpen }: { setIsLiveChatOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
   const profile: UserProfile = useSelector((state: any) => state.profile)
-  const pic = profile?.data?.profile_pic || '/images/other/pic.png'
+  const pic = profile?.data?.profile_pic || '/AppIcons/t-pp.png'
   const name = profile?.data?.name || 'Your Name'
   return (
     <TapMotion
