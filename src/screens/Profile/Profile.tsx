@@ -201,7 +201,7 @@ function LogOut() {
           className: 'text-red-500',
           onClick: () => {
             localStorage.clear()
-            navigate('/', { replace: true })
+            navigate('/home', { replace: true })
           },
         },
       ],

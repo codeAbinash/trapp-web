@@ -48,7 +48,7 @@ export default function Home() {
             src={pic}
             className='bg-inputBg aspect-square w-9 rounded-full border border-white/60 bg-white/10 object-cover'
             onClick={transitions(() => {
-              navigate('/profile', { replace: true })
+              navigate('/home/profile', { replace: true })
             })}
           />
         </div>
@@ -61,14 +61,14 @@ export default function Home() {
       >
         <div
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-            path === '/' ? 'text-color' : 'text-white opacity-40'
+            path === '/home' ? 'text-color' : 'text-white opacity-40'
           }`}
-          onClick={transitions(() => navigate('/', { replace: true }))}
+          onClick={transitions(() => navigate('/home', { replace: true }))}
         >
           <div className='flex aspect-square items-start justify-center'>
             <img
-              className={path === '/' ? 'w-[18px]' : 'invert ' + 'w-[18px]'}
-              src={path === '/' ? '/icons/navbar/home_filled.svg' : '/icons/navbar/home.svg'}
+              className={path === '/home' ? 'w-[18px]' : 'invert ' + 'w-[18px]'}
+              src={path === '/home' ? '/icons/navbar/home_filled.svg' : '/icons/navbar/home.svg'}
             />
           </div>
           <span className='font-normMid text-center text-[0.7rem] font-[450]'>Home</span>
@@ -76,7 +76,7 @@ export default function Home() {
 
         <div
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-            path === '/shop' ? 'text-color' : 'text-white opacity-40'
+            path === '/home/shop' ? 'text-color' : 'text-white opacity-40'
           }`}
           onClick={() => {
             if (!profile?.data?.email) {
@@ -95,8 +95,8 @@ export default function Home() {
         >
           <div className='flex aspect-square items-start justify-center'>
             <img
-              className={path === '/shop' ? 'w-[21px]' : 'invert ' + 'w-[21px]'}
-              src={path === '/shop' ? '/icons/navbar/shop_filled.svg' : '/icons/navbar/shop.svg'}
+              className={path === '/home/shop' ? 'w-[21px]' : 'invert ' + 'w-[21px]'}
+              src={path === '/home/shop' ? '/icons/navbar/shop_filled.svg' : '/icons/navbar/shop.svg'}
             />
           </div>
           <span className='font-normMid text-center text-[0.7rem] font-[450]'>Shop</span>
@@ -104,14 +104,14 @@ export default function Home() {
 
         <div
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
-            path === '/profile' ? 'text-color' : 'text-white opacity-40'
+            path === '/home/profile' ? 'text-color' : 'text-white opacity-40'
           }`}
-          onClick={transitions(() => navigate('/profile', { replace: true }))}
+          onClick={transitions(() => navigate('/home/profile', { replace: true }))}
         >
           <div className='flex aspect-square items-start justify-center'>
             <img
-              className={path === '/profile' ? 'w-[16px]' : 'invert ' + 'w-[16px]'}
-              src={path === '/profile' ? '/icons/navbar/profile_filled.svg' : '/icons/navbar/profile.svg'}
+              className={path === '/home/profile' ? 'w-[16px]' : 'invert ' + 'w-[16px]'}
+              src={path === '/home/profile' ? '/icons/navbar/profile_filled.svg' : '/icons/navbar/profile.svg'}
             />
           </div>
           <span className='font-normMid text-center text-[0.7rem] font-[450]'>Profile</span>

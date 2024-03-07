@@ -5,7 +5,7 @@ import './css/tailwind.css'
 import { CheckIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Provider, useSelector } from 'react-redux'
-import { RouterProvider, createBrowserRouter, useLocation } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, useLocation, useNavigate } from 'react-router-dom'
 import store from './Redux/store'
 import { NormalButton } from './components/Button'
 import { LoadingButton } from './components/Loading'
@@ -44,25 +44,38 @@ LiveVideo.preload()
 
 function CheckIfLoggedIn() {
   const token = ls.get('token')
-  if (token) return <Home />
-  else return <Login />
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!token) {
+      console.log('Not logged in')
+      navigate('/login', { replace: true })
+    } else {
+      navigate('/home', { replace: true })
+    }
+  }, [navigate, token])
+  return null
 }
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <CheckIfLoggedIn />,
+  },
+  {
+    path: '/home',
+    element: <Home />,
     children: [
       {
-        path: '/',
+        path: '/home',
         element: <HomeScreen />,
       },
       {
-        path: '/shop',
+        path: '/home/shop',
         element: <div> Shop </div>,
       },
       {
-        path: '/profile',
+        path: '/home/profile',
         element: <Profile />,
       },
     ],
@@ -79,10 +92,10 @@ const router = createBrowserRouter([
     path: '/otp',
     element: <OTP />,
   },
-  {
-    path: '/home',
-    element: <Home />,
-  },
+  // {
+  //   path: '/home',
+  //   element: <Home />,
+  // },
   {
     path: '/terms-and-conditions',
     element: <TermsAndConditions />,

@@ -32,7 +32,7 @@ export default function OTP() {
     setIsVerifying(false)
     if (!res.status) return newPopup({ title: 'Error verifying ', subTitle: res.message })
     ls.set('token', res.data.token)
-    transitions(() => navigate('/', { replace: true }))()
+    transitions(() => navigate('/home', { replace: true }))()
   }
 
   function handelSubmit() {
@@ -76,7 +76,7 @@ export default function OTP() {
           <p className='-mt-2 text-sm'>
             We have sent an OTP to your mobile number ends with {phone.slice(-4)}
             <span
-              className='text-color active:bg-color/30 ml-1 cursor-pointer rounded-sm'
+              className='ml-1 cursor-pointer rounded-sm text-color active:bg-color/30'
               onClick={transitions(() => {
                 navigate(`/${state.type}`, { state: { phone, code, name: state.name }, replace: true })
               })}
@@ -98,7 +98,7 @@ export default function OTP() {
                 maxLength={1}
                 onKeyDown={(event) => handelKeydown(event, i)}
                 placeholder='0'
-                className='no-input-arrow focus:outline-color aspect-[0.9] w-full appearance-none rounded-xl border-none bg-white/10 text-center text-lg caret-transparent outline-none outline-offset-0 transition-[outline-color] placeholder:text-white/25'
+                className='no-input-arrow aspect-[0.9] w-full appearance-none rounded-xl border-none bg-white/10 text-center text-lg caret-transparent outline-none outline-offset-0 transition-[outline-color] placeholder:text-white/25 focus:outline-color'
               />
             )
           })}

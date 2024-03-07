@@ -41,7 +41,7 @@ export default function OrderStatus() {
     <>
       <Header
         onclick={() => {
-          navigate('/', { replace: true })
+          navigate('/home', { replace: true })
         }}
       >
         Payment Status
