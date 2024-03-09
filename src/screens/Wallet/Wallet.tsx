@@ -51,7 +51,7 @@ export default function Wallet() {
           </div>
         </div>
 
-        <div>
+        <div className='pb-10'>
           <p className='mb-3 mt-5 text-[1.125rem] font-medium'>Add Coins</p>
           <div className='flex flex-col gap-3.5'>
             {prices === null && Array.from(Array(4)).map((_, i) => <AddCoinBoxSkeleton key={i} />)}
