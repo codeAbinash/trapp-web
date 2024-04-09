@@ -8,7 +8,7 @@ export const app = {
   ipInoKey: 'ba18ace04b21f6', // 50k requests per month
   URL: 'https://trappmartialarts.com/',
   backendURL: 'https://trappmartialarts.com/',
-  api: 'https://system.trappmartialarts.com/api/user',
+  api: 'https://system.trappmartialarts.com/api',
   secret: 'hellothisisocdexindia',
 }
 
