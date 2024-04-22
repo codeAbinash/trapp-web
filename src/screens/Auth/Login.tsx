@@ -44,9 +44,9 @@ function Login() {
   return (
     <div className='h-dvh flex w-full select-none flex-col items-center justify-between'>
       <div className='relative h-[50dvh] w-full items-center justify-center'>
-        <div className='absolute top-0 z-10 h-[25dvh] w-full bg-gradient-to-b from-bg to-bg/50'></div>
+        <div className='absolute top-0 z-10 h-[25dvh] w-full bg-gradient-to-b from-bg/90 to-bg/30'></div>
         <img src='/images/background.jpg' className='absolute h-[inherit] w-full object-cover' />
-        <div className='absolute bottom-0 z-10 h-[25dvh] w-full bg-gradient-to-t from-bg to-bg/50'></div>
+        <div className='absolute bottom-0 z-10 h-[25dvh] w-full bg-gradient-to-t from-bg/90 to-bg/30'></div>
         <div className='absolute z-20 flex h-[50dvh] w-full items-center justify-center'>
           <img src='/AppIcons/full.png' className='logo-long w-1/2' />
         </div>
