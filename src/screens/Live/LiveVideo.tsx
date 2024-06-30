@@ -80,7 +80,7 @@ export default function LiveVideo() {
         }}
       >
         <div className={`${isLiveChatOpen ? 'hidden' : 'block'}`}>
-          <VideoDetails videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
+          <VideoDetails videoDetails={videoDetails} />
           <div>
             <p className='mb-3 mt-2 px-5 text-base font-semibold'>Live Chat</p>
           </div>
