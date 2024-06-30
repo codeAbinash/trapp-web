@@ -21,8 +21,13 @@ export function FollowButton({ videoDetails, creatorId }: { videoDetails: Creato
   }, [setFollowCount, videoDetails])
 
   useEffect(() => {
-    videoDetails?.is_followed && !followed && setFollowCount(followCount - 1)
-    !videoDetails?.is_followed && followed && setFollowCount(followCount + 1)
+    if (videoDetails) {
+      let newFollowCount = videoDetails.follow_counts
+      if (videoDetails.is_followed) {
+        if (!followed) newFollowCount = videoDetails.follow_counts - 1
+      } else if (followed) newFollowCount = videoDetails.follow_counts + 1
+      setFollowCount(newFollowCount)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [followed])
 

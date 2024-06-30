@@ -158,7 +158,6 @@ export function ActionBar({
 export function FollowButton({ videoDetails }: { videoDetails: VideoDetails | null }) {
   const [followed, setFollowed] = useState(videoDetails?.followed || false)
   const setFollowCount = useCountStore((state) => state.setFollowCount)
-  const followCount = useCountStore((state) => state.followCount)
   useEffect(() => {
     if (videoDetails) setFollowed(videoDetails.followed)
   }, [videoDetails])
@@ -170,8 +169,13 @@ export function FollowButton({ videoDetails }: { videoDetails: VideoDetails | nu
     if (!res.status) setFollowed(followed)
   }
   useEffect(() => {
-    videoDetails?.followed && !followed && setFollowCount(followCount - 1)
-    !videoDetails?.followed && followed && setFollowCount(followCount + 1)
+    if (videoDetails) {
+      let newFollowCount: number = videoDetails.creator.follow_count
+      if (videoDetails.followed) {
+        if (!followed) newFollowCount = videoDetails.creator.follow_count - 1
+      } else if (followed) newFollowCount = videoDetails.creator.follow_count + 1
+      setFollowCount(newFollowCount)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [followed, videoDetails])
 
