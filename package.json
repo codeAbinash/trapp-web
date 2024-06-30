@@ -36,7 +36,8 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.8.0",
     "video-react": "^0.16.0",
-    "video.js": "^8.9.0"
+    "video.js": "^8.9.0",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",

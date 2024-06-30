@@ -1,5 +1,6 @@
 import { follow_unfollow_f, getCreatorProfile_f } from '@/lib/api'
 import { nFormatter } from '@/lib/util'
+import { useCountStore } from '@/zustand/countStore'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import transitions from '../../lib/transition'
@@ -8,7 +9,25 @@ import Videos from './Videos'
 import { CreatorProfileT } from './types'
 
 export function FollowButton({ videoDetails, creatorId }: { videoDetails: CreatorProfileT | null; creatorId: string }) {
-  const [followed, setFollowed] = useState(!!videoDetails?.is_followed)
+  const [followed, setFollowed] = useState(false)
+  const followCount = useCountStore((state) => state.followCount)
+  const setFollowCount = useCountStore((state) => state.setFollowCount)
+
+  useEffect(() => {
+    if (videoDetails) {
+      setFollowCount(videoDetails.follow_counts)
+      setFollowed(!!videoDetails.is_followed)
+    }
+  }, [setFollowCount, videoDetails])
+
+  useEffect(() => {
+    videoDetails?.is_followed && !followed && setFollowCount(followCount - 1)
+    !videoDetails?.is_followed && followed && setFollowCount(followCount + 1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [followed])
+
+  useEffect(() => {}, [])
+
   if (!videoDetails)
     return (
       <button className='highlight-none tap95 mt-2 rounded-full bg-color px-6 py-[0.6rem] text-sm font-[420] text-white'>
@@ -45,6 +64,8 @@ function Creator() {
   const [currentTab, setCurrentTab] = useState<'videos' | 'playlist'>('videos')
 
   const [creatorProfile, setCreatorProfile] = useState<CreatorProfileT | null>(null)
+
+  const followCount = useCountStore((state) => state.followCount)
 
   async function loadCreators(creatorId: string) {
     const status = await getCreatorProfile_f(creatorId)
@@ -92,7 +113,7 @@ function Creator() {
           <p className='text-[0.82rem] opacity-70'>Videos</p>
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <p className='text-[1.3rem] font-[450]'>{nFormatter(creatorProfile?.follow_counts || 0)}</p>
+          <p className='text-[1.3rem] font-[450]'>{nFormatter(followCount || 0)}</p>
           <p className='text-[0.82rem] opacity-70'>Followers</p>
         </div>
         <div className='flex flex-col items-center justify-center'>

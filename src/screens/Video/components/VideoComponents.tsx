@@ -3,6 +3,7 @@ import TapMotion from '@/components/TapMotion'
 import { dislike_undislike_f, follow_unfollow_f, like_unlike_f } from '@/lib/api'
 import transitions from '@/lib/transition'
 import { nFormatter, niceDate } from '@/lib/util'
+import { useCountStore } from '@/zustand/countStore'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -125,35 +126,32 @@ export function ActionBar({
   )
 }
 
-export function FollowButton({
-  videoDetails,
-  setVideoDetails,
-}: {
-  videoDetails: VideoDetails | null
-  setVideoDetails: React.Dispatch<React.SetStateAction<VideoDetails | null>>
-}) {
+export function FollowButton({ videoDetails }: { videoDetails: VideoDetails | null }) {
+  const [followed, setFollowed] = useState(videoDetails?.followed || false)
+  const setFollowCount = useCountStore((state) => state.setFollowCount)
+  const followCount = useCountStore((state) => state.followCount)
+  useEffect(() => {
+    if (videoDetails) setFollowed(videoDetails.followed)
+  }, [videoDetails])
+
+  const handelClick = async () => {
+    transitions(() => setFollowed((prev) => !prev))()
+    const res = await follow_unfollow_f(videoDetails?.creator_id || '')
+    // Set the same state again to revert back
+    if (!res.status) setFollowed(followed)
+  }
+  useEffect(() => {
+    videoDetails?.followed && !followed && setFollowCount(followCount - 1)
+    !videoDetails?.followed && followed && setFollowCount(followCount + 1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [followed, videoDetails])
+
   if (!videoDetails)
     return (
       <button className='highlight-none tap95 mt-2 rounded-full bg-color px-6 py-[0.6rem] text-sm font-[420] text-white'>
         Follow
       </button>
     )
-
-  const [followed, setFollowed] = useState(!!videoDetails.followed)
-  const handelClick = async () => {
-    transitions(() => setFollowed((prev) => !prev))()
-    const res = await follow_unfollow_f(videoDetails.creator_id)
-    // Set the same state again to revert back
-    if (!res.status) setFollowed(followed)
-  }
-
-  // useEffect(() => {
-  //   // Update the follow_count
-  //   setVideoDetails((prev) => ({
-  //     ...prev!,
-  //     creator: { ...prev!.creator, follow_count: prev!.creator.follow_count + (followed ? 1 : -1) },
-  //   }))
-  // }, [followed])
 
   return (
     <button
@@ -167,14 +165,17 @@ export function FollowButton({
   )
 }
 
-export function Creator({
-  videoDetails,
-  setVideoDetails,
-}: {
-  videoDetails: VideoDetails | null
-  setVideoDetails: React.Dispatch<React.SetStateAction<VideoDetails | null>>
-}) {
+export function Creator({ videoDetails }: { videoDetails: VideoDetails | null }) {
   const navigate = useNavigate()
+  const followCount = useCountStore((state) => state.followCount)
+  const setFollowCount = useCountStore((state) => state.setFollowCount)
+
+  useEffect(() => {
+    if (videoDetails) {
+      setFollowCount(videoDetails.creator.follow_count)
+    }
+  }, [setFollowCount, videoDetails])
+
   function openCreatorAccount() {
     if (!videoDetails || !videoDetails.creator_id) return
     navigate(`/creator/${videoDetails.creator_id}`)
@@ -191,10 +192,10 @@ export function Creator({
           <div className='text-sm font-[450]'>
             <ChannelName channel_name={videoDetails?.creator.channel_name} />{' '}
           </div>
-          <p className='text-xs opacity-70'>{nFormatter(videoDetails?.creator.follow_count || 0)} Followers</p>
+          <p className='text-xs opacity-70'>{nFormatter(followCount || 0)} Followers</p>
         </div>
       </TapMotion>
-      <FollowButton videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
+      <FollowButton videoDetails={videoDetails} />
     </div>
   )
 }
@@ -216,7 +217,7 @@ export function VideoDetails({
       </div>
       <ActionBar videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
       <Description description={videoDetails?.description || ''} />
-      <Creator videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
+      <Creator videoDetails={videoDetails} />
     </>
   )
 }
