@@ -69,26 +69,55 @@ export function ActionBar({
   const [liked, setLiked] = useState(!!videoDetails?.like)
   const [disliked, setDisliked] = useState(!!videoDetails?.dislike)
 
+  const likeCount = useCountStore((state) => state.likeCount)
+  const setLikeCount = useCountStore((state) => state.setLikeCount)
+
   useEffect(() => {
     setLiked(!!videoDetails?.like)
     setDisliked(!!videoDetails?.dislike)
+    setLikeCount(videoDetails?.like_count || 0)
   }, [videoDetails])
 
   const clickLike = async () => {
-    setDisliked(false)
+    setDisliked(() => false)
     setLiked((prev) => !prev)
+    if (videoDetails) {
+      let newLikeCount: number = videoDetails.like_count
+      if (videoDetails.like) {
+        if (liked) newLikeCount = videoDetails.like_count - 1
+      } else if (!liked) newLikeCount = videoDetails.like_count + 1
+      setLikeCount(newLikeCount)
+    }
+
     const res = await like_unlike_f(videoDetails!.id.toString(), videoDetails!.creator.id.toString())
-    console.log(res)
+    // console.log(res)
     // Set the same state again to revert back
-    if (!res.status) setLiked(liked) // if error then revert back
+    if (!res.status) {
+      setLiked(liked)
+      setLikeCount(videoDetails?.like_count || 0)
+    }
   }
   const clickDislike = async () => {
+    if (videoDetails) {
+      let newLikeCount: number = videoDetails.like_count
+      if (videoDetails.like) {
+        if (liked) {
+          if (disliked) newLikeCount = videoDetails.like_count + 1
+          else newLikeCount = videoDetails.like_count - 1
+        } else newLikeCount = videoDetails.like_count - 1
+      }
+      setLikeCount(newLikeCount)
+    }
+
     setLiked(false)
     setDisliked((prev) => !prev)
     const res = await dislike_undislike_f(videoDetails!.id.toString(), videoDetails!.creator.id.toString())
     console.log(res)
     // Set the same state again to revert back
-    if (!res.status) setDisliked(disliked) // if error then revert back
+    if (!res.status) {
+      setDisliked(disliked)
+      setLikeCount(videoDetails?.like_count || 0)
+    }
   }
 
   return (
@@ -102,7 +131,7 @@ export function ActionBar({
       >
         <img src='/icons/other/thumb-up.svg' className={'aspect-square w-[1.1rem]' + (liked ? ' invert' : '')} />
         <p className={'text-[0.9rem]' + (liked ? ' text-black' : ' text-white')}>
-          {videoDetails?.like_count ? nFormatter(videoDetails?.like_count || 0) : 'Like'}
+          {videoDetails?.like_count ? nFormatter(likeCount || 0) : 'Like'}
         </p>
       </div>
       <div
