@@ -59,13 +59,7 @@ export function Title({ title }: { title: string | null }) {
   return <p className='font-[450]'>{title}</p>
 }
 
-export function ActionBar({
-  videoDetails,
-  setVideoDetails,
-}: {
-  videoDetails: VideoDetails | null
-  setVideoDetails: React.Dispatch<React.SetStateAction<VideoDetails | null>>
-}) {
+export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null }) {
   const [liked, setLiked] = useState(!!videoDetails?.like)
   const [disliked, setDisliked] = useState(!!videoDetails?.dislike)
 
@@ -76,6 +70,7 @@ export function ActionBar({
     setLiked(!!videoDetails?.like)
     setDisliked(!!videoDetails?.dislike)
     setLikeCount(videoDetails?.like_count || 0)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoDetails])
 
   const clickLike = async () => {
@@ -121,38 +116,45 @@ export function ActionBar({
   }
 
   return (
-    <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
-      <div
-        className={
-          'tap95 ml-5 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
-          (liked ? ' bg-white' : ' bg-white/10')
-        }
-        onClick={clickLike}
-      >
-        <img src='/icons/other/thumb-up.svg' className={'aspect-square w-[1.1rem]' + (liked ? ' invert' : '')} />
-        <p className={'text-[0.9rem]' + (liked ? ' text-black' : ' text-white')}>
-          {videoDetails?.like_count ? nFormatter(likeCount || 0) : 'Like'}
-        </p>
+      <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
+        <div
+          className={
+            'tap95 ml-5 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
+            (liked ? ' bg-white' : ' bg-white/10')
+          }
+          onClick={clickLike}
+        >
+          <img src='/icons/other/thumb-up.svg' className={'aspect-square w-[1.1rem]' + (liked ? ' invert' : '')} />
+          <p className={'text-[0.9rem]' + (liked ? ' text-black' : ' text-white')}>
+            {videoDetails?.like_count ? nFormatter(likeCount || 0) : 'Like'}
+          </p>
+        </div>
+        <div
+          className={
+            'tap95 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
+            (disliked ? ' bg-white' : ' bg-white/10')
+          }
+          onClick={clickDislike}
+        >
+          <img src='/icons/other/thumb-down.svg' className={'aspect-square w-[1.1rem]' + (disliked ? ' invert' : '')} />
+        </div>
+        <div
+          className='tap95 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
+          onClick={() =>
+            navigator.share({
+              text: `Check out “${videoDetails?.title}” on Trapp! Join the community, download now: https://play.google.com/store/apps/details?id=com.trapp.app`,
+            })
+          }
+        >
+          <img src='/icons/other/share.svg' className='aspect-square w-[1.1rem]' />
+          <p className='text-[0.9rem]'>Share</p>
+        </div>
+        <div className='tap95 mr-5 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'>
+          <img src='/icons/other/report.svg' className='aspect-square w-[1.1rem]' />
+          <p className='text-[0.9rem]'>Report</p>
+        </div>
       </div>
-      <div
-        className={
-          'tap95 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
-          (disliked ? ' bg-white' : ' bg-white/10')
-        }
-        onClick={clickDislike}
-      >
-        <img src='/icons/other/thumb-down.svg' className={'aspect-square w-[1.1rem]' + (disliked ? ' invert' : '')} />
-      </div>
-      <div className='tap95 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'>
-        <img src='/icons/other/share.svg' className='aspect-square w-[1.1rem]' />
-        <p className='text-[0.9rem]'>Share</p>
-      </div>
-      <div className='tap95 mr-5 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'>
-        <img src='/icons/other/report.svg' className='aspect-square w-[1.1rem]' />
-        <p className='text-[0.9rem]'>Report</p>
-      </div>
-    </div>
-  )
+  );
 }
 
 export function FollowButton({ videoDetails }: { videoDetails: VideoDetails | null }) {
@@ -233,13 +235,7 @@ export function Creator({ videoDetails }: { videoDetails: VideoDetails | null })
   )
 }
 
-export function VideoDetails({
-  videoDetails,
-  setVideoDetails,
-}: {
-  videoDetails: VideoDetails | null
-  setVideoDetails: React.Dispatch<React.SetStateAction<VideoDetails | null>>
-}) {
+export function VideoDetails({ videoDetails }: { videoDetails: VideoDetails | null }) {
   return (
     <>
       <div className='mt-5 flex flex-col gap-1.5 px-5'>
@@ -248,7 +244,7 @@ export function VideoDetails({
           {nFormatter(videoDetails?.views || 0)} Views - {niceDate(videoDetails?.created_at || '')}
         </p>
       </div>
-      <ActionBar videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
+      <ActionBar videoDetails={videoDetails} />
       <Description description={videoDetails?.description || ''} />
       <Creator videoDetails={videoDetails} />
     </>

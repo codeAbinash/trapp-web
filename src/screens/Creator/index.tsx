@@ -10,7 +10,6 @@ import { CreatorProfileT } from './types'
 
 export function FollowButton({ videoDetails, creatorId }: { videoDetails: CreatorProfileT | null; creatorId: string }) {
   const [followed, setFollowed] = useState(false)
-  const followCount = useCountStore((state) => state.followCount)
   const setFollowCount = useCountStore((state) => state.setFollowCount)
 
   useEffect(() => {
@@ -81,6 +80,7 @@ function Creator() {
 
   useEffect(() => {
     loadCreators(creatorId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

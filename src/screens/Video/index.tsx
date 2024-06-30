@@ -1,85 +1,19 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { Player } from 'video-react'
 import { DrawerWrapper, ScrollToTop } from '../../App'
 import { getVideoDetails_f } from '../../lib/api'
 import { niceDate } from '../../lib/util'
 import VideosByCat from '../Category/VideosByCat'
-import { useSubscriptionDrawer } from '../Home/HomeScreen/subscriptionDrawerContext'
 import BackButton from '../Live/BackButton'
-import { UserProfile } from '../Profile/utils'
 import { VideoDetails } from './components/VideoComponents'
-
-const videosData = [
-  {
-    image: '/images/video/video1.png',
-    title: 'The Knockouts',
-    duration: '20min 30sec',
-    id: 1,
-  },
-  {
-    image: '/images/video/video2.png',
-    title: 'Boxing Night',
-    duration: '12min 36sec',
-    id: 2,
-  },
-  {
-    image: '/images/video/video3.png',
-    title: 'The Knockouts',
-    duration: '15min 7sec',
-    id: 3,
-  },
-  {
-    image: '/images/video/video1.png',
-    title: 'The Knockouts',
-    duration: '20min 30sec',
-    id: 4,
-  },
-  {
-    image: '/images/video/video2.png',
-    title: 'Boxing Night',
-    duration: '12min 36sec',
-    id: 5,
-  },
-  {
-    image: '/images/video/video3.png',
-    title: 'The Knockouts',
-    duration: '15min 7sec',
-    id: 6,
-  },
-  {
-    image: '/images/video/video1.png',
-    title: 'The Knockouts',
-    duration: '20min 30sec',
-    id: 7,
-  },
-  {
-    image: '/images/video/video2.png',
-    title: 'Boxing Night',
-    duration: '12min 36sec',
-    id: 8,
-  },
-  {
-    image: '/images/video/video3.png',
-    title: 'The Knockouts',
-    duration: '15min 7sec',
-    id: 9,
-  },
-  {
-    image: '/images/video/video1.png',
-    title: 'The Knockouts',
-    duration: '15min 7sec',
-    id: 10,
-  },
-]
+import { Player } from 'video-react'
 
 export default function Video() {
   const { video_id } = useParams()
   const [videoDetails, setVideoDetails] = useState<VideoDetails | null>(null)
   const [isBackBtn, setShowBackButton] = useState(true)
   // const { setIsOpened } = useSubscriptionDrawer()
-  const profile: UserProfile = useSelector((state: any) => state.profile)
+  // const profile: UserProfile = useSelector((state: any) => state.profile)
   // const isSubscribed = profile?.subscription_status?.status === 'active'
 
   useEffect(() => {
@@ -112,6 +46,7 @@ export default function Video() {
     setVideoDetails(null)
     loadVideoDetails()
     // setIsOpened(!isSubscribed)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [video_id])
   return (
     <>
@@ -131,7 +66,7 @@ export default function Video() {
       </div>
       <div className='h-dvh select-none'>
         {/* <div className='mt-3 aspect-video w-full'></div> Blank Space for the video */}
-        <VideoDetails videoDetails={videoDetails} setVideoDetails={setVideoDetails} />
+        <VideoDetails videoDetails={videoDetails} />
         <div>
           <p className='my-7 mt-2 px-5 text-base font-[450]'>Related Videos</p>
           {videoDetails?.cat_id && <VideosByCat cat_id={videoDetails?.cat_id} />}
