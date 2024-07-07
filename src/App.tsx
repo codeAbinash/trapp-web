@@ -161,7 +161,7 @@ export default function App() {
       <Provider store={store}>
         <SubscriptionDrawerProvider>
           <PremiumDrawerProvider>
-            <div className='dark bg-bg text-white'>
+            <div className='dark bg-bg text-white max-w-lg justify-center items-center mx-auto'>
               <PopupAlert />
               <RouterProvider router={router} />
             </div>
