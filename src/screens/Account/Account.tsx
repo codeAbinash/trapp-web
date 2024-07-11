@@ -137,7 +137,7 @@ export default function Account() {
       })
     } else {
       setIsUpdating(false)
-      newPopup({ title: 'Error', subTitle: getError(data.errors) })
+      newPopup({ title: 'Error', subTitle: getError(data) })
     }
   }, [name, email, profilePicture, isUpdating])
 
@@ -159,7 +159,7 @@ export default function Account() {
           <p className='text-center text-xl font-semibold'>{name}</p>
           <div className='mt-1 flex items-center justify-center gap-2'>
             <p className='anim-user-phone font-normMid text-sm text-neutral-500'>
-              +{code} {phone}
+              {code} {phone}
             </p>
           </div>
         </div>

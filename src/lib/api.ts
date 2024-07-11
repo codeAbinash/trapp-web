@@ -38,7 +38,9 @@ export type apiResponse = {
 type errors = {
   [key: string]: string[]
 }
-export function getError(errors: errors) {
+export function getError(data: any) {
+  const errors: errors = data.errors
+  if (!errors) return data.message || 'Network Error'
   const key = Object.keys(errors)[0]
   const value = errors[key][0]
   return value
@@ -52,7 +54,7 @@ async function returnResponse(res: any): Promise<apiResponse> {
     window.location.href = ''
     return { status: false, message: data.message || 'Network Error' }
   } else if (!data.errors) return { status: false, message: data.message || 'Network Error', data }
-  return { status: false, message: getError(data.errors) || data.message || 'Network Error', data }
+  return { status: false, message: getError(data) || data.message || 'Network Error', data }
 }
 
 function catchError(err: any): apiResponse {
