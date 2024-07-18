@@ -89,7 +89,7 @@ export default function Home() {
                 ],
               })
             } else {
-              window.open('https://shop.trappmartialarts.com/authwithapp/' + ls.get('token'), '_blank')
+              window.open('https://shop.trappmartialarts.com/authwithapp/' + ls.get('token'), '_selfk')
             }
           }}
         >

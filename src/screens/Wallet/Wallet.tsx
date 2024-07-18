@@ -72,7 +72,7 @@ function AddCoinBox({ count, price, id }: { count: number; price: number; id: nu
     setLoading(true)
     const res = await buyCoins_f(id.toString())
     if (!res) return
-    if (res?.data?.payment_link) window.open(res.data.payment_link, '_blank')
+    if (res?.data?.payment_link) window.open(res.data.payment_link, '_self')
     setLoading(false)
   }
 

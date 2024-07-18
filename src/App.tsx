@@ -213,7 +213,7 @@ export function SubscriptionDrawer({
     setIsLoading(true)
     const res = await callSubscription_f()
     if (!res.status) return
-    window.open(res.data.payment_link, '_blank')
+    window.open(res.data.payment_link, '_self')
     setIsLoading(false)
     setIsOpened(false)
   }
