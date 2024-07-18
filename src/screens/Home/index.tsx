@@ -106,7 +106,7 @@ export default function Home() {
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
             path === '/home/profile' ? 'text-color' : 'text-white opacity-40'
           }`}
-          onClick={transitions(() => navigate('/home/profile', { replace: true }))}
+          onClick={transitions(() => navigate('/home/profile', { replace: false }))}
         >
           <div className='flex aspect-square items-start justify-center'>
             <img
