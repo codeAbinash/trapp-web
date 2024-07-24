@@ -156,3 +156,38 @@ html,
 }
 
 // end react-video
+#banner {
+  // min-height: 200px;
+  // background-color: #eee;
+  width: 100%;
+  .swiper-wrapper {
+    // min-height: 200px;
+    padding-bottom: 40px;
+
+    // .swiper-slide {
+    //   border-radius: 20px;
+    //   overflow: hidden;
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
+    //   a {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     -webkit-tap-highlight-color: transparent;
+    //     text-decoration: none;
+    //     img {
+    //       width: 100%;
+    //       border-radius: 20px;
+    //       object-fit: cover;
+    //     }
+    //   }
+    // }
+  }
+  .swiper-pagination-bullet-active {
+    background-color: white;
+  }
+  .swiper-pagination-bullet {
+    background-color: #ccc;
+  }
+}

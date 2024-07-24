@@ -1,6 +1,6 @@
 import { VideoListShimmer } from '@/components/Video/VideoList'
 import { getPlaylistByCreator_f } from '@/lib/api'
-import { Playlist } from '@/types'
+import { type Playlist } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 

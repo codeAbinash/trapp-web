@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { Header } from '../../components/Header/Header'
-import { Category } from '../../types'
+import { type Category } from '../../types'
 import VideosByCat from './VideosByCat'
 
 export default function Category() {

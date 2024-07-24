@@ -17,7 +17,7 @@ export default function Categories() {
 
   return (
     <div className='mx-auto max-w-4xl'>
-      <div className='p-5'>
+      <div className='px-5 pb-5'>
         <p className='text-lg font-[450]'>Catagories</p>
       </div>
       <div className='no-scrollbar relative flex w-full snap-x snap-mandatory gap-4 overflow-x-auto lg:rounded-3xl'>
@@ -33,7 +33,7 @@ export default function Categories() {
           catagories?.map((category) => (
             <div
               key={category.id}
-              className='tap99 bg-inputBg relative flex aspect-square w-[26%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 p-3 shadow-sm first:ml-5 last:mr-5'
+              className='tap99 bg-inputBg relative flex aspect-square w-[26%] max-w-[150px] shrink-0 snap-center flex-col items-center justify-center overflow-hidden rounded-2xl bg-white/10 shadow-sm first:ml-5 last:mr-5'
               onClick={() =>
                 navigate(`/category/${category.id}`, {
                   state: category,
@@ -46,6 +46,7 @@ export default function Categories() {
               </p>
             </div>
           ))
+          
         )}
       </div>
     </div>

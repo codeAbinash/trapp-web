@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { Header } from '../../components/Header/Header'
-import { Playlist } from '../../types'
+import { type Playlist } from '../../types'
 import VideosByPlaylist from './VideosByPlaylist'
 
 export default function Playlist() {
