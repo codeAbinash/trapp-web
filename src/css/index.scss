@@ -155,6 +155,8 @@ html,
   // box-shadow: 1px 1px 20px 5px rgba(0, 0, 0, 1) !important;
 }
 
+// Variables
+
 // end react-video
 #banner {
   // min-height: 200px;
@@ -184,10 +186,13 @@ html,
     //   }
     // }
   }
-  .swiper-pagination-bullet-active {
-    background-color: white;
-  }
-  .swiper-pagination-bullet {
-    background-color: #ccc;
-  }
+}
+
+$color: #ff002e;
+
+.swiper-pagination-bullet {
+  background-color: #ddd !important;
+}
+.swiper-pagination-bullet-active {
+  background-color: $color !important;
 }
