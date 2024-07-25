@@ -36,6 +36,7 @@ import Video from './screens/Video'
 import Wallet from './screens/Wallet/Wallet'
 import Playlist from './screens/Playlist/Playlist'
 import ls from './lib/util'
+import Shop from './screens/Home/Shop'
 
 const LiveVideo = lazyWithPreload(() => import('./screens/Live/LiveVideo'))
 const OrderStatus = lazyWithPreload(() => import('./screens/OrderStatus/OrderStatus'))
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/home/shop',
-        element: <div> Shop </div>,
+        element: <Shop />,
       },
       {
         path: '/home/profile',
@@ -161,7 +162,7 @@ export default function App() {
       <Provider store={store}>
         <SubscriptionDrawerProvider>
           <PremiumDrawerProvider>
-            <div className='dark bg-bg text-white max-w-lg justify-center items-center mx-auto'>
+            <div className='dark mx-auto max-w-lg items-center justify-center bg-bg text-white'>
               <PopupAlert />
               <RouterProvider router={router} />
             </div>

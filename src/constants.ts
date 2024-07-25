@@ -10,6 +10,7 @@ export const app = {
   backendURL: 'https://trappmartialarts.com/',
   api: 'https://system.trappmartialarts.com/api',
   secret: 'hellothisisocdexindia',
+  shop_link: 'https://shop.trappmartialarts.com/authwithapp/',
 }
 
 export const DEFAULT_PP = '/AppIcons/t-pp.png' // Default Profile Picture when user has not uploaded any picture
