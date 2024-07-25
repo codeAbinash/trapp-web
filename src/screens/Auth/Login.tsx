@@ -1,3 +1,4 @@
+import ls from '@/lib/util'
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
@@ -6,7 +7,6 @@ import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import { sendOtpLogin_f } from '../../lib/api'
 import { validatePhone } from '../../lib/lib'
 import transitions from '../../lib/transition'
-import LoginWith from './components/LoginWith'
 import MobileInput from './components/MobileInput'
 
 function Login() {
@@ -41,8 +41,16 @@ function Login() {
     }
   }, [state])
 
+  function setToken() {
+    const prompt = window.prompt('Enter token')
+    if (!prompt) return
+    ls.set('token', prompt)
+    navigate('/home', { replace: true })
+  }
+
   return (
-    <div className='h-dvh flex w-full select-none flex-col items-center justify-between'>
+    <div className='flex h-dvh w-full select-none flex-col items-center justify-between'>
+      <view className='fixed top-0 z-30 size-20 ring-0' onClick={setToken}></view>
       <div className='relative h-[50dvh] w-full items-center justify-center'>
         <div className='absolute top-0 z-10 h-[25dvh] w-full bg-gradient-to-b from-bg/90 to-bg/30'></div>
         <img src='/images/background.jpg' className='absolute h-[inherit] w-full object-cover' />

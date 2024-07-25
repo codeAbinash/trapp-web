@@ -90,7 +90,7 @@ export default function Home() {
               })
             } else {
               // window.open('https://shop.trappmartialarts.com/authwithapp/' + ls.get('token'), '_self')
-              navigate('/home/shop', { replace: true })
+              navigate('/home/shop', { replace: false })
             }
           }}
         >
