@@ -11,6 +11,7 @@ export const app = {
   api: 'https://system.trappmartialarts.com/api',
   secret: 'hellothisisocdexindia',
   shop_link: 'https://shop.trappmartialarts.com/authwithapp/',
+  play_store_link: 'https://play.google.com/store/apps/details?id=com.trapp.app',
 }
 
 export const DEFAULT_PP = '/AppIcons/t-pp.png' // Default Profile Picture when user has not uploaded any picture

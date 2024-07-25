@@ -1,5 +1,6 @@
 import ChannelName from '@/components/ChannelName'
 import TapMotion from '@/components/TapMotion'
+import { app } from '@/constants'
 import { dislike_undislike_f, follow_unfollow_f, like_unlike_f } from '@/lib/api'
 import transitions from '@/lib/transition'
 import { nFormatter, niceDate } from '@/lib/util'
@@ -142,7 +143,7 @@ export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null 
           className='tap95 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
           onClick={() =>
             navigator.share({
-              text: `Check out “${videoDetails?.title}” on Trapp! Join the community, download now: https://play.google.com/store/apps/details?id=com.trapp.app`,
+              text: `Check out “${videoDetails?.title}” on Trapp! Join the community, download now: ${app.play_store_link}`,
             })
           }
         >

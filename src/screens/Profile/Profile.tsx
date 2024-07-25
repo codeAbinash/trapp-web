@@ -90,6 +90,11 @@ export default function Profile() {
         {
           name: 'Share App',
           icon: '/icons/red/send.svg',
+          onClick: () => {
+            navigator.share({
+              text: `Transform your fitness journey with Trapp! Access high-quality gym videos, expert tips, and personalized plans. Download now on the Play Store: ${app.play_store_link}. Let's get stronger together! 💪`,
+            })
+          },
         },
       ],
       groupName: 'More',
