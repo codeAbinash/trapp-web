@@ -117,45 +117,46 @@ export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null 
   }
 
   return (
-      <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
-        <div
-          className={
-            'tap95 ml-5 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
-            (liked ? ' bg-white' : ' bg-white/10')
-          }
-          onClick={clickLike}
-        >
-          <img src='/icons/other/thumb-up.svg' className={'aspect-square w-[1.1rem]' + (liked ? ' invert' : '')} />
-          <p className={'text-[0.9rem]' + (liked ? ' text-black' : ' text-white')}>
-            {videoDetails?.like_count ? nFormatter(likeCount || 0) : 'Like'}
-          </p>
-        </div>
-        <div
-          className={
-            'tap95 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
-            (disliked ? ' bg-white' : ' bg-white/10')
-          }
-          onClick={clickDislike}
-        >
-          <img src='/icons/other/thumb-down.svg' className={'aspect-square w-[1.1rem]' + (disliked ? ' invert' : '')} />
-        </div>
-        <div
-          className='tap95 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
-          onClick={() =>
-            navigator.share({
-              text: `Check out “${videoDetails?.title}” on Trapp! Join the community, download now: ${app.play_store_link}`,
-            })
-          }
-        >
-          <img src='/icons/other/share.svg' className='aspect-square w-[1.1rem]' />
-          <p className='text-[0.9rem]'>Share</p>
-        </div>
-        <div className='tap95 mr-5 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'>
-          <img src='/icons/other/report.svg' className='aspect-square w-[1.1rem]' />
-          <p className='text-[0.9rem]'>Report</p>
-        </div>
+    <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
+      <div
+        className={
+          'tap95 ml-5 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
+          (liked ? ' bg-white' : ' bg-white/10')
+        }
+        onClick={clickLike}
+      >
+        <img src='/icons/other/thumb-up.svg' className={'aspect-square w-[1.1rem]' + (liked ? ' invert' : '')} />
+        <p className={'text-[0.9rem]' + (liked ? ' text-black' : ' text-white')}>
+          {videoDetails?.like_count ? nFormatter(likeCount || 0) : 'Like'}
+        </p>
       </div>
-  );
+      <div
+        className={
+          'tap95 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
+          (disliked ? ' bg-white' : ' bg-white/10')
+        }
+        onClick={clickDislike}
+      >
+        <img src='/icons/other/thumb-down.svg' className={'aspect-square w-[1.1rem]' + (disliked ? ' invert' : '')} />
+      </div>
+      <div
+        className='tap95 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
+        onClick={() =>
+          videoDetails &&
+          navigator.share({
+            text: `Check out “${videoDetails?.title}” on Trapp! Join the community, download now: ${app.play_store_link}`,
+          })
+        }
+      >
+        <img src='/icons/other/share.svg' className='aspect-square w-[1.1rem]' />
+        <p className='text-[0.9rem]'>Share</p>
+      </div>
+      <div className='tap95 mr-5 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'>
+        <img src='/icons/other/report.svg' className='aspect-square w-[1.1rem]' />
+        <p className='text-[0.9rem]'>Report</p>
+      </div>
+    </div>
+  )
 }
 
 export function FollowButton({ videoDetails }: { videoDetails: VideoDetails | null }) {
