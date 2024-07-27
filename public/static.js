@@ -21,7 +21,6 @@
 // }
 
 
-window.isApp = true
 setTimeout(() => {
   if (window.isApp) {
     console.log('App Detected')
