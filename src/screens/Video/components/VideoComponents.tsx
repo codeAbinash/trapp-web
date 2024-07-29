@@ -158,13 +158,16 @@ export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null 
           </div>
           <p className='text-center'>Thanks for reporting this video</p>
           <p className='text-center text-sm opacity-60'>
-            We use spam reports as a signal to understand problems we're having with spam on Trapp. If you think
-            this account violates our Community Guidelines and should be removed.
+            We use spam reports as a signal to understand problems we're having with spam on Trapp. If you think this
+            account violates our Community Guidelines and should be removed.
           </p>
-          <button className='mt-5 tap95 text-center text-sm font-medium text-color' onClick={() => setReportedUI(false)}>
+          {/* <button className='mt-5 tap95 text-center text-sm font-medium text-color' onClick={() => setReportedUI(false)}>
             Show Video
-          </button>
-          <button className='tap95 text-center text-sm font-medium text-green-500' onClick={() => navigate(-1)}>
+          </button> */}
+          <button
+            className='tap95 mt-3 rounded-full border border-white/20 bg-white/10 p-3 px-5 text-center text-xs font-medium'
+            onClick={() => navigate(-1)}
+          >
             Go Back
           </button>
         </div>
