@@ -7,6 +7,7 @@ import transitions from '@/lib/transition'
 import { nFormatter, niceDate } from '@/lib/util'
 import type { UserProfile } from '@/screens/Profile/utils'
 import { useCountStore } from '@/zustand/countStore'
+import { CheckIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -66,10 +67,14 @@ export function Title({ title }: { title: string | null }) {
 export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null }) {
   const [liked, setLiked] = useState(!!videoDetails?.like)
   const [disliked, setDisliked] = useState(!!videoDetails?.dislike)
+  const [reportedUI, setReportedUI] = useState(false)
+  const navigate = useNavigate()
 
   const likeCount = useCountStore((state) => state.likeCount)
   const setLikeCount = useCountStore((state) => state.setLikeCount)
-  const { newPopup } = usePopupAlertContext()
+  const { newPopup, setPopups } = usePopupAlertContext()
+
+  const user: UserProfile = useSelector((state: any) => state.profile)
 
   useEffect(() => {
     setLiked(!!videoDetails?.like)
@@ -121,9 +126,21 @@ export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null 
   }
 
   const reportVideo = () => {
+    if (!videoDetails) return console.warn('No video details')
     newPopup({
       title: 'Report Video',
-      subTitle: <ReportVideo videoDetails={videoDetails} />,
+      subTitle: (
+        <ReportVideo
+          videoDetails={videoDetails}
+          onclick={(option) => {
+            window.open(generateEmail(videoDetails!, option, user), '_blank')
+            setTimeout(() => {
+              setReportedUI(true)
+              setPopups((prev) => prev.slice(0, -1))
+            }, 500)
+          }}
+        />
+      ),
       action: [
         {
           text: 'Cancel',
@@ -133,72 +150,88 @@ export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null 
   }
 
   return (
-    <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
-      <div
-        className={
-          'tap95 ml-5 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
-          (liked ? ' bg-white' : ' bg-white/10')
-        }
-        onClick={clickLike}
-      >
-        <img src='/icons/other/thumb-up.svg' className={'aspect-square w-[1.1rem]' + (liked ? ' invert' : '')} />
-        <p className={'text-[0.9rem]' + (liked ? ' text-black' : ' text-white')}>
-          {videoDetails?.like_count ? nFormatter(likeCount || 0) : 'Like'}
-        </p>
+    <>
+      {reportedUI && (
+        <div className='fixed left-0 top-0 z-[100] flex h-screen w-screen flex-col items-center justify-center gap-5 bg-black/30 p-8 backdrop-blur-lg'>
+          <div className='rounded-full border border-[limegreen] p-1.5'>
+            <CheckIcon height={20} width={20} color='limegreen' />
+          </div>
+          <p className='text-center'>Thanks for reporting this video</p>
+          <p className='text-center text-sm opacity-60'>
+            We use spam reports as a signal to understand problems we're having with spam on Trapp. If you think
+            this account violates our Community Guidelines and should be removed.
+          </p>
+          <button className='mt-5 tap95 text-center text-sm font-medium text-color' onClick={() => setReportedUI(false)}>
+            Show Video
+          </button>
+          <button className='tap95 text-center text-sm font-medium text-green-500' onClick={() => navigate(-1)}>
+            Go Back
+          </button>
+        </div>
+      )}
+      <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
+        <div
+          className={
+            'tap95 ml-5 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
+            (liked ? ' bg-white' : ' bg-white/10')
+          }
+          onClick={clickLike}
+        >
+          <img src='/icons/other/thumb-up.svg' className={'aspect-square w-[1.1rem]' + (liked ? ' invert' : '')} />
+          <p className={'text-[0.9rem]' + (liked ? ' text-black' : ' text-white')}>
+            {videoDetails?.like_count ? nFormatter(likeCount || 0) : 'Like'}
+          </p>
+        </div>
+        <div
+          className={
+            'tap95 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
+            (disliked ? ' bg-white' : ' bg-white/10')
+          }
+          onClick={clickDislike}
+        >
+          <img src='/icons/other/thumb-down.svg' className={'aspect-square w-[1.1rem]' + (disliked ? ' invert' : '')} />
+        </div>
+        <div
+          className='tap95 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
+          onClick={() =>
+            videoDetails &&
+            navigator.share({
+              text: `Check out “${videoDetails?.title}” on Trapp! Join the community, download now: ${app.play_store_link}`,
+            })
+          }
+        >
+          <img src='/icons/other/share.svg' className='aspect-square w-[1.1rem]' />
+          <p className='text-[0.9rem]'>Share</p>
+        </div>
+        <div
+          className='tap95 mr-5 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
+          onClick={reportVideo}
+        >
+          <img src='/icons/other/report.svg' className='aspect-square w-[1.1rem]' />
+          <p className='text-[0.9rem]'>Report</p>
+        </div>
       </div>
-      <div
-        className={
-          'tap95 flex flex-none items-center justify-center gap-2.5 rounded-full px-[1.15rem] py-[0.45rem]' +
-          (disliked ? ' bg-white' : ' bg-white/10')
-        }
-        onClick={clickDislike}
-      >
-        <img src='/icons/other/thumb-down.svg' className={'aspect-square w-[1.1rem]' + (disliked ? ' invert' : '')} />
-      </div>
-      <div
-        className='tap95 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
-        onClick={() =>
-          videoDetails &&
-          navigator.share({
-            text: `Check out “${videoDetails?.title}” on Trapp! Join the community, download now: ${app.play_store_link}`,
-          })
-        }
-      >
-        <img src='/icons/other/share.svg' className='aspect-square w-[1.1rem]' />
-        <p className='text-[0.9rem]'>Share</p>
-      </div>
-      <div
-        className='tap95 mr-5 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
-        onClick={reportVideo}
-      >
-        <img src='/icons/other/report.svg' className='aspect-square w-[1.1rem]' />
-        <p className='text-[0.9rem]'>Report</p>
-      </div>
-    </div>
+    </>
   )
 }
 
-function ReportVideo({ videoDetails }: { videoDetails: VideoDetails | null }) {
-  const user: UserProfile = useSelector((state: any) => state.profile)
+function ReportVideo({ onclick }: { videoDetails: VideoDetails | null; onclick?: (option: string) => void }) {
   return (
-    <div className='flex flex-col gap-2 pb-0 pt-2'>
-      {REPORT_OPTIONS.map((option, index) => {
-        return (
-          <div
-            key={index}
-            className='tap99 rounded-xl border border-white/10 bg-white/5 p-3 px-3.5'
-            onClick={() => {
-              window.open(
-                generateEmail(videoDetails!, option, user),
-                '_blank', // <- This is what makes it open in a new window.
-              )
-            }}
-          >
-            <p className='text-sm'>{option}</p>
-          </div>
-        )
-      })}
-    </div>
+    <>
+      <div className='flex flex-col gap-2 pb-0 pt-2'>
+        {REPORT_OPTIONS.map((option, index) => {
+          return (
+            <div
+              key={index}
+              className='tap99 rounded-xl border border-white/10 bg-white/5 p-3 px-3.5'
+              onClick={() => onclick && onclick(option)}
+            >
+              <p className='text-sm'>{option}</p>
+            </div>
+          )
+        })}
+      </div>
+    </>
   )
 }
 
