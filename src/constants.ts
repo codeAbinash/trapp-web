@@ -15,3 +15,23 @@ export const app = {
 }
 
 export const DEFAULT_PP = '/AppIcons/t-pp.png' // Default Profile Picture when user has not uploaded any picture
+
+export const REPORT_OPTIONS = [
+  'Sexual content',
+  'Violent or repulsive content',
+  'Hateful or abusive content',
+  'Harmful or dangerous acts',
+  'Spam or misleading',
+  'Child abuse',
+]
+
+export const REPORT_EMAIL = 'report@trappmartialarts.com'
+
+export const VIDEO_REPORT_MESSAGE = [
+  'This video contains sexual content, the link of the video is _##link##_',
+  'This video contains violent or repulsive content, the link of the video is _##link##_',
+  'This video contains hateful or abusive content, the link of the video is _##link##_',
+  'This video contains harmful or dangerous acts, the link of the video is _##link##_',
+  'This video contains spam or misleading content, the link of the video is _##link##_',
+  'This video contains child abuse, the link of the video is _##link##_',
+]

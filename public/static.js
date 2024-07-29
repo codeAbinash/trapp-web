@@ -20,6 +20,9 @@
 //   return false
 // }
 
+if (localStorage.getItem('isApp')) {
+  window.isApp = true
+}
 
 setTimeout(() => {
   if (window.isApp) {

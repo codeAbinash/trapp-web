@@ -1,11 +1,14 @@
 import ChannelName from '@/components/ChannelName'
 import TapMotion from '@/components/TapMotion'
-import { app } from '@/constants'
+import { app, REPORT_EMAIL, REPORT_OPTIONS } from '@/constants'
+import { usePopupAlertContext } from '@/context/PopupAlertContext'
 import { dislike_undislike_f, follow_unfollow_f, like_unlike_f } from '@/lib/api'
 import transitions from '@/lib/transition'
 import { nFormatter, niceDate } from '@/lib/util'
+import type { UserProfile } from '@/screens/Profile/utils'
 import { useCountStore } from '@/zustand/countStore'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 export interface VideoDetails {
@@ -66,6 +69,7 @@ export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null 
 
   const likeCount = useCountStore((state) => state.likeCount)
   const setLikeCount = useCountStore((state) => state.setLikeCount)
+  const { newPopup } = usePopupAlertContext()
 
   useEffect(() => {
     setLiked(!!videoDetails?.like)
@@ -116,6 +120,18 @@ export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null 
     }
   }
 
+  const reportVideo = () => {
+    newPopup({
+      title: 'Report Video',
+      subTitle: <ReportVideo videoDetails={videoDetails} />,
+      action: [
+        {
+          text: 'Cancel',
+        },
+      ],
+    })
+  }
+
   return (
     <div className='no-scrollbar mt-3 flex w-full gap-3 overflow-x-scroll'>
       <div
@@ -151,11 +167,60 @@ export function ActionBar({ videoDetails }: { videoDetails: VideoDetails | null 
         <img src='/icons/other/share.svg' className='aspect-square w-[1.1rem]' />
         <p className='text-[0.9rem]'>Share</p>
       </div>
-      <div className='tap95 mr-5 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'>
+      <div
+        className='tap95 mr-5 flex flex-none items-center justify-center gap-2.5 rounded-full bg-white/10 px-[1.15rem] py-[0.45rem]'
+        onClick={reportVideo}
+      >
         <img src='/icons/other/report.svg' className='aspect-square w-[1.1rem]' />
         <p className='text-[0.9rem]'>Report</p>
       </div>
     </div>
+  )
+}
+
+function ReportVideo({ videoDetails }: { videoDetails: VideoDetails | null }) {
+  const user: UserProfile = useSelector((state: any) => state.profile)
+  return (
+    <div className='flex flex-col gap-2 pb-0 pt-2'>
+      {REPORT_OPTIONS.map((option, index) => {
+        return (
+          <div
+            key={index}
+            className='tap99 rounded-xl border border-white/10 bg-white/5 p-3 px-3.5'
+            onClick={() => {
+              window.open(
+                generateEmail(videoDetails!, option, user),
+                '_blank', // <- This is what makes it open in a new window.
+              )
+            }}
+          >
+            <p className='text-sm'>{option}</p>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function generateEmail(videoDetails: VideoDetails, reason: string, user: UserProfile) {
+  return encodeURI(
+    `mailto:${REPORT_EMAIL}` +
+      `?subject=Violation Report: ${videoDetails.id}` +
+      `&body=
+Dear Trapp Support Team,\n
+I hope this message finds you well. I am writing to report a video that I believe violates the community guidelines of Trapp. Below are the details of the video in question:
+\nVideo Title: ${videoDetails.title}
+Video ID: ${videoDetails.id}
+Uploader: ${videoDetails.creator.channel_name}, id: ${videoDetails.creator_id}
+Date Uploaded: ${new Date(videoDetails.created_at).toLocaleTimeString()} on ${new Date(videoDetails.created_at).toDateString()}
+Reason for Reporting: ${reason}
+
+\nI kindly request that you review this video and take appropriate action in accordance with your community guidelines. If you need any further information from me, please do not hesitate to reach out.
+
+\nThank you for your prompt attention to this matter.
+\nBest regards,
+${user.data.name}, id: ${user.data.id} 
+`,
   )
 }
 
