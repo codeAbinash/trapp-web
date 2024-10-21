@@ -35,7 +35,7 @@ function Videos({
   creatorId: string
   hidden: boolean
 }) {
-  const [videos, setVideos] = useState<VideosOrLive[] | null>([] || null)
+  const [videos, setVideos] = useState<VideosOrLive[] | null>(null)
   const [page, setPage] = useState(2)
   const observerTarget = useRef<HTMLDivElement>(null)
   const [isLoading, setIsLoading] = useState(false)
