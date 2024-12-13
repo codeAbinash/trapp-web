@@ -48,7 +48,7 @@ export default function Register() {
   }
 
   return (
-    <div className='h-dvh highlight-none flex select-none flex-col justify-between p-5'>
+    <div className='highlight-none flex h-dvh select-none flex-col justify-between p-5'>
       <div className='mt-5 flex min-h-[20dvh] flex-grow items-center justify-center'>
         <img src='/AppIcons/full.png' className='logo-long w-1/2' />
       </div>

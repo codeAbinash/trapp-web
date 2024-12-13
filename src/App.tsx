@@ -266,5 +266,4 @@ export function SubscriptionDrawer({
   )
 }
 
-
-let x = "Hello"
+let x = 'Hello'

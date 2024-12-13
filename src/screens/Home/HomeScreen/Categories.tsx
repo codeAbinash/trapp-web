@@ -46,7 +46,6 @@ export default function Categories() {
               </p>
             </div>
           ))
-          
         )}
       </div>
     </div>

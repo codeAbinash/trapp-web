@@ -1,20 +1,20 @@
-import { motion } from 'framer-motion';
-import { forwardRef } from 'react';
-import { MouseEventHandler } from 'react';
+import { motion } from 'framer-motion'
+import { forwardRef } from 'react'
+import { MouseEventHandler } from 'react'
 
 type TapMotionProps = {
-  children: React.ReactNode;
-  whileTap?: any;
-  whileHover?: any;
-  transition?: any;
-  className?: string;
-  size?: 'sm' | 'md' | 'lg';
-  onClick?: MouseEventHandler<HTMLDivElement>;
-};
+  children: React.ReactNode
+  whileTap?: any
+  whileHover?: any
+  transition?: any
+  className?: string
+  size?: 'sm' | 'md' | 'lg'
+  onClick?: MouseEventHandler<HTMLDivElement>
+}
 
 const TapMotion = forwardRef<HTMLDivElement, TapMotionProps>((props, ref) => {
-  let { children, whileTap, whileHover, transition, className, size, onClick, ...pro } = props;
-  if (!size) size = 'md';
+  let { children, whileTap, whileHover, transition, className, size, onClick, ...pro } = props
+  if (!size) size = 'md'
   return (
     <motion.div
       className={className}
@@ -27,7 +27,7 @@ const TapMotion = forwardRef<HTMLDivElement, TapMotionProps>((props, ref) => {
     >
       {children}
     </motion.div>
-  );
-});
+  )
+})
 
-export default TapMotion;
+export default TapMotion
