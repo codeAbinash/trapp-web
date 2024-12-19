@@ -15,6 +15,7 @@ type Option = {
   icon: string
   link?: string
   small?: string
+  href?: string
   onClick?: () => void
 }
 
@@ -70,23 +71,22 @@ export default function Profile() {
         {
           name: 'Privacy Policy',
           icon: '/icons/red/shield-done.svg',
-          link: '/privacy-policy',
+          href: 'https://system.trappmartialarts.com/privacy_policy',
         },
         {
           name: 'Terms & Conditions',
           icon: '/icons/red/doc.svg',
-          link: '/terms-and-conditions',
+          href: 'https://system.trappmartialarts.com/terms_and_condition',
         },
-        {
-          name: 'About Us',
-          icon: '/icons/red/about.svg',
-          link: '/about-us',
-        },
-        {
-          name: 'Contact Us',
-          icon: '/icons/red/message.svg',
-          link: '/contact-us',
-        },
+        // {
+        //   name: 'About Us',
+        //   icon: '/icons/red/about.svg',
+        // },
+        // {
+        //   name: 'Contact Us',
+        //   icon: '/icons/red/message.svg',
+        //   link: '/contact-us',
+        // },
         {
           name: 'Share App',
           icon: '/icons/red/send.svg',
@@ -151,6 +151,7 @@ export default function Profile() {
                   onClick={transitions(() => {
                     if (option.onClick) option.onClick()
                     else if (option.link) navigate(option.link)
+                    else if (option.href) window.open(option.href, '_blank')
                   })}
                 >
                   <div className='flex w-full items-center justify-between gap-6'>

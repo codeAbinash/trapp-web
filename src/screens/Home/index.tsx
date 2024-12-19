@@ -1,6 +1,7 @@
 import { NormalButton } from '@/components/Button'
 import { LoadingButton } from '@/components/Loading'
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter } from '@/components/ui/drawer'
+import { DEFAULT_PP } from '@/constants'
 import { cancelSubscription_f } from '@/lib/api'
 import icon from '@/lib/icons'
 import { CheckIcon } from 'lucide-react'
@@ -9,11 +10,10 @@ import { useSelector } from 'react-redux'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { usePopupAlertContext } from '../../context/PopupAlertContext'
 import transitions from '../../lib/transition'
-import ls, { blank_fn } from '../../lib/util'
+import { blank_fn } from '../../lib/util'
 import { UserProfile, updateLocalUserData } from '../Profile/utils'
 import { usePremiumDrawer } from './HomeScreen/premiumDrawerContext'
 import { useSubscriptionDrawer } from './HomeScreen/subscriptionDrawerContext'
-import { DEFAULT_PP } from '@/constants'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -73,8 +73,22 @@ export default function Home() {
           </div>
           <span className='font-normMid text-center text-[0.7rem] font-[450]'>Home</span>
         </div>
-
         <div
+          className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
+            path === '/wallet' ? 'text-color' : 'text-white opacity-40'
+          }`}
+          onClick={transitions(() => navigate('/wallet', { replace: true }))}
+        >
+          <div className='flex aspect-square items-start justify-center'>
+            <img
+              className={path === '/wallet' ? 'w-[18px]' : 'invert ' + 'w-[19px]'}
+              src={path === '/wallet' ? '/icons/navbar/wallet_filled.svg' : '/icons/navbar/wallet.svg'}
+            />
+          </div>
+          <span className='font-normMid text-center text-[0.7rem] font-[450]'>Wallet</span>
+        </div>
+
+        {/* <div
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
             path === '/home/shop' ? 'text-color' : 'text-white opacity-40'
           }`}
@@ -101,7 +115,7 @@ export default function Home() {
             />
           </div>
           <span className='font-normMid text-center text-[0.7rem] font-[450]'>Shop</span>
-        </div>
+        </div> */}
 
         <div
           className={`tap95 highlight-none flex flex-grow cursor-pointer flex-col items-center justify-center gap-1 pb-2.5 pt-4 ${
